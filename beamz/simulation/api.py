@@ -741,6 +741,9 @@ class Simulation:
                 raise ValueError(
                     "grid_spec cannot be combined with scene; use raster_grid."
                 )
+            # Raster topology and boundary compilation must see the same input,
+            # including when boundaries were supplied as a one-shot iterable.
+            boundaries = normalize_boundaries(boundaries)
             material_grid = _rasterize_scene_for_simulation(
                 scene,
                 raster_grid,

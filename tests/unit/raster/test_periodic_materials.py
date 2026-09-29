@@ -64,3 +64,13 @@ def test_native_disk_cache_distinguishes_periodic_supports(tmp_path):
     ).cache_hit
     assert scene.rasterize(grid, options=periodic, cache_directory=tmp_path).cache_hit
     assert len(list(tmp_path.glob("*.npz"))) == 2
+
+
+def test_scene_freezes_periodic_boundary_iterable_before_rasterization():
+    sim = bz.Simulation(
+        scene=Scene((bz.Material(1),)),
+        raster_grid=Grid.uniform((0, 0, 0), (1e-6, 1e-6, 1e-6), (4, 4, 4)),
+        boundaries=iter([bz.Periodic(axes=("x", "y"))]),
+        time=np.arange(2) * 1e-17,
+    )
+    assert sim.compile(backend="jax").boundary.periodic_axes == {1, 2}
