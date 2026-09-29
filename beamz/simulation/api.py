@@ -399,6 +399,27 @@ def _prepare_material_grid(
     )
 
 
+def _resolved_raster_options(options, sources):
+    """Resolve classification frequency without baking it into the user spec."""
+    from beamz.design.raster import RasterOptions
+
+    if options is None:
+        options = RasterOptions()
+    if not isinstance(options, RasterOptions):
+        raise TypeError("raster_options must be RasterOptions or None.")
+    if options.reference_frequency is None:
+        frequencies = [
+            getattr(getattr(s, "source_time", None), "freq0", None)
+            for s in (() if sources is None else sources)
+        ]
+        positive = [
+            float(f) for f in frequencies if f is not None and np.isfinite(f) and f > 0
+        ]
+        if positive:
+            options = replace(options, reference_frequency=float(np.mean(positive)))
+    return options
+
+
 def _rasterize_scene_for_simulation(
     scene, raster_grid, raster_options, polarization: Literal["tm", "te"]
 ):
@@ -423,9 +444,8 @@ def _rasterize_scene_for_simulation(
     from beamz.design.dispersion import PoleResidue
 
     has_dispersion = any(isinstance(m, PoleResidue) for m in scene.materials)
-    options = RasterOptions(
-        quality=options.quality,
-        smoothing=options.smoothing,
+    options = replace(
+        options,
         components=(f"two_dimensional_{polarization}" if dimensions == 2 else "all"),
     )
     material_grid = MaterialGrid.from_raster_result(
@@ -445,6 +465,8 @@ def _rasterize_scene_for_simulation(
             resolution=material_grid.resolution,
             cache_directory=None,
             smoothing=options.smoothing,
+            metal_smoothing=options.metal_smoothing,
+            reference_frequency=options.reference_frequency,
         )
         material_grid = replace(
             material_grid, dispersion=regions, dispersion_interfaces=interfaces
@@ -601,7 +623,10 @@ class Simulation:
     raster_options : RasterOptions, optional
         Native raster quality and smoothing policy. Component selection remains
         automatic for the simulation dimensionality. Simulations default to
-        ``farjadpour_diagonal``; select ``farjadpour_full`` to retain lossless
+        ``farjadpour_diagonal`` for dielectrics and staircasing for metals
+        (Re(epsilon_r) < 1 at the mean source center frequency). Select
+        ``metal_smoothing="inherit"`` to smooth metals too, or
+        ``farjadpour_full`` to retain lossless
         off-diagonal electric coupling.
 
     Notes
@@ -706,7 +731,7 @@ class Simulation:
             material_grid = _rasterize_scene_for_simulation(
                 scene,
                 raster_grid,
-                raster_options,
+                _resolved_raster_options(raster_options, sources),
                 polarization,
             )
             raster_options = None
@@ -1039,12 +1064,13 @@ class Simulation:
         token = self._material_grid_token()
         cached = _MATERIAL_GRID_CACHE.get(token)
         if cached is None:
-            raster_kwargs = {}
-            if self.raster_options is not None:
-                raster_kwargs = {
-                    "quality": self.raster_options.quality,
-                    "smoothing": self.raster_options.smoothing,
-                }
+            options = _resolved_raster_options(self.raster_options, self.sources)
+            raster_kwargs = {
+                "quality": options.quality,
+                "smoothing": options.smoothing,
+                "metal_smoothing": options.metal_smoothing,
+                "reference_frequency": options.reference_frequency,
+            }
             with _resolved_setup_device_context(self.setup_device_resolved):
                 cached = build_material_grid(
                     self.design,
@@ -1074,7 +1100,7 @@ class Simulation:
                 design.depth,
                 design.background,
                 design.structures,
-                self.raster_options,
+                _resolved_raster_options(self.raster_options, self.sources),
                 self.polarization,
             )
         )

@@ -60,13 +60,19 @@ def main():
     parser.add_argument(
         "--metal-model", choices=["snapshot", "library"], default="snapshot"
     )
+    parser.add_argument(
+        "--metal-smoothing", choices=["staircase", "inherit"], default="staircase"
+    )
     args = parser.parse_args()
     if not any(d.platform == "gpu" for d in jax.devices()):
         raise RuntimeError("Local GPU required")
     out = ROOT / "docs/reviews/cmos-isolation/components" / args.stage
     suffix = "" if args.optical_dz_nm is None else f"-dz{args.optical_dz_nm:g}nm"
     out = out.with_name(
-        out.name + suffix + ("-library-metal" if args.metal_model == "library" else "")
+        out.name
+        + suffix
+        + ("-library-metal" if args.metal_model == "library" else "")
+        + ("-staircase-metal" if args.metal_smoothing == "staircase" else "")
     )
     out.mkdir(parents=True, exist_ok=True)
     old = ROOT / "docs/reviews/cmos-polarized/reference-z-20nm-absorber"
@@ -86,6 +92,7 @@ def main():
             fields=False,
             reference_z=True,
             stage=args.stage,
+            metal_smoothing=args.metal_smoothing,
             colocation_side="plus",
             compare_colocation=True,
             max_optical_dz=None
@@ -148,6 +155,8 @@ def main():
     report = dict(
         stage=args.stage,
         metal_model=args.metal_model,
+        metal_smoothing=args.metal_smoothing,
+        reference_frequency_hz=float(sim.sources[0].source_time.freq0),
         max_optical_dz_nm=args.optical_dz_nm,
         clock_policy="integer_step",
         incident_normalization="forward plane-wave modal power from native E samples",

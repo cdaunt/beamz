@@ -194,6 +194,7 @@ def make_sim(
     absorber_thickness=0.4e-6,
     num_freqs=None,
     smoothing="farjadpour_diagonal",
+    metal_smoothing="staircase",
     reference_z=False,
     boundary="absorber",
     stage="full",
@@ -314,6 +315,7 @@ def make_sim(
             courant=courant,
             reference=reference,
             smoothing=smoothing,
+            metal_smoothing=metal_smoothing,
             boundary=boundary,
             stage=stage,
             depth_refinement=depth_refinement,
@@ -332,7 +334,9 @@ def make_sim(
     )
     simulation = bz.Simulation(
         design=design,
-        raster_options=RasterOptions(smoothing=smoothing),
+        raster_options=RasterOptions(
+            smoothing=smoothing, metal_smoothing=metal_smoothing
+        ),
         size=(Lx, Ly, Lz),
         sources=[source],
         monitors=monitors,

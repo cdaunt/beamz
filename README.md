@@ -33,7 +33,7 @@
 - **DFT monitors** and S-parameter extraction workflow for compact modeling.
 - Integrated **FDFD mode solver** and **rasterization module**.
 - Regular and **rectilinear meshing**.
-- Full-tensor and diagonal Farjadpour (polarized averaging) **subpixel-smoothing**.
+- Full-tensor and diagonal Farjadpour (polarized averaging) **subpixel-smoothing**; dielectrics default to diagonal averaging and optical metals to staircasing.
 - Simple **GDS**, **GMSH** and **STL** import and export.
 - Streamlined, integrated **parametric design** module.
 - Projection kernels and utilies for inverse design via **auto-diff and adjoint-method** workflow.

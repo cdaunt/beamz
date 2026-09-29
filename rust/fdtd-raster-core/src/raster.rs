@@ -53,6 +53,8 @@ impl OutputComponents {
 pub struct IntegrationOptions {
     pub smoothing: SmoothingMode,
     pub output_components: OutputComponents,
+    /// Material IDs whose mixed supports use point ownership.
+    pub staircase_materials: Vec<usize>,
     minimum_depth: u8,
     max_depth: u8,
     fraction_error_tolerance: f64,
@@ -76,6 +78,7 @@ impl IntegrationOptions {
         Self {
             smoothing: SmoothingMode::Volume,
             output_components: OutputComponents::All,
+            staircase_materials: Vec::new(),
             minimum_depth,
             max_depth,
             fraction_error_tolerance,
@@ -394,7 +397,8 @@ fn rasterize_impl(
     }
     let index_start = Instant::now();
     let original_scene = scene;
-    let resolved = ResolvedExtrusions::build(scene);
+    let resolved =
+        ResolvedExtrusions::build_with_identity(scene, !options.staircase_materials.is_empty());
     let mut index = ObjectIndex::build(resolved.as_ref().map_or(scene, |value| &value.scene), grid);
     index.resolved = resolved;
     let scene = index.resolved.as_ref().map_or(scene, |value| &value.scene);
@@ -682,7 +686,8 @@ pub fn interface_samples(
         material.epsilon_r = SymmetricTensor::isotropic((id + 1) as f64);
     }
     let scene = &labelled;
-    let resolved = ResolvedExtrusions::build(scene);
+    let resolved =
+        ResolvedExtrusions::build_with_identity(scene, !options.staircase_materials.is_empty());
     let mut index = ObjectIndex::build(resolved.as_ref().map_or(scene, |v| &v.scene), grid);
     index.resolved = resolved;
     let scene = index.resolved.as_ref().map_or(scene, |v| &v.scene);
@@ -698,21 +703,29 @@ pub fn interface_samples(
         if !options.output_components.includes(component) {
             continue;
         }
-        let (_, samples) = raster_support(scene, &index, grid, component, |volume, candidates| {
-            let m = integrate_mixture(scene, volume, candidates, options, index.resolved.as_ref());
-            match (m.uniform_owner, m.interface, m.fractions) {
-                (None, InterfaceClass::Laminar(n), Some(f)) => {
-                    let length2: f64 = n.iter().map(|x| x * x).sum();
-                    let weight = n[axis] * n[axis] / length2;
-                    if weight > 1e-12 {
-                        Some((f, weight))
-                    } else {
-                        None
+        let (_, samples) = raster_support(
+            scene,
+            &index,
+            grid,
+            component,
+            |volume, candidates, point| {
+                let m =
+                    integrate_mixture(scene, volume, candidates, options, index.resolved.as_ref());
+                let m = staircase_mixture(scene, candidates, point, options, m);
+                match (m.uniform_owner, m.interface, m.fractions) {
+                    (None, InterfaceClass::Laminar(n), Some(f)) => {
+                        let length2: f64 = n.iter().map(|x| x * x).sum();
+                        let weight = n[axis] * n[axis] / length2;
+                        if weight > 1e-12 {
+                            Some((f, weight))
+                        } else {
+                            None
+                        }
                     }
+                    _ => None,
                 }
-                _ => None,
-            }
-        });
+            },
+        );
         let mut result = InterfaceSamples {
             component: name,
             indices: Vec::new(),
@@ -738,9 +751,22 @@ fn raster_scalar_support(
     options: &IntegrationOptions,
     component: Component,
 ) -> ([usize; 3], Vec<Sample>) {
-    raster_support(scene, index, grid, component, |volume, candidates| {
-        integrate_scalar(scene, volume, candidates, options, index.resolved.as_ref())
-    })
+    raster_support(
+        scene,
+        index,
+        grid,
+        component,
+        |volume, candidates, point| {
+            integrate_scalar(
+                scene,
+                volume,
+                candidates,
+                point,
+                options,
+                index.resolved.as_ref(),
+            )
+        },
+    )
 }
 
 fn raster_material_support(
@@ -750,11 +776,23 @@ fn raster_material_support(
     options: &IntegrationOptions,
     component: Component,
 ) -> ([usize; 3], Vec<CellSample>) {
-    raster_support(scene, index, grid, component, |volume, candidates| {
-        let (material, meta) =
-            integrate_material(scene, volume, candidates, options, index.resolved.as_ref());
-        CellSample { material, meta }
-    })
+    raster_support(
+        scene,
+        index,
+        grid,
+        component,
+        |volume, candidates, point| {
+            let (material, meta) = integrate_material(
+                scene,
+                volume,
+                candidates,
+                point,
+                options,
+                index.resolved.as_ref(),
+            );
+            CellSample { material, meta }
+        },
+    )
 }
 
 fn raster_support<T: Send>(
@@ -762,7 +800,7 @@ fn raster_support<T: Send>(
     index: &ObjectIndex,
     grid: &Grid,
     component: Component,
-    integrate: impl Fn(&Aabb, &[usize]) -> T + Sync,
+    integrate: impl Fn(&Aabb, &[usize], [f64; 3]) -> T + Sync,
 ) -> ([usize; 3], Vec<T>) {
     let logical_shape = component.support().logical_shape(grid);
     let shape_zyx = [logical_shape[2], logical_shape[1], logical_shape[0]];
@@ -782,7 +820,11 @@ fn raster_support<T: Send>(
                     .bounds()
                     .intersects(&volume)
             });
-            integrate(&volume, &candidates)
+            integrate(
+                &volume,
+                &candidates,
+                component.support().point(grid, [x, y, z]),
+            )
         })
         .collect();
     (shape_zyx, samples)
@@ -792,10 +834,12 @@ fn integrate_scalar(
     scene: &Scene,
     volume: &Aabb,
     candidates: &[usize],
+    point: [f64; 3],
     options: &IntegrationOptions,
     resolved: Option<&ResolvedExtrusions>,
 ) -> Sample {
     let mixture = integrate_mixture(scene, volume, candidates, options, resolved);
+    let mixture = staircase_mixture(scene, candidates, point, options, mixture);
     let [epsilon, mu, conductivity] = if let Some(owner) = mixture.uniform_owner {
         let material = scene.materials[owner];
         [
@@ -832,10 +876,12 @@ fn integrate_material(
     scene: &Scene,
     volume: &Aabb,
     candidates: &[usize],
+    point: [f64; 3],
     options: &IntegrationOptions,
     resolved: Option<&ResolvedExtrusions>,
 ) -> (Material, SampleMeta) {
     let mixture = integrate_mixture(scene, volume, candidates, options, resolved);
+    let mixture = staircase_mixture(scene, candidates, point, options, mixture);
     let (material, smoothed, fallback) = if let Some(owner) = mixture.uniform_owner {
         (scene.materials[owner], false, None)
     } else {
@@ -876,6 +922,37 @@ fn uniform_mixture(owner: usize, path: SamplePath, candidate_tests: u64) -> Mixt
         path,
         candidate_tests,
         uniform_owner: Some(owner),
+    }
+}
+
+/// A mixed support touching a designated metal uses one whole material at its
+/// Yee location, for every coefficient and every constituent indicator raster.
+fn staircase_mixture(
+    scene: &Scene,
+    candidates: &[usize],
+    point: [f64; 3],
+    options: &IntegrationOptions,
+    mixture: Mixture,
+) -> Mixture {
+    if options.staircase_materials.is_empty() {
+        return mixture;
+    }
+    // Always check the actual point, even when adaptive volume integration
+    // misses a very small metal feature containing that Yee sample.
+    let owner = owner_at(scene, candidates, point);
+    let touches_metal = options.staircase_materials.iter().any(|&id| {
+        owner == id
+            || mixture.uniform_owner == Some(id)
+            || mixture.fractions.as_ref().is_some_and(|f| f[id] > 1e-12)
+    });
+    if touches_metal {
+        uniform_mixture(
+            owner,
+            mixture.path,
+            mixture.candidate_tests + candidates.len() as u64,
+        )
+    } else {
+        mixture
     }
 }
 
@@ -928,7 +1005,10 @@ fn integrate_mixture(
                     .map(|&i| scene.objects[i].clone())
                     .collect(),
             };
-            if let Some(local) = ResolvedExtrusions::build(&local) {
+            if let Some(local) = ResolvedExtrusions::build_with_identity(
+                &local,
+                !options.staircase_materials.is_empty(),
+            ) {
                 let indices: Vec<usize> = (0..local.scene.objects.len()).collect();
                 return integrate_mixture(&local.scene, volume, &indices, options, Some(&local));
             }

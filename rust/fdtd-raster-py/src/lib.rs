@@ -27,16 +27,25 @@ impl NativeCompiledScene {
         &self.scene_hash
     }
 
+    #[pyo3(signature = (grid_edges, quality, components, staircase_materials = Vec::new()))]
     fn interface_samples(
         &self,
         py: Python<'_>,
         grid_edges: (Vec<f64>, Vec<f64>, Vec<f64>),
         quality: &str,
         components: &str,
+        staircase_materials: Vec<usize>,
     ) -> PyResult<Py<PyAny>> {
         let (x, y, z) = grid_edges;
         let grid = Grid::new(x, y, z).map_err(value_error)?;
-        let options = integration_options(quality, "farjadpour_diagonal", components)?;
+        let mut options = integration_options(quality, "farjadpour_diagonal", components)?;
+        if staircase_materials
+            .iter()
+            .any(|&id| id >= self.scene.materials.len())
+        {
+            return Err(value_error("staircase material ID is out of range"));
+        }
+        options.staircase_materials = staircase_materials;
         let samples = py.detach(|| interface_samples(&self.scene, &grid, &options));
         let result = PyDict::new(py);
         for sample in samples {
@@ -57,6 +66,7 @@ impl NativeCompiledScene {
         quality = "balanced",
         smoothing = "volume",
         components = "all",
+        staircase_materials = Vec::new(),
     ))]
     fn rasterize(
         &self,
@@ -65,10 +75,18 @@ impl NativeCompiledScene {
         quality: &str,
         smoothing: &str,
         components: &str,
+        staircase_materials: Vec<usize>,
     ) -> PyResult<NativeRasterResult> {
         let (x_edges, y_edges, z_edges) = grid_edges;
         let grid = Grid::new(x_edges, y_edges, z_edges).map_err(value_error)?;
-        let options = integration_options(quality, smoothing, components)?;
+        let mut options = integration_options(quality, smoothing, components)?;
+        if staircase_materials
+            .iter()
+            .any(|&id| id >= self.scene.materials.len())
+        {
+            return Err(value_error("staircase material ID is out of range"));
+        }
+        options.staircase_materials = staircase_materials;
         let result = py
             .detach(|| rasterize_prevalidated(&self.scene, &grid, &options))
             .map_err(value_error)?;

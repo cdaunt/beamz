@@ -51,6 +51,31 @@ impl SupportSpec {
         std::array::from_fn(|axis| cells[axis] + usize::from(self.axes[axis] == AxisLocation::Edge))
     }
 
+    /// Actual staggered sample location, not the midpoint of a clipped dual volume.
+    pub(crate) fn point(self, grid: &Grid, index: [usize; 3]) -> [f64; 3] {
+        let edges = [&grid.x_edges, &grid.y_edges, &grid.z_edges];
+        std::array::from_fn(|axis| match self.axes[axis] {
+            AxisLocation::Center => 0.5 * (edges[axis][index[axis]] + edges[axis][index[axis] + 1]),
+            AxisLocation::Edge => {
+                let value = edges[axis][index[axis]];
+                if index[axis] + 1 == edges[axis].len() {
+                    // The domain's final face owns its interior limit. Otherwise
+                    // a box clipped to the domain would acquire an exterior-air
+                    // sample and contaminate the joined periodic half supports.
+                    if value == 0.0 {
+                        -f64::from_bits(1)
+                    } else if value > 0.0 {
+                        f64::from_bits(value.to_bits() - 1)
+                    } else {
+                        f64::from_bits(value.to_bits() + 1)
+                    }
+                } else {
+                    value
+                }
+            }
+        })
+    }
+
     pub(crate) fn volume(self, grid: &Grid, index: [usize; 3]) -> Aabb {
         let edges = [&grid.x_edges, &grid.y_edges, &grid.z_edges];
         let bounds: [[f64; 2]; 3] = std::array::from_fn(|axis| match self.axes[axis] {

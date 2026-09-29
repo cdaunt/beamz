@@ -25,7 +25,9 @@ class PoleResidue(Material):
     ``poles`` contains (pole, residue) in rad/s. ``frequency_range`` (Hz)
     declares the validated fit band. Passivity is checked on a dense frequency
     grid; this is a numerical check, not a global mathematical certificate.
-    Interfaces support causal diagonal Farjadpour or explicit volume averaging.
+    Dielectric interfaces default to causal diagonal Farjadpour averaging;
+    metals default to point-sampled staircasing. RasterOptions controls the
+    metal policy and reference frequency. Explicit volume averaging is available.
     Only JAX single-device execution is supported.
     """
 

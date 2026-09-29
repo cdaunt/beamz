@@ -16,7 +16,7 @@ from beamz.design.materials import Material
 from beamz.lattice import component_shapes
 
 from . import _native  # type: ignore[attr-defined]
-from .engine import RasterOptions, rasterize
+from .engine import RasterOptions, rasterize, staircase_materials
 
 
 def rasterize_dispersion(
@@ -29,7 +29,15 @@ def rasterize_dispersion(
     resolution,
     cache_directory,
     smoothing="volume",
+    metal_smoothing="staircase",
+    reference_frequency=None,
 ):
+    metals = staircase_materials(
+        scene,
+        RasterOptions(
+            metal_smoothing=metal_smoothing, reference_frequency=reference_frequency
+        ),
+    )
     interfaces = []
     normal_weights = {}
     if smoothing == "farjadpour_full":
@@ -44,6 +52,7 @@ def rasterize_dispersion(
             tuple(e.tolist() for e in grid.edges),
             quality,
             "all" if kind == "3d" else f"two_dimensional_{polarization}",
+            metals,
         )
         shape = grid.shape_zyx if kind == "3d" else grid.shape_zyx[1:]
         shapes = component_shapes(shape, polarization)
@@ -94,6 +103,7 @@ def rasterize_dispersion(
                 components="all" if kind == "3d" else f"two_dimensional_{polarization}",
             ),
             cache_directory=cache_directory,
+            _staircase_materials=metals,
         )
         material_grid = MaterialGrid.from_raster_result(
             result,

@@ -180,6 +180,7 @@ def make_reference_mesh_sim(
     courant=0.7,
     reference=False,
     smoothing="farjadpour_diagonal",
+    metal_smoothing="staircase",
     boundary="absorber",
     stage="full",
     depth_refinement=1,
@@ -212,7 +213,9 @@ def make_reference_mesh_sim(
     return bz.Simulation(
         scene=Scene((bz.Material(1),)) if reference else reference_scene(grid, stage),
         raster_grid=grid,
-        raster_options=RasterOptions(smoothing=smoothing),
+        raster_options=RasterOptions(
+            smoothing=smoothing, metal_smoothing=metal_smoothing
+        ),
         sources=sources,
         monitors=monitors,
         boundaries=boundaries,

@@ -1,9 +1,47 @@
 # Causal diagonal interface update
 
-The scalar `PoleResidue` solver now honors the default
-`RasterOptions(smoothing="farjadpour_diagonal")`. Explicit `volume` remains
-available. This is a diagonal constitutive approximation; it does not implement
-full off-diagonal dispersive coupling or Tidy3D's metal staircasing policy.
+The scalar `PoleResidue` solver defaults to diagonal Farjadpour averaging for
+**dielectrics**, and **staircasing for metal interfaces**. The diagonal law below
+is unchanged; it is not the full off-diagonal dispersive tensor from the paper.
+
+## Material-dependent defaults
+
+```python
+RasterOptions()  # dielectric: farjadpour_diagonal; metal: staircase
+RasterOptions(metal_smoothing="inherit")  # previous all-material smoothing
+RasterOptions(reference_frequency=5.5e14)  # explicit classification frequency, Hz
+```
+
+A scalar medium is metallic when Re(εr) < 1 at the reference frequency. Static
+tensors use their smallest principal permittivity. Conductivity alone does not
+make a positive-permittivity dielectric an optical metal. Simulation selects the
+mean of its positive source center frequencies unless explicitly overridden;
+without such a source, standalone rasterization uses each dispersive material's
+fit-band midpoint. Classification is made once, not separately per DFT frequency.
+Materials that cross the threshold within a broad band should use an explicit
+reference frequency for reproducible comparisons.
+
+At a support touching metal, the native rasterizer selects the material at the
+actual Yee location using geometric painter order and half-open boundaries.
+At the domain's final faces it uses the interior limit, so a metal box clipped
+to the domain does not acquire artificial air samples at a periodic seam.
+On nonuniform grids this location can differ from the support-volume midpoint.
+The same decision applies to ε∞, conductivity and **every** constituent ADE
+indicator; no fractional host polarization or harmonic interface branch remains
+at a staircased support. A direct point check also catches small metal features
+missed by adaptive volume integration. Interfaces involving only dielectrics
+retain diagonal averaging, including its existing ambiguous-normal fallback.
+
+Classification retains original material IDs even when ε∞ is identical.
+Persistent raster cache identity includes the metal IDs, policy and reference
+frequency; Design's in-memory cache also tracks source-dependent classification.
+`metal_smoothing="inherit"` uses the selected `smoothing` for all media, including
+explicit `volume`, and reproduces the historical all-diagonal controls.
+
+The policy follows Tidy3D's documented dielectric/metal defaults, but its
+`PolarizedAveraging` is a contour-path approximation: identical policy names do
+not establish identical dielectric operators. Full dispersive tensor smoothing
+remains unsupported. See the [paper audit](../reviews/cmos-reverse-engineering/paper-interface-audit.md).
 
 ## Constitutive law
 
