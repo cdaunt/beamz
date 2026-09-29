@@ -1,0 +1,36 @@
+{
+  "device": "[CudaDevice(id=0)]",
+  "runs": [
+    {
+      "dx_nm": 5,
+      "courant": 0.7,
+      "smoothing": "farjadpour_diagonal",
+      "absorber_nm": 250,
+      "max_R_error": 0.007909880137196457,
+      "max_interface_T_error": 0.030717089186368007,
+      "max_inside_T_error": 0.0015618029192905336,
+      "max_interface_balance_error": 0.038626969323564575
+    },
+    {
+      "dx_nm": 2.5,
+      "courant": 0.7,
+      "smoothing": "farjadpour_diagonal",
+      "absorber_nm": 250,
+      "max_R_error": 0.00204824097380113,
+      "max_interface_T_error": 0.016905248234202697,
+      "max_inside_T_error": 0.0008546724336279676,
+      "max_interface_balance_error": 0.018953489208003882
+    },
+    {
+      "dx_nm": 2.5,
+      "courant": 0.7,
+      "smoothing": "farjadpour_diagonal",
+      "absorber_nm": 500,
+      "max_R_error": 0.0020398089364230265,
+      "max_interface_T_error": 0.01687426975683992,
+      "max_inside_T_error": 0.0008054530656504411,
+      "max_interface_balance_error": 0.018914078693263003
+    }
+  ],
+  "absorber_max_T_change": 0.00012014562674689255
+}

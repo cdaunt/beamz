@@ -1,5 +1,6 @@
 """Audit silicon-interface flux interpolation and absorber sensitivity on GPU."""
 
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -14,7 +15,7 @@ sys.path.insert(0, str(ROOT / "examples"))
 from cmos_rgb_sensor import load_materials  # noqa: E402
 
 
-def run(dx, thickness, material):
+def run(dx, thickness, material, courant=0.7):
     size = (4 * dx, 4 * dx, 3.2e-6)
     design = bz.Design(background=bz.Material(1))
     if material is not None:
@@ -43,7 +44,7 @@ def run(dx, thickness, material):
             bz.Periodic(axes=("x", "y")),
             bz.Absorber(edges=("front", "back"), thickness=thickness),
         ],
-        grid_spec=bz.GridSpec.uniform(dx, courant=0.7),
+        grid_spec=bz.GridSpec.uniform(dx, courant=courant),
         run_time=130e-15,
     )
     r = sim.run(backend="jax", progress=False)
@@ -51,9 +52,15 @@ def run(dx, thickness, material):
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--output", default="docs/reviews/cmos-reference-parity/interfaces"
+    )
+    parser.add_argument("--courant", type=float, default=0.7)
+    args = parser.parse_args()
     if not any(d.platform == "gpu" for d in jax.devices()):
         raise RuntimeError("GPU required")
-    output = ROOT / "docs/reviews/cmos-reference-parity/interfaces"
+    output = ROOT / args.output
     output.mkdir(parents=True, exist_ok=True)
     wl = np.linspace(400e-9, 700e-9, 31)
     material = load_materials()["silicon"]
@@ -64,14 +71,16 @@ def main():
     spectra = {}
     for dx_nm, absorber_nm in [(5, 250), (2.5, 250), (2.5, 500)]:
         dx = dx_nm * 1e-9
-        ref = run(dx, absorber_nm * 1e-9, None)
-        dev = run(dx, absorber_nm * 1e-9, material)
+        ref = run(dx, absorber_nm * 1e-9, None, args.courant)
+        dev = run(dx, absorber_nm * 1e-9, material, args.courant)
         measured_R = 1 - dev["input"] / ref["input"]
         measured_T = dev["interface"] / ref["interface"]
         inside = dev["inside"] / ref["inside"]
         exact_inside = T * np.exp(-4 * np.pi * n.imag * 3 * dx / wl)
         record = {
             "dx_nm": dx_nm,
+            "courant": args.courant,
+            "smoothing": "farjadpour_diagonal",
             "absorber_nm": absorber_nm,
             "max_R_error": float(np.max(abs(measured_R - R))),
             "max_interface_T_error": float(np.max(abs(measured_T - T))),

@@ -15,32 +15,63 @@ remain acceptance criteria, not a claim of reference agreement.
   Maximum spectral changes are 0.11/0.28/0.05 percentage points for R/G/B.
   This weakens the hypothesis that lateral resolution alone explains the gap.
 - Published reference values near 6/20/6 percent are visual estimates. Original
-  numerical flux arrays and the realized reference mesh are missing, so neither
-  an exact error curve nor common-mesh agreement has been established.
+  numerical flux arrays remain unavailable. The reference mesh has now been
+  reconstructed locally using the exact snapshot version (2.12.0.dev3):
+  390 × 390 × 430 cells. The RTX3090 control retains its depth edges and
+  coarsens xy to 20 nm, so common-mesh agreement is not established.
 - A monitor exactly on an air/aSi interface has maximum transmission errors of
   3.07 percentage points at 5 nm and 1.69 at 2.5 nm. Three cells inside silicon,
   comparison with the analytically attenuated flux reduces errors to 0.156 and
   0.085 percentage points. This is a specific unresolved measurement/interface
   discretization issue, not evidence that the full sensor needs only finer xy.
 - The saved Tidy3D simulation specifies dielectric `PolarizedAveraging` and metal
-  `Staircasing`. BeamZ currently volume-averages dispersive material occupancy
-  and residues. These are different interface discretizations. Determine which
+  `Staircasing`. BeamZ now applies causal diagonal Farjadpour averaging to dispersive
+  interfaces. Tidy3D documents its dielectric polarized method as a
+  contour-path approximation; these are different interface discretizations. Determine which
   reference policy applies to each pole-residue medium before attributing an
   error to a particular policy. Its `SurfaceImpedance` entry for the separate
   lossy-metal category does not prove that it is used for this aluminum model.
-- The graded sensor runs use 300 fs and 31 frequency samples, versus about
+- The historical graded sensor runs used 300 fs and 31 frequency samples, versus about
   509.4 fs and 200 samples in the reference. Frequency sample count mainly
   affects displayed spectral sampling; runtime and source normalization must
   be controlled independently. The existing 25 nm notebook uses 510 fs and 200
   samples, but also changes the grid and source implementation.
-- The reference uses 40 absorber layers; BeamZ uses a physical thickness.
-  These are not automatically equivalent on graded grids. Existing absorber
-  sensitivity checks cover a planar interface, not the complete sensor.
+- The reference uses 40 absorber layers outside the physical box. Its
+  reconstructed lower/upper thicknesses are 0.465116/2.19549 µm; the historical
+  BeamZ absorber was 0.4 µm inside the box. The new reference-depth control
+  matches placement, thickness, timestep, and the documented conductivity
+  normalization. Existing sensitivity checks alone do not establish full-sensor
+  boundary equivalence.
 
 Sources: [saved validation report](../reviews/cmos-reference-parity/README.md),
 [reference notebook](https://www.flexcompute.com/tidy3d/examples/notebooks/CMOSRGBSensor/),
 and the checked-in `examples/data/cmos_rgb/tidy3d_reference_simulation.json`.
 The snapshot's subpixel policies are inspectable in its `subpixel` field.
+
+The causal 20/5 nm baseline has now completed 510 fs and 200 frequencies:
+10.109/22.002/9.941 percent at the channel wavelengths. The late-time calibrated
+change is below 0.06 percentage points. The interface implementation therefore
+does not by itself resolve the reference discrepancy. Completed measurements and
+remaining limits are tracked in the linked validation report.
+
+## Execution status
+
+| Gate | Evidence / status |
+| --- | --- |
+| Causal diagonal constitutive law | Implemented; discrete response, geometry and state tests pass |
+| Local and hosted correctness checks | 1,996 local tests pass; all required CI checks green for `3c21286c` |
+| Oblique TE/TM interface response | 5 nm silicon position sweep and aluminum quarter-cell control pass 0.5-point gate at 550 nm; broadband/rotated-interface certification remains open |
+| Detector at lossy interface | **Fails**: 1.691-point maximum transmission error even at 2.5 nm |
+| Planar time / absorber controls | Changes below 0.040 / 0.013 percentage points |
+| Sensor late-time convergence | 20/5 nm, 510 fs, 200 frequencies: change below 0.06 points |
+| Reference boundary/grid audit | Exact-version depth grid, external layers, timestep and conductivity normalization reconstructed |
+| Full-sensor 2.5 nm depth refinement | Not run; interface-plane gate must be resolved before another costly refinement sweep |
+| Numerical Tidy3D parity / component controls | Open: original numerical reference outputs are unavailable |
+
+This run implements and validates the constitutive extension, but does not mark
+all acceptance gates complete. The next solver task is discontinuity-aware flux
+colocation, with the fixed physical detector plane retained. Reference numerical
+outputs and matched component cases are needed to assign the remaining sensor gap.
 
 ## Ordered experiments and decision gates
 

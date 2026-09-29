@@ -206,7 +206,11 @@ def make_sim(
         else np.linspace(bz.LIGHT_SPEED / 700e-9, bz.LIGHT_SPEED / 400e-9, num_freqs)
     )
     center_frequency = 0.5 * (frequencies.min() + frequencies.max())
-    pulse = bz.GaussianPulse(freq0=center_frequency, fwidth=center_frequency / 3)
+    pulse = bz.GaussianPulse(
+        freq0=center_frequency,
+        fwidth=center_frequency / 3,
+        offset=5.0 if reference_z else 4.0,
+    )
     source = bz.PlaneWaveSource(
         center=(0, 0, (Lz - d_absorber_space) / 2),
         size=(Lx, Ly, 0),

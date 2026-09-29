@@ -231,3 +231,34 @@ def test_volume_dispersion_uses_native_yee_epsilon_infinity():
     for component, fraction in grid.material_grid.dispersion[0][1].items():
         actual = np.asarray(getattr(grid, "eps_" + component[-1].lower()))
         np.testing.assert_allclose(actual, 1 + 2 * fraction, atol=1e-6)
+
+
+def test_source_rejects_pure_normal_interface_when_bulk_weight_is_zero():
+    from beamz.design.raster import Box, Grid, Object, Scene
+
+    grid = Grid(
+        np.arange(5) * 100e-9,
+        np.arange(5) * 100e-9,
+        np.array([0, 100, 210, 320, 430, 540]) * 1e-9,
+    )
+    # This thin strip has only mixed Ex supports, whose tangential pole weight
+    # vanishes. Equal epsilon-infinity also makes the source look homogeneous.
+    scene = Scene(
+        materials=(bz.Material(1), material("lorentz")),
+        objects=(Object(Box((20e-9, 0, 0), (30e-9, 400e-9, 540e-9)), 1),),
+    )
+    sim = bz.Simulation(
+        scene=scene,
+        raster_grid=grid,
+        time=np.arange(4) * 1e-17,
+        sources=[
+            bz.PlaneWaveSource(
+                center=(200e-9, 200e-9, 210e-9),
+                size=(400e-9, 400e-9, 0),
+                direction="+z",
+                source_time=bz.GaussianPulse(5e14, 1e14),
+            )
+        ],
+    )
+    with pytest.raises(ValueError, match="nondispersive"):
+        sim.compile(backend="jax")

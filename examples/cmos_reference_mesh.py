@@ -91,14 +91,26 @@ def make_reference_mesh_sim(
     snapshot = json.loads((DATA / "tidy3d_reference_simulation.json").read_text())
     half_size = snapshot["size"][2] * 0.5e-6
     thicknesses = (-half_size - grid.z_edges[0], grid.z_edges[-1] - half_size)
+    mesh_record = json.loads((DATA / "tidy3d_reconstructed_grid.json").read_text())
+    reference_dt = mesh_record["dt"]
+    dt = min(grid.cfl_time_step(courant), reference_dt)
     boundaries = [bz.Periodic(axes=("x", "y"))]
-    for edge, thickness in zip(("front", "back"), thicknesses, strict=True):
+    for edge, side, thickness in zip(
+        ("front", "back"), ("minus", "plus"), thicknesses, strict=True
+    ):
+        parameters = snapshot["boundary_spec"]["z"][side]["parameters"]
+        # Tidy3D declares conductivity in units of 2*epsilon0/reference_dt.
+        sigma = parameters["sigma_max"] * 2 * bz.EPS_0 / reference_dt
         boundaries.append(
             bz.PML(edges=(edge,), thickness=thickness, formulation="cpml")
             if boundary == "cpml"
-            else bz.Absorber(edges=(edge,), thickness=thickness)
+            else bz.Absorber(
+                edges=(edge,),
+                thickness=thickness,
+                sigma_max=sigma,
+                m=parameters["sigma_order"],
+            )
         )
-    dt = grid.cfl_time_step(courant)
     return bz.Simulation(
         scene=Scene((bz.Material(1),)) if reference else reference_scene(grid),
         raster_grid=grid,
