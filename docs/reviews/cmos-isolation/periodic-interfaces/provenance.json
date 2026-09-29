@@ -1,0 +1,54 @@
+{
+  "numerical_implementation_commit": "bdc02402",
+  "historical_implementation_commit": "898749c6",
+  "historical_flat_grid_xyz": [
+    16,
+    16,
+    4
+  ],
+  "historical_curved_grid_xyz": [
+    16,
+    14,
+    4
+  ],
+  "current_grid_xyz": [
+    16,
+    16,
+    4
+  ],
+  "source_sha256_at_implementation_commit": {
+    "scripts/validation/periodic_material_seams.py": "f012760db2bbf7c2c32b7f061d19fb001ec45bbca2cbf824dce8ab71d827f4dc",
+    "scripts/validation/cmos_dielectric_fresnel.py": "fa5cc5cbfc0f495ab824d1e2361340bfa45d97a8bbb3bdd4d1b524798b1860ba",
+    "scripts/validation/polarized_oblique.py": "4c570572d45876658db72280d21ddfdbb8675a962d25f51eba1e2a0ec7d7e99c",
+    "scripts/validation/rotated_dielectric_interface.py": "1ee538f3a60e1027f20bf369c816ba27cfec16d5b059f1defb1c59ed64c63963"
+  },
+  "native_binary_sha256": "8cf9303b94d82d5abef51951fadc7f6c64229190433a353f44e050e9bd620339",
+  "gpu": "NVIDIA GeForce RTX 3090",
+  "simulation_environment": {
+    "python": "3.11.15",
+    "jax": "0.10.2",
+    "numpy": "2.4.6"
+  },
+  "validation": {
+    "new_periodic_regressions": 14,
+    "existing_yee_boundary_tests": 14,
+    "affected_python_tests": 829,
+    "public_api_contract_tests": 10,
+    "total_unique_passing_tests": 867,
+    "rust_passed": 54,
+    "rust_ignored": 1,
+    "rerun_note": "An invalid raster-grid argument validation-order failure in the first affected batch was fixed; all 77 native integration tests passed on rerun.",
+    "checks": [
+      "Ruff",
+      "Ruff format",
+      "Pyright",
+      "Vulture",
+      "Clippy",
+      "cargo fmt",
+      "strict MkDocs",
+      "notebook execution and visual inspection"
+    ],
+    "lint_scope": "CI scope: beamz tests examples scripts release_version.py vulture_allowlist.py",
+    "repository_wide_lint_note": "A broader Ruff scan also reports pre-existing historical review scripts outside CI scope; those files were unchanged."
+  }
+}

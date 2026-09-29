@@ -1,0 +1,16 @@
+{
+  "README.md": "e12344058e2e9e976420f3773f216fcc3560cb10c9dd3d3868e777c6a48ee9c6",
+  "curved-after.json": "f8a44b2b5669e32d536cb6266065bb856fbebb4a7321a0b7f8f319b79ba9ba27",
+  "curved-before.json": "8c7d36273ccfdbf59cfd45b429bd338fd8e31559931ad9334b61e3a5c611f719",
+  "curved-reference-after.json": "55b0a3d8a5a5fbd7dd078c766992977f525ffc5cbdf3c6a18d2bb910572f7a04",
+  "curved_probe_before.py.txt": "7eea6a42ab6dbe9205e5eab5b6c158e80f9241ad627a7c5b8c77ac71d5d7274b",
+  "dielectric_fresnel_comparison.png": "825e4b19973a4a61210524bdd158deadf1241b792f657ba9c8151a0bac9c7edb",
+  "flat-after.json": "4d1d18f1159da493580a94549fd790dfd3672be78505c8d8395fc96d36eaa954",
+  "flat-before.json": "ee625853eca69f5be3ccf0df2875a7a3319035c260ed2633733208ab48cc91e2",
+  "flat_probe_before.py.txt": "ea1668a2d40a381fab338f29770aee8aa044f157422de5a279f65119c89714fd",
+  "fresnel.json": "357f6409eea42ab95b0f338661f97f0c74532a66df9d2e952655916c06809ef4",
+  "graded-after.json": "6995d91c36547e1a888835f2e30fae41279b13232fc81710c26b4feae55abc29",
+  "provenance.json": "32da19d226753ae0fbd5f9b0a402a1f94d02b7e2ad0f26cb0b84f04aa8edfe28",
+  "rotated-fresnel.json": "bae60b7a1a3b0ec40ef077e8ce6870a8712ec47a251346de4212c80ef37b21d5",
+  "seam_comparison.png": "9db5706253bea2a3c2363dd9943ec2c46e2c9158376d67fff383758beb691a44"
+}

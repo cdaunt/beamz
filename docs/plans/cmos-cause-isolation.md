@@ -116,3 +116,12 @@ Changing only the outer z absorption changes central R/G/B by **−0.017/−0.00
 This leaves the discrepancy unresolved. Periodic seams, internal dielectric-interface operators, full spatial convergence and fidelity to the published reference remain separate attribution questions. Demonstrated planar discretization errors do not by themselves identify which of these explains the sensor mismatch.
 
 The controlled RTX3090 run takes 566.31 seconds after setup on the same 150×150×430 grid, with unchanged timestep, geometry, material policy and detector reconstruction. R/G/B efficiencies with CPML are **9.889/20.812/9.224%**, versus absorber **9.906/20.821/9.223%**. Each uses its own native-wave incident calibration. Tidy3D itself uses adiabatic z absorbers, not CPML; this is a sensitivity test, not a replacement reference. Raw arrays, boundary specifications, source hashes, validation and the comparison plot are under `docs/reviews/cmos-isolation/components/full-staircase-metal-cpml`. The analysis notebook executes ten code cells without errors.
+
+
+## Independent seam and dielectric checks completed
+
+The seam correction changes central R/G/B by **−0.000072/+0.000042/−0.000050 percentage points**. Maximum changes over all 200 frequencies are **0.000630/0.000990/0.000326 points**, much smaller than the remaining **3.719/0.503/2.979-point** differences from the digitized plot. Late-time changes are up to 0.0153 points, so these tiny differences are not a claim of physical accuracy to six decimal places.
+
+The periodic-material defect is fixed, but it does not explain this CMOS discrepancy on the tested grid. The independent dielectric power controls converge. They do not certify transmitted phase or arbitrary curved/high-contrast dispersive interfaces; full spatial convergence and the remaining reference mismatch are still open.
+
+The [control report](../reviews/cmos-isolation/periodic-interfaces/README.md) records the seam-assembly correction, independent analytical comparisons, raw results and reproduction commands. These checks are complete; full-sensor spatial convergence and the unresolved published-reference mismatch remain separate work.

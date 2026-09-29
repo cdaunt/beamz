@@ -1,0 +1,104 @@
+{
+  "device": "[CudaDevice(id=0)]",
+  "n": 1.5,
+  "wavelength_nm": 550,
+  "run_time_fs": 10,
+  "runs": [
+    {
+      "dx_nm": 20.0,
+      "interface_angle_degrees": 0,
+      "smoothing": "volume",
+      "R": 0.03980273036245998,
+      "R_exact": 0.04,
+      "R_error_pp": -0.01972696375400207
+    },
+    {
+      "dx_nm": 20.0,
+      "interface_angle_degrees": 0,
+      "smoothing": "farjadpour_diagonal",
+      "R": 0.038757945928072926,
+      "R_exact": 0.04,
+      "R_error_pp": -0.12420540719270748
+    },
+    {
+      "dx_nm": 20.0,
+      "interface_angle_degrees": 45,
+      "smoothing": "volume",
+      "R": 0.039200220563951754,
+      "R_exact": 0.04,
+      "R_error_pp": -0.07997794360482466
+    },
+    {
+      "dx_nm": 20.0,
+      "interface_angle_degrees": 45,
+      "smoothing": "farjadpour_diagonal",
+      "R": 0.039044298898535064,
+      "R_exact": 0.04,
+      "R_error_pp": -0.09557011014649369
+    },
+    {
+      "dx_nm": 10.0,
+      "interface_angle_degrees": 0,
+      "smoothing": "volume",
+      "R": 0.03994354154928407,
+      "R_exact": 0.04,
+      "R_error_pp": -0.005645845071593214
+    },
+    {
+      "dx_nm": 10.0,
+      "interface_angle_degrees": 0,
+      "smoothing": "farjadpour_diagonal",
+      "R": 0.039686782180548684,
+      "R_exact": 0.04,
+      "R_error_pp": -0.03132178194513169
+    },
+    {
+      "dx_nm": 10.0,
+      "interface_angle_degrees": 45,
+      "smoothing": "volume",
+      "R": 0.03979460164538907,
+      "R_exact": 0.04,
+      "R_error_pp": -0.020539835461093336
+    },
+    {
+      "dx_nm": 10.0,
+      "interface_angle_degrees": 45,
+      "smoothing": "farjadpour_diagonal",
+      "R": 0.039756710655795585,
+      "R_exact": 0.04,
+      "R_error_pp": -0.024328934420441567
+    },
+    {
+      "dx_nm": 5.0,
+      "interface_angle_degrees": 0,
+      "smoothing": "volume",
+      "R": 0.039981741308544115,
+      "R_exact": 0.04,
+      "R_error_pp": -0.0018258691455885767
+    },
+    {
+      "dx_nm": 5.0,
+      "interface_angle_degrees": 0,
+      "smoothing": "farjadpour_diagonal",
+      "R": 0.03991808345415769,
+      "R_exact": 0.04,
+      "R_error_pp": -0.008191654584231017
+    },
+    {
+      "dx_nm": 5.0,
+      "interface_angle_degrees": 45,
+      "smoothing": "volume",
+      "R": 0.03994468759955909,
+      "R_exact": 0.04,
+      "R_error_pp": -0.00553124004409114
+    },
+    {
+      "dx_nm": 5.0,
+      "interface_angle_degrees": 45,
+      "smoothing": "farjadpour_diagonal",
+      "R": 0.03993548701782199,
+      "R_exact": 0.04,
+      "R_error_pp": -0.006451298217800827
+    }
+  ]
+}

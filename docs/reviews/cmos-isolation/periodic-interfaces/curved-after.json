@@ -1,0 +1,131 @@
+{
+  "device": "[CudaDevice(id=0)]",
+  "dt": 1e-17,
+  "cells": [
+    4,
+    16,
+    16
+  ],
+  "runs": [
+    {
+      "dispersive": false,
+      "smoothing": "volume",
+      "geometry": "curved",
+      "graded": false,
+      "quality": "balanced",
+      "epsilon_max_difference": {
+        "x": 2.384185791015625e-07,
+        "y": 1.1920928955078125e-07,
+        "z": 2.384185791015625e-07
+      },
+      "field_max_difference": {
+        "1": {
+          "ex": 0.0,
+          "ey": 0.0,
+          "ez": 0.0,
+          "hx": 0.0,
+          "hy": 0.0,
+          "hz": 0.0
+        },
+        "8": {
+          "ex": 0.0,
+          "ey": 0.0,
+          "ez": 0.0,
+          "hx": 0.0,
+          "hy": 0.0,
+          "hz": 0.0
+        }
+      }
+    },
+    {
+      "dispersive": false,
+      "smoothing": "farjadpour_diagonal",
+      "geometry": "curved",
+      "graded": false,
+      "quality": "balanced",
+      "epsilon_max_difference": {
+        "x": 0.015625,
+        "y": 0.0,
+        "z": 0.02256941795349121
+      },
+      "field_max_difference": {
+        "1": {
+          "ex": 1.7955899238586426e-05,
+          "ey": 0.0,
+          "ez": 0.0,
+          "hx": 0.0,
+          "hy": 0.0,
+          "hz": 0.0
+        },
+        "8": {
+          "ex": 0.0004639625549316406,
+          "ey": 3.109872341156006e-05,
+          "ez": 3.791600465774536e-05,
+          "hx": 8.381903171539307e-09,
+          "hy": 3.170862328261137e-07,
+          "hz": 3.168242983520031e-07
+        }
+      }
+    },
+    {
+      "dispersive": true,
+      "smoothing": "volume",
+      "geometry": "curved",
+      "graded": false,
+      "quality": "balanced",
+      "epsilon_max_difference": {
+        "x": 0.0078125,
+        "y": 0.0,
+        "z": 0.011284708976745605
+      },
+      "field_max_difference": {
+        "1": {
+          "ex": 8.106231689453125e-06,
+          "ey": 0.0,
+          "ez": 5.185604095458984e-06,
+          "hx": 0.0,
+          "hy": 0.0,
+          "hz": 0.0
+        },
+        "8": {
+          "ex": 0.0004456639289855957,
+          "ey": 2.397596836090088e-05,
+          "ez": 0.00030487775802612305,
+          "hx": 1.7660204321146011e-07,
+          "hy": 4.0140002965927124e-07,
+          "hz": 2.6065390557050705e-07
+        }
+      }
+    },
+    {
+      "dispersive": true,
+      "smoothing": "farjadpour_diagonal",
+      "geometry": "curved",
+      "graded": false,
+      "quality": "balanced",
+      "epsilon_max_difference": {
+        "x": 0.0078125,
+        "y": 0.0,
+        "z": 0.011284708976745605
+      },
+      "field_max_difference": {
+        "1": {
+          "ex": 8.106231689453125e-06,
+          "ey": 0.0,
+          "ez": 5.185604095458984e-06,
+          "hx": 0.0,
+          "hy": 0.0,
+          "hz": 0.0
+        },
+        "8": {
+          "ex": 0.0004456639289855957,
+          "ey": 2.397596836090088e-05,
+          "ez": 0.00030487775802612305,
+          "hx": 1.7660204321146011e-07,
+          "hy": 4.0140002965927124e-07,
+          "hz": 2.6065390557050705e-07
+        }
+      }
+    }
+  ]
+}

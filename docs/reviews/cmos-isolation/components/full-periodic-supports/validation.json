@@ -1,0 +1,20 @@
+{
+  "matched_keys": [
+    "grid",
+    "dt",
+    "steps",
+    "snapshot_sha256",
+    "colocation_side",
+    "metal_smoothing",
+    "metal_model",
+    "reference_frequency_hz",
+    "modal_reference_sha256"
+  ],
+  "grid_edges_bit_identical": true,
+  "incident_calibration_file_bit_identical": true,
+  "all_saved_arrays_finite": true,
+  "normalized_spectra_and_report_recomputed": true,
+  "final_fields_and_polarization_finite": "asserted by GPU runner",
+  "notebook_code_cells_executed": 13,
+  "notebook_errors": 0
+}

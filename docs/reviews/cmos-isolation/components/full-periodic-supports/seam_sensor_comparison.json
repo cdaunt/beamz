@@ -1,0 +1,26 @@
+{
+  "red": {
+    "before_percent": 9.905702541895629,
+    "after_percent": 9.905630054812208,
+    "published_plot_percent": 6.186548223350254,
+    "central_change_pp": -7.248708342011412e-05,
+    "remaining_gap_pp": 3.7190818314619545,
+    "max_spectral_change_pp": 0.0006295545263754199
+  },
+  "green": {
+    "before_percent": 20.821021644108722,
+    "after_percent": 20.821063840171895,
+    "published_plot_percent": 20.318316412859556,
+    "central_change_pp": 4.2196063173349785e-05,
+    "remaining_gap_pp": 0.5027474273123396,
+    "max_spectral_change_pp": 0.0009897881217996174
+  },
+  "blue": {
+    "before_percent": 9.223372811440555,
+    "after_percent": 9.223322919487309,
+    "published_plot_percent": 6.244359842075579,
+    "central_change_pp": -4.989195324611728e-05,
+    "remaining_gap_pp": 2.9789630774117297,
+    "max_spectral_change_pp": 0.00032561132536912396
+  }
+}

@@ -1,0 +1,40 @@
+import json
+from pathlib import Path
+import numpy as np
+import jax
+import beamz as bz
+from beamz.design.raster import Grid,Scene,Object,Cylinder,RasterOptions
+from beamz.lattice import component_axis_offsets_3d
+assert jax.devices()[0].platform=='gpu'
+dx=30e-9; nx=16;ny=14;nz=4;Lx=nx*dx;Ly=ny*dx;dt=1e-17
+out=[]
+for dispersive in (False,True):
+ for smoothing in ('volume','farjadpour_diagonal'):
+  medium=bz.PoleResidue.lorentz(2,strength=1,resonance=8e15,damping=6e14,frequency_range=(3e14,9e14)) if dispersive else bz.Material(3)
+  def make(tiles):
+   lower=(0,0,0) if tiles==1 else (-Lx,-Ly,0)
+   upper=(Lx,Ly,nz*dx) if tiles==1 else (2*Lx,2*Ly,nz*dx)
+   grid=Grid.uniform(lower,upper,(tiles*nx,tiles*ny,nz))
+   objects=tuple(Object(Cylinder((i*Lx+0.2*dx,j*Ly+2.3*dx),4.7*dx,-dx,(nz+1)*dx),1) for i in range(-1,3) for j in range(-1,3))
+   sim=bz.Simulation(scene=Scene((bz.Material(1),medium),objects),raster_grid=grid,raster_options=RasterOptions(smoothing=smoothing),boundaries=[bz.Periodic(axes=('x','y'))],time=np.arange(9)*dt)
+   state=sim.initial_state();fields={}
+   for c in ('Ex','Ey','Ez'):
+    shape=getattr(state,c.lower()).shape;offsets=component_axis_offsets_3d(c)
+    z=(np.arange(shape[0])+offsets['z'])[:,None,None]
+    y=(np.arange(shape[1])+offsets['y'])[None,:,None]
+    x=(np.arange(shape[2])+offsets['x'])[None,None,:]
+    fields[c.lower()]=getattr(state,c.lower()).at[:].set(.3*np.cos(np.pi*z/nz)+np.sin(2*np.pi*y/ny)+.2*np.cos(2*np.pi*x/nx))
+   return sim,state._replace(**fields)
+  small,s=make(1);large,t=make(3)
+  sp=small.compile(backend='jax');lp=large.compile(backend='jax');record=dict(dispersive=dispersive,smoothing=smoothing,epsilon_max_difference={},field_max_difference={})
+  for c in ('x','y','z'):
+   a=np.asarray(getattr(sp.grid,'eps_'+c));b=np.asarray(getattr(lp.grid,'eps_'+c));central=b[:,ny:ny+a.shape[1],nx:nx+a.shape[2]]
+   record['epsilon_max_difference'][c]=float(np.max(abs(a-central)))
+  for steps in (1,8):
+   a=small.advance(state=s,num_steps=steps,backend='jax',performance=False).state;b=large.advance(state=t,num_steps=steps,backend='jax',performance=False).state
+   record['field_max_difference'][steps]={}
+   for c in ('ex','ey','ez','hx','hy','hz'):
+    v=np.asarray(getattr(a,c));w=np.asarray(getattr(b,c))[:,ny:ny+v.shape[1],nx:nx+v.shape[2]]
+    record['field_max_difference'][steps][c]=float(np.max(abs(v-w)))
+  out.append(record);print(json.dumps(record),flush=True);jax.clear_caches()
+Path('/tmp/periodic_material_probe.json').write_text(json.dumps(out,indent=2)+'\n')

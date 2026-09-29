@@ -1,0 +1,131 @@
+{
+  "device": "[CudaDevice(id=0)]",
+  "dt": 1e-17,
+  "cells": [
+    4,
+    16,
+    16
+  ],
+  "runs": [
+    {
+      "dispersive": false,
+      "smoothing": "volume",
+      "geometry": "flat",
+      "graded": true,
+      "quality": "balanced",
+      "epsilon_max_difference": {
+        "x": 4.76837158203125e-07,
+        "y": 4.76837158203125e-07,
+        "z": 2.384185791015625e-07
+      },
+      "field_max_difference": {
+        "1": {
+          "ex": 0.0,
+          "ey": 0.0,
+          "ez": 0.0,
+          "hx": 0.0,
+          "hy": 0.0,
+          "hz": 0.0
+        },
+        "8": {
+          "ex": 2.9802322387695312e-08,
+          "ey": 9.313225746154785e-10,
+          "ez": 3.725290298461914e-09,
+          "hx": 0.0,
+          "hy": 0.0,
+          "hz": 5.820766091346741e-11
+        }
+      }
+    },
+    {
+      "dispersive": false,
+      "smoothing": "farjadpour_diagonal",
+      "geometry": "flat",
+      "graded": true,
+      "quality": "balanced",
+      "epsilon_max_difference": {
+        "x": 2.384185791015625e-07,
+        "y": 2.384185791015625e-07,
+        "z": 2.384185791015625e-07
+      },
+      "field_max_difference": {
+        "1": {
+          "ex": 0.0,
+          "ey": 0.0,
+          "ez": 0.0,
+          "hx": 0.0,
+          "hy": 0.0,
+          "hz": 0.0
+        },
+        "8": {
+          "ex": 7.450580596923828e-09,
+          "ey": 1.4901161193847656e-08,
+          "ez": 5.960464477539063e-08,
+          "hx": 1.6007106751203537e-10,
+          "hy": 2.1827872842550278e-10,
+          "hz": 0.0
+        }
+      }
+    },
+    {
+      "dispersive": true,
+      "smoothing": "volume",
+      "geometry": "flat",
+      "graded": true,
+      "quality": "balanced",
+      "epsilon_max_difference": {
+        "x": 1.1920928955078125e-07,
+        "y": 1.1920928955078125e-07,
+        "z": 2.384185791015625e-07
+      },
+      "field_max_difference": {
+        "1": {
+          "ex": 0.0,
+          "ey": 0.0,
+          "ez": 0.0,
+          "hx": 0.0,
+          "hy": 0.0,
+          "hz": 0.0
+        },
+        "8": {
+          "ex": 2.9802322387695312e-08,
+          "ey": 1.1920928955078125e-07,
+          "ez": 1.1920928955078125e-07,
+          "hx": 1.6007106751203537e-10,
+          "hy": 3.637978807091713e-11,
+          "hz": 1.4551915228366852e-10
+        }
+      }
+    },
+    {
+      "dispersive": true,
+      "smoothing": "farjadpour_diagonal",
+      "geometry": "flat",
+      "graded": true,
+      "quality": "balanced",
+      "epsilon_max_difference": {
+        "x": 2.384185791015625e-07,
+        "y": 2.384185791015625e-07,
+        "z": 2.384185791015625e-07
+      },
+      "field_max_difference": {
+        "1": {
+          "ex": 0.0,
+          "ey": 0.0,
+          "ez": 0.0,
+          "hx": 0.0,
+          "hy": 0.0,
+          "hz": 0.0
+        },
+        "8": {
+          "ex": 2.9802322387695312e-08,
+          "ey": 1.1920928955078125e-07,
+          "ez": 2.9802322387695312e-08,
+          "hx": 1.1641532182693481e-10,
+          "hy": 2.9103830456733704e-11,
+          "hz": 5.820766091346741e-11
+        }
+      }
+    }
+  ]
+}

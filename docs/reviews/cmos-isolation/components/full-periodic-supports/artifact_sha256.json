@@ -1,0 +1,15 @@
+{
+  "calibrated_efficiency.npz": "f00d3004670d3497e90aca9dc29b6caad350b3038df8378ce3ddf8728c8ca3e7",
+  "checkpoint_spectra.npz": "11781d1b386a07cc93a4f308ddb279f2648a342eac9a7788812d328a75ffdf4a",
+  "grid.npz": "622de09c61d8d08b072670ce28712a84a7285f41676b8a0cb196475f15577ef1",
+  "incident_calibration.npz": "037ffd12191011d1fac71f32d1eabb60599d7bc49e8fc4f99aeb6bd87831ab47",
+  "incident_calibration_report.json": "622bc82b81f9d2ec71abd270949cb9be387b570c9ae549236a322f0f31bc5699",
+  "linear_efficiency.npz": "fd8890c2861abcf38fe0d44d4d4cd3d4f11bf97a9fc60233a803a0247de354a5",
+  "linear_spectra.npz": "0a49ea66ee0d888f5283b62c8683dd54b927e8a527e9c0ea04f6553c03f12d25",
+  "report.json": "8154b03fa96c4c4352fce7e4ddefef495fce8b56519c35afbb6ef64f56f2308c",
+  "seam_sensor_comparison.json": "34af71c7d7d5f45a820d1cb797124e7666281b5ead8adc201ef1c1b91644b96b",
+  "seam_sensor_comparison.png": "3399bc7cae61a87f4b5a4eb87ba7f80bf84f077b6efe6e0e4f100ce5ac114fda",
+  "sensor_spectra.npz": "c398f6882c2ac1d9b45b7b18e0bf1069cf60a29cef319ffda31abaef79cbb603",
+  "source_manifest.json": "51c57e5f69498affb54f306d947e018d52dd44b58d39bee9499aa41beb9fdfe0",
+  "validation.json": "68ed80d7788f57881b363c589b1c866c08e20563104f8ccdb6a6c6ba617d4d24"
+}
