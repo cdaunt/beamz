@@ -270,6 +270,8 @@ def compile_monitor_specs(
         if not isinstance(monitor, _Monitor):
             raise TypeError(f"Unsupported monitor object {type(monitor).__name__!s}.")
         is_3d = np.asarray(fields.permittivity).ndim == 3
+        if not is_3d and getattr(monitor, "colocation_side", None) is not None:
+            raise ValueError("One-sided flux colocation currently requires a 3D plane.")
         if (
             not is_3d
             and isinstance(monitor, ModeMonitor)
@@ -584,6 +586,7 @@ def compile_monitor_specs(
                 grid_shape=base_shape_3d,
                 component_shapes=shape_3d,
                 grid=active_grid if use_geometry else None,
+                colocation_side=getattr(monitor, "colocation_side", None),
             )
             point_count = quadrature.point_count
             sample_plans = []

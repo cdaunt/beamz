@@ -43,3 +43,13 @@ Then:
 “energy monitor” = op = |E|^2 + |H|^2, temporal=accumulate, spatial=integrate
 
 All the same code path, just different parameters.
+
+For a 3D flux plane on a planar material interface, `FluxMonitor` accepts
+`colocation_side="plus"` or `"minus"`. Tangential H is reconstructed at the
+unchanged plane with a quadratic polynomial through three Yee samples from the
+chosen normal side; E retains linear interpolation. Select a side that remains
+in one smooth medium across those samples, preferably the better resolved medium.
+This avoids crossing a derivative discontinuity in H, but does not remove spatial
+field-update error. The default `None` retains symmetric linear interpolation.
+The option is included in immutable monitor identity and is rejected for 2D
+simulation grids. No new dynamical state or constitutive approximation is added.

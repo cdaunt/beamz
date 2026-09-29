@@ -498,6 +498,7 @@ def forward_step(
     coeffs: UpdateCoefficients,
     program,
     update_kernel: update_runtime.StepUpdateKernel,
+    time_origin,
 ):
     """Advance one compiled timestep."""
     cfg = ctx.config
@@ -575,7 +576,10 @@ def forward_step(
         state = state._replace(ex=ex, ey=ey, ez=ez)
 
     # 4. Observe only fully constrained end-of-step fields, then advance both clocks.
-    t_phys = state.t + ctx.dt_scalar
+    # Repeated float32 t += dt drifts on optical runs with tens of thousands of
+    # steps. Sources use integer sample indices, so that drift also detunes the
+    # monitor DFT from its excitation. Keep the clock tied to the integer step.
+    t_phys = time_origin + ctx.dt_scalar * (state.current_step + 1)
     state = monitor_runtime.update_monitors(
         program,
         state,
@@ -691,6 +695,10 @@ def build_scan(program, *, donate_state: bool = False):
         state: SimulationState,
         coeffs: UpdateCoefficients,
     ):
+        # Preserve an explicitly supplied state time, including nonzero origins,
+        # without accumulating one rounding error per timestep. A continuation
+        # from the canonical zero-origin clock recovers exactly the same origin.
+        time_origin = state.t - dt_scalar * state.current_step
         # 4. Run the same transition through scan or fori_loop. The choice changes the
         # lowering strategy, not timestep semantics.
         if cuda_multi_step:
@@ -776,6 +784,7 @@ def build_scan(program, *, donate_state: bool = False):
                         coeffs=coeffs,
                         program=program,
                         update_kernel=update_kernel,
+                        time_origin=time_origin,
                     ),
                     None,
                 )
@@ -796,6 +805,7 @@ def build_scan(program, *, donate_state: bool = False):
                     coeffs=coeffs,
                     program=program,
                     update_kernel=update_kernel,
+                    time_origin=time_origin,
                 ),
                 state,
             )

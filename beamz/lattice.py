@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from itertools import product
 from types import MappingProxyType
 from typing import Any, Literal, Mapping
 
@@ -271,6 +272,45 @@ def linear_interpolation_plan(source, target):
     return low.astype(np.int32), high.astype(np.int32), weight_low, weight_high
 
 
+def one_sided_quadratic_plan(source, target, side):
+    """Evaluate a smooth one-sided field at a fixed plane using three Yee samples.
+
+    The caller must choose a side with no intervening material boundary. Negative
+    extrapolation weights are intentional. Coordinates may be nonuniform.
+    """
+    source = np.asarray(source, dtype=float).reshape(-1)
+    target = np.asarray(target, dtype=float).reshape(-1)
+    if side not in {"minus", "plus"}:
+        raise ValueError("Colocation side must be 'minus' or 'plus'.")
+    if (
+        source.size < 3
+        or not np.isfinite(source).all()
+        or np.any(np.diff(source) <= 0)
+        or not np.isfinite(target).all()
+    ):
+        raise ValueError(
+            "One-sided colocation requires three increasing finite coordinates."
+        )
+    tolerance = 32 * np.finfo(float).eps * max(np.max(abs(source)), np.ptp(source))
+    if side == "plus":
+        first = np.searchsorted(source, target - tolerance, side="left")
+        indices = first[:, None] + np.arange(3)
+    else:
+        first = np.searchsorted(source, target + tolerance, side="right") - 1
+        indices = first[:, None] - np.arange(3)
+    if np.any(indices < 0) or np.any(indices >= source.size):
+        raise ValueError(
+            "Three Yee samples are required on the selected colocation side."
+        )
+    points = source[indices]
+    weights = np.ones(points.shape)
+    for j in range(3):
+        for k in range(3):
+            if j != k:
+                weights[:, j] *= (target - points[:, k]) / (points[:, j] - points[:, k])
+    return indices.astype(np.int32), weights.astype(np.float32)
+
+
 def _component_plane_plan_3d(
     component: str,
     *,
@@ -281,6 +321,7 @@ def _component_plane_plan_3d(
     grid_shape: tuple[int, int, int],
     field_shape: tuple[int, int, int],
     grid=None,
+    colocation_side=None,
 ):
     axis0, axis1 = plane_axes_3d(normal_axis)
     if grid is None:
@@ -309,21 +350,25 @@ def _component_plane_plan_3d(
     grid0, grid1 = np.meshgrid(*coordinates, indexing="ij")
     target0, target1 = grid0.reshape(-1), grid1.reshape(-1)
     target_normal = np.full_like(target0, float(plane_position))
-    plans = (
+    linear_plans = (
         linear_interpolation_plan(source0, target0),
         linear_interpolation_plan(source1, target1),
         linear_interpolation_plan(source_normal, target_normal),
     )
-    corner_bits = np.asarray(
-        [(a, b, c) for a in (0, 1) for b in (0, 1) for c in (0, 1)],
-        dtype=np.int32,
-    )
+    plans = [
+        (np.stack((lo, hi), axis=1), np.stack((wl, wh), axis=1))
+        for lo, hi, wl, wh in linear_plans
+    ]
+    if colocation_side is not None and component.startswith("H"):
+        plans[2] = one_sided_quadratic_plan(
+            source_normal, target_normal, colocation_side
+        )
+    corner_bits = np.asarray(list(product(*(range(p[0].shape[1]) for p in plans))))
     indices = []
     weights = []
-    for dimension, (low, high, weight_low, weight_high) in enumerate(plans):
-        bit = corner_bits[:, dimension][None, :]
-        indices.append(np.where(bit == 0, low[:, None], high[:, None]))
-        weights.append(np.where(bit == 0, weight_low[:, None], weight_high[:, None]))
+    for dimension, (index, weight) in enumerate(plans):
+        indices.append(index[:, corner_bits[:, dimension]])
+        weights.append(weight[:, corner_bits[:, dimension]])
     index_map = {
         axis0: indices[0],
         axis1: indices[1],
@@ -392,6 +437,7 @@ def compile_yee_plane_quadrature_3d(
     grid_shape: tuple[int, int, int],
     component_shapes: Mapping[str, tuple[int, int, int]],
     grid=None,
+    colocation_side=None,
 ) -> YeePlaneQuadrature:
     """Compile the canonical plane colocation used by monitors and sources."""
     normal_axis = str(normal_axis).lower()
@@ -409,6 +455,7 @@ def compile_yee_plane_quadrature_3d(
             grid_shape=grid_shape,
             field_shape=(int(shape[0]), int(shape[1]), int(shape[2])),
             grid=grid,
+            colocation_side=colocation_side,
         )
     if grid is None:
         # These samples are cell centers inside the requested aperture, not

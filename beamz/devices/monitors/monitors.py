@@ -134,6 +134,7 @@ class _Monitor:
             getattr(self, "components", None),
             getattr(self, "region", None),
             getattr(self, "mode_spec", None),
+            getattr(self, "colocation_side", None),
         )
 
     def __eq__(self, other):
@@ -430,10 +431,24 @@ class FieldRecorder(_Monitor):
 
 @dataclass(frozen=True, kw_only=True, eq=False)
 class FluxMonitor(_Monitor):
-    """Record frequency-domain power flux through a center/size plane."""
+    """Record frequency-domain power flux through a center/size plane.
+
+    ``colocation_side`` optionally reconstructs H at the unchanged physical plane
+    from three Yee samples on its ``"minus"`` or ``"plus"`` normal side. This
+    avoids interpolating H across a planar material interface. The selected side
+    must be smooth over the three samples; prefer the better-resolved medium.
+    E retains linear sampling. Supported for 3D planes; None preserves symmetric
+    linear colocation. This is sampling, not a correction to the field solver.
+    """
+
+    colocation_side: str | None = None
 
     def __post_init__(self) -> None:
         super().__post_init__()
+        if self.colocation_side not in {None, "minus", "plus"}:
+            raise ValueError(
+                "FluxMonitor colocation_side must be None, 'minus', or 'plus'."
+            )
         if self.freqs.size == 0:
             raise ValueError("FluxMonitor requires at least one frequency.")
         if np.count_nonzero(np.isclose(self.size, 0.0, rtol=0.0, atol=1e-15)) != 1:
