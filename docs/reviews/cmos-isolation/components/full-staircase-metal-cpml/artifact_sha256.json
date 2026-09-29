@@ -1,0 +1,15 @@
+{
+  "boundary_comparison.json": "fc24bb743b94159710ad3a49aac45df243fa976065ba897b1fcc2139554a1bb8",
+  "boundary_comparison.png": "ee9e9da2b4b1fd6be0f894f1fc6c7475f54ffd4dc88af775a20961a3655c10f0",
+  "calibrated_efficiency.npz": "eeb2556f983fd3e13d7c37f8a646527442ed8b33f84251709dc29fcee8fcd20f",
+  "checkpoint_spectra.npz": "985822ec09aceb53ec22a817ff8a893c05cf1fdd74902a30194ab097dbe580d0",
+  "grid.npz": "622de09c61d8d08b072670ce28712a84a7285f41676b8a0cb196475f15577ef1",
+  "incident_calibration.npz": "e79568b705c81d02e61b1e5998d91236c3febaef1d48fbdfd348e530ea4820cc",
+  "incident_calibration_report.json": "25aeab440d645952f879b2e65c5415d9a7db5a2aa81d3b0331e4fa87e8d37761",
+  "linear_efficiency.npz": "fe1cdf2ef548a3c8eab6a8f5942cf1c9b018d1ad01c7dae979b860cceeaaacd4",
+  "linear_spectra.npz": "3cb04f5e9f082cb119e20fd2700588bde54b4718fd6a8d76a93eca9b1d586f35",
+  "report.json": "e0b06d33081d4b0ff8c67dba8f766f870f80b136c03b66e8e9772635f6c8471e",
+  "sensor_spectra.npz": "6311a530b538dde767814ebb2ceb932fce96337a9015da151b98b4e35d3c8717",
+  "source_manifest.json": "cb8c623fef1b83d7c3996d47fa219d2d723249f0e5ddbf7c51b7f6adde6b1369",
+  "validation.json": "f69fff80e49da124ea6aa3facc10a2fe9af8720a23be443fc3374c7b09da03a5"
+}

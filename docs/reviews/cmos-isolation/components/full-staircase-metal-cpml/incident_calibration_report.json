@@ -1,0 +1,28 @@
+{
+  "device": "[CudaDevice(id=0)]",
+  "clock_policy": "integer_step",
+  "grid": [
+    4,
+    4,
+    430
+  ],
+  "dt": 1.4413465606999474e-17,
+  "steps": 35385,
+  "planes": [
+    2.2923389845905747e-06,
+    2.402113682476329e-06
+  ],
+  "boundary": "cpml",
+  "max_optical_dz_nm": null,
+  "air_spacing_nm": 54.88734894287721,
+  "previous_reference_max_difference": 0.000529676867252471,
+  "modal_power_range": [
+    1.0006296123687477,
+    1.00691954933963
+  ],
+  "backward_power_max": 0.002118978144689486,
+  "interpolated_power_range": [
+    0.8895526793484484,
+    0.9635173398167246
+  ]
+}

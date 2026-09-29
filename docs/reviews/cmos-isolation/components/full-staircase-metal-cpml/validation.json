@@ -1,0 +1,33 @@
+{
+  "grid_edges_bit_identical": true,
+  "matched_configuration_keys": [
+    "grid",
+    "dt",
+    "steps",
+    "snapshot_sha256",
+    "metal_smoothing",
+    "reference_frequency_hz",
+    "colocation_side"
+  ],
+  "all_saved_arrays_finite": true,
+  "normalized_arrays_recomputed_rtol": 1e-13,
+  "boundary_specific_incident_calibration": true,
+  "central_raw_power_relative_change_percent": {
+    "red": -0.16628784193141177,
+    "green": -0.049656419918786554,
+    "blue": 0.003692939765365111
+  },
+  "central_incident_power_relative_change_percent": {
+    "red": 0.00415674489320228,
+    "green": -0.0041299752784440535,
+    "blue": 0.00024174257440279234
+  },
+  "checks_passed": [
+    "ruff check",
+    "ruff format --check",
+    "configured pyright (beamz scope)",
+    "mkdocs build --strict",
+    "ten notebook code cells executed; no errors",
+    "rendered notebook inspected in Chromium"
+  ]
+}

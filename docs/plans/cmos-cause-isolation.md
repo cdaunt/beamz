@@ -107,3 +107,12 @@ interpretation are in the [isolation report](../reviews/cmos-isolation/README.md
 The affected Python suite passes 829 tests, including 20 policy regressions;
 53 Rust tests pass (one ignored). Full dispersive tensor smoothing and curved
 metal Mie convergence remain separate work.
+
+
+## Full-sensor outer z boundary control
+
+Changing only the outer z absorption changes central R/G/B by **−0.017/−0.009/+0.0003 percentage points**; maximum changes across the full spectra are **0.058/0.053/0.024 points**. These are much smaller than the remaining ~3.72/~2.98-point red/blue gaps. The full-sensor control therefore does not support the outer z absorbers as the dominant cause on this grid. All saved arrays are finite; the largest 300–510 fs change is 0.0354 points, so the smallest boundary differences should not be interpreted as precision measurements.
+
+This leaves the discrepancy unresolved. Periodic seams, internal dielectric-interface operators, full spatial convergence and fidelity to the published reference remain separate attribution questions. Demonstrated planar discretization errors do not by themselves identify which of these explains the sensor mismatch.
+
+The controlled RTX3090 run takes 566.31 seconds after setup on the same 150×150×430 grid, with unchanged timestep, geometry, material policy and detector reconstruction. R/G/B efficiencies with CPML are **9.889/20.812/9.224%**, versus absorber **9.906/20.821/9.223%**. Each uses its own native-wave incident calibration. Tidy3D itself uses adiabatic z absorbers, not CPML; this is a sensitivity test, not a replacement reference. Raw arrays, boundary specifications, source hashes, validation and the comparison plot are under `docs/reviews/cmos-isolation/components/full-staircase-metal-cpml`. The analysis notebook executes ten code cells without errors.

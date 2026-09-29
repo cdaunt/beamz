@@ -1,0 +1,37 @@
+{
+  "source_commit": "c8d736c87641f3365063c6e17e68441a68695f61",
+  "uncommitted_source_changes": [
+    "scripts/validation/cmos_component_isolation.py"
+  ],
+  "command": "XLA_PYTHON_CLIENT_PREALLOCATE=false OPENBLAS_NUM_THREADS=1 .venv/bin/python scripts/validation/cmos_component_isolation.py --stage full --boundary cpml",
+  "source_sha256": {
+    "beamz/design/dispersion.py": "f838da9826e4a2f96a1a92e24a1429108b6c71de6f8f28234ba740ed1fb10216",
+    "beamz/design/raster/dispersion.py": "8fdc8e67587b1a6bb16eacf952e1cc8060915efd8cb06e5291aed535400e070c",
+    "beamz/design/raster/engine.py": "dfdd38d85339165bea1ee47fc8fee1448ac4be3839d76ef0743471e38eeb8bd2",
+    "beamz/design/raster/integration.py": "d6f6eabc6c42234032d4fc8c25b3a681459d2727977cf63326e1d94f0926c981",
+    "beamz/design/raster/schema.py": "32ece1f8e270c1b2d41e6e14584aa73dce01d12ea88463cbcc85131678df4f30",
+    "beamz/devices/_boundary_compile.py": "6d0dcea5612e40a0161d7557ece1ecb818e050a3a9d505fc2ed9ef4f1f0212a0",
+    "beamz/simulation/__init__.py": "2e9d4e5cc981cf3f4cb76924fa7674da6a01534b7319681e61aead62f966119a",
+    "beamz/simulation/_cuda_abi.py": "663d3c1dc8fc30857004a8dd7f0f56bb0df76cc13b25c00d7ea118806574b463",
+    "beamz/simulation/api.py": "b5e97b5268678569915ea599c78346dfe54ce86b4854a702a93b7e4c4f963a57",
+    "beamz/simulation/backend.py": "86e01170080b8af76402870c008ad781eec5b90c2436782b493c258f4cd33d22",
+    "beamz/simulation/boundary_masks.py": "e1d6fe528b348aec96a60b62934e32628e6b425bcb063be8fb21f3944988a2f2",
+    "beamz/simulation/compile.py": "dea5e966742c279d95f42b5a6162b58e8927b211bead9306084c14ec92a8263b",
+    "beamz/simulation/dispersion.py": "8c01bd555775e61bdc274102d2c38d3523d7214b6d5e69522eef7571e3a0b979",
+    "beamz/simulation/execute.py": "e4faabc74619cd3e292c2adb8d4bbd107d6401aeba6620f9c17c3ca3b2f16497",
+    "beamz/simulation/interface_dispersion.py": "b9999cd663dceee0961301764c76663a5a4402d22ce30bb2bb678a947dca11d4",
+    "beamz/simulation/kernels.py": "305e34e00cde23d5974078410449c080440deb794eb21f030a704739cdaf9582",
+    "beamz/simulation/model.py": "d7c1f1284308c19873286359559edeb58d3aeb51b49092eddba4e91fe1e3b1f3",
+    "beamz/simulation/observe.py": "6ad6276ff3edac28356f353a1c50f1a7a97b42bf88dd78df66b4befa8dbf2b2a",
+    "beamz/simulation/results.py": "7e1c75d3238d613a993e240721430ecfd3cac53fbe2ad01a4ee1d01368a65bbe",
+    "beamz/simulation/sharding.py": "6365b6072562400850282393278ce0e484f03a8f657df8273a74d231b7e75bfc",
+    "examples/cmos_reference_mesh.py": "c60cd15d5c1f4539a173655a94283b2eb1587b7b339462fba83f60a4c89e09e6",
+    "examples/cmos_rgb_sensor.py": "50505994e3d8ed25c49be6300c66a3c1e6f3665821984213821f4cb9d9adc6d3",
+    "rust/fdtd-raster-core/src/grid.rs": "802d9e8053190306fcd18f72c90e97dccbf42045844ac6da42d198b0a56dde21",
+    "rust/fdtd-raster-core/src/ownership.rs": "cb3195c086fa57454197a26656ed9f80ae3410db1c31bfba81558fc034f1d005",
+    "rust/fdtd-raster-core/src/raster.rs": "a5e201b0ce0f6b48012e03d45a36d25478fc61a9ae6b6c499e21b333a2553572",
+    "rust/fdtd-raster-py/src/lib.rs": "630f6082cbf27ba0b440fa0f7ac2083781eee90503f1e37d4ad14d596e2aad4e",
+    "scripts/validation/cmos_component_isolation.py": "a11e9fc322e7c37c7964cda5c71973bee89cb64d22435fa42aec2e2c069a8650",
+    "tests/unit/raster/test_metal_policy.py": "1b8010a5e0efcca8b40d20beb3526e0fa50433a27c4e3175d523c5844b7cd2f7"
+  }
+}

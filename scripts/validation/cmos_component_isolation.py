@@ -6,6 +6,7 @@ import json
 import shutil
 import sys
 import time
+from dataclasses import asdict
 from pathlib import Path
 from unittest.mock import patch
 
@@ -63,6 +64,7 @@ def main():
     parser.add_argument(
         "--metal-smoothing", choices=["staircase", "inherit"], default="staircase"
     )
+    parser.add_argument("--boundary", choices=["absorber", "cpml"], default="absorber")
     args = parser.parse_args()
     if not any(d.platform == "gpu" for d in jax.devices()):
         raise RuntimeError("Local GPU required")
@@ -73,6 +75,7 @@ def main():
         + suffix
         + ("-library-metal" if args.metal_model == "library" else "")
         + ("-staircase-metal" if args.metal_smoothing == "staircase" else "")
+        + ("-cpml" if args.boundary == "cpml" else "")
     )
     out.mkdir(parents=True, exist_ok=True)
     old = ROOT / "docs/reviews/cmos-polarized/reference-z-20nm-absorber"
@@ -92,6 +95,7 @@ def main():
             fields=False,
             reference_z=True,
             stage=args.stage,
+            boundary=args.boundary,
             metal_smoothing=args.metal_smoothing,
             colocation_side="plus",
             compare_colocation=True,
@@ -100,7 +104,7 @@ def main():
             else args.optical_dz_nm * 1e-9,
         )
     prior = json.loads((old / "reference_report.json").read_text())
-    # Reuse only the identical empty-cell excitation and numerical domain.
+    # Check geometry, acquisition clock and source against the saved baseline.
     assert sim.dt == prior["dt"] and sim.num_steps == prior["steps"]
     assert sim.sources[0].source_time.offset == prior["source_offset"]
     grid = np.load(old / "reference_grid.npz")
@@ -115,6 +119,18 @@ def main():
     np.testing.assert_allclose(
         ref["wavelength_nm"], 299792458 / np.asarray(sim.monitors[0].freqs) * 1e9
     )
+    # A boundary change requires its own empty-cell incident calibration.
+    incident_name = "incident" if args.boundary == "absorber" else "incident-cpml"
+    modal_path = (
+        ROOT / f"docs/reviews/cmos-isolation/{incident_name}{suffix}/spectra.npz"
+    )
+    modal_report_path = modal_path.with_name("report.json")
+    modal_report = json.loads(modal_report_path.read_text())
+    assert modal_report["boundary"] == args.boundary
+    assert modal_report["clock_policy"] == "integer_step"
+    assert modal_report["dt"] == sim.dt and modal_report["steps"] == sim.num_steps
+    modal = np.load(modal_path)
+    np.testing.assert_allclose(modal["wavelength_nm"], ref["wavelength_nm"], rtol=1e-12)
     checkpoint = int(300e-15 / sim.dt)
     print(
         "Running",
@@ -147,13 +163,15 @@ def main():
     }
     earlier = {p: -np.asarray(first.results[f"flux_si_{p}"].flux) for p in pixel_signs}
     wl = ref["wavelength_nm"]
-    modal_path = ROOT / f"docs/reviews/cmos-isolation/incident{suffix}/spectra.npz"
-    modal = np.load(modal_path)
-    np.testing.assert_allclose(modal["wavelength_nm"], wl, rtol=1e-12)
     incident = modal["modal_power"]
     order = np.argsort(wl)
     report = dict(
         stage=args.stage,
+        boundary=args.boundary,
+        boundary_specs=[
+            dict(type=type(b).__name__, **asdict(b)) for b in sim.boundaries
+        ],
+        incident_reference=str(modal_path.relative_to(ROOT)),
         metal_model=args.metal_model,
         metal_smoothing=args.metal_smoothing,
         reference_frequency_hz=float(sim.sources[0].source_time.freq0),
@@ -210,6 +228,7 @@ def main():
     np.savez(out / "linear_efficiency.npz", wavelength_nm=wl, **original)
     np.savez(out / "grid.npz", **dict(zip("xyz", sim.grid.edges, strict=True)))
     shutil.copyfile(modal_path, out / "incident_calibration.npz")
+    shutil.copyfile(modal_report_path, out / "incident_calibration_report.json")
     (out / "report.json").write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(report, indent=2), flush=True)
 

@@ -255,6 +255,8 @@ export XLA_PYTHON_CLIENT_PREALLOCATE=false OPENBLAS_NUM_THREADS=1
 .venv/bin/python scripts/validation/cmos_component_isolation.py --metal-smoothing inherit --stage full
 .venv/bin/python scripts/validation/cmos_component_isolation.py --metal-smoothing inherit --stage no_lenses
 .venv/bin/python scripts/validation/cmos_component_isolation.py --metal-smoothing inherit --stage bare_stack
+.venv/bin/python scripts/validation/cmos_component_isolation.py --stage full
+.venv/bin/python scripts/validation/cmos_component_isolation.py --stage full --boundary cpml
 .venv/bin/python scripts/validation/cmos_stack_isolation.py --refinements 1 --courant 0.35
 .venv/bin/python scripts/validation/cmos_incident_calibration.py --optical-dz-nm 20
 .venv/bin/python scripts/validation/cmos_stack_isolation.py --refinements 1 --optical-dz-nm 20
@@ -304,13 +306,22 @@ measurement pipeline and is not a current common-mesh test, but it also weakens
 the claim that lateral resolution alone explains the gap.
 
 The full sensor is not spatially converged and does not match the published
-reference closely enough to claim parity. The next comparison requires original
-numerical Tidy3D fluxes/fields and matched planar/component cases, followed by
-independent lateral and full-depth convergence within the available memory budget.
-The next matched component comparison should first use the planar stack, then
-the patterned filters, metal structures and lenses with identical monitor
-definitions. The remaining lateral-grid and interface-operator differences are
+reference closely enough to claim parity. Original numerical Tidy3D fluxes/fields
+are unavailable; further attribution uses the published code, digitized figures
+and independent analytical controls. Independent lateral and full-depth
+convergence must fit the available memory budget. Matched planar/component
+outputs would improve attribution if they become available, but are not a
+prerequisite for further investigation. The remaining lateral-grid and interface-operator differences are
 candidates, not demonstrated causes of the inter-solver gap. Increasing
 frequency sample count is not a replacement for this accuracy work.
 
 The metal-policy extension executes nine code cells with no errors. Its new full-curve figure and rendered HTML were inspected. The final affected suite passes 829 Python tests plus 23 additional CMOS/plane-wave tests, and 53 Rust tests (one ignored).
+
+
+## Full-sensor outer z boundary control
+
+Changing only the outer z absorption changes central R/G/B by **−0.017/−0.009/+0.0003 percentage points**; maximum changes across the full spectra are **0.058/0.053/0.024 points**. These are much smaller than the remaining ~3.72/~2.98-point red/blue gaps. The full-sensor control therefore does not support the outer z absorbers as the dominant cause on this grid. All saved arrays are finite; the largest 300–510 fs change is 0.0354 points, so the smallest boundary differences should not be interpreted as precision measurements.
+
+This leaves the discrepancy unresolved. Periodic seams, internal dielectric-interface operators, full spatial convergence and fidelity to the published reference remain separate attribution questions. Demonstrated planar discretization errors do not by themselves identify which of these explains the sensor mismatch.
+
+The controlled RTX3090 run takes 566.31 seconds after setup on the same 150×150×430 grid, with unchanged timestep, geometry, material policy and detector reconstruction. R/G/B efficiencies with CPML are **9.889/20.812/9.224%**, versus absorber **9.906/20.821/9.223%**. Each uses its own native-wave incident calibration. Tidy3D itself uses adiabatic z absorbers, not CPML; this is a sensitivity test, not a replacement reference. Raw arrays, boundary specifications, source hashes, validation and the comparison plot are under `components/full-staircase-metal-cpml`. The analysis notebook executes ten code cells without errors.

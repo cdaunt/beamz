@@ -1,0 +1,23 @@
+{
+  "red": {
+    "absorber_percent": 9.905702541895629,
+    "cpml_percent": 9.88881764590242,
+    "central_change_pp": -0.01688489599320775,
+    "max_spectral_change_pp": 0.05791413210226165,
+    "temporal_max_change_pp": 0.005398826847494154
+  },
+  "green": {
+    "absorber_percent": 20.821021644108722,
+    "cpml_percent": 20.811541708967095,
+    "central_change_pp": -0.009479935141627038,
+    "max_spectral_change_pp": 0.05309971584604861,
+    "temporal_max_change_pp": 0.0353308992997875
+  },
+  "blue": {
+    "absorber_percent": 9.223372811440555,
+    "cpml_percent": 9.223690639513652,
+    "central_change_pp": 0.0003178280730971039,
+    "max_spectral_change_pp": 0.02412625304837185,
+    "temporal_max_change_pp": 0.002596348529390266
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "stage": "full",
+  "boundary": "cpml",
+  "boundary_specs": [
+    {
+      "type": "Periodic",
+      "axes": [
+        "x",
+        "y"
+      ]
+    },
+    {
+      "type": "PML",
+      "edges": [
+        "front"
+      ],
+      "thickness": 4.651162790697683e-07,
+      "sigma_max": null,
+      "m": 3,
+      "formulation": "cpml",
+      "kappa_max": 2.0,
+      "alpha_max": null,
+      "target_reflection": 1e-06
+    },
+    {
+      "type": "PML",
+      "edges": [
+        "back"
+      ],
+      "thickness": 2.195493957715442e-06,
+      "sigma_max": null,
+      "m": 3,
+      "formulation": "cpml",
+      "kappa_max": 2.0,
+      "alpha_max": null,
+      "target_reflection": 1e-06
+    }
+  ],
+  "incident_reference": "docs/reviews/cmos-isolation/incident-cpml/spectra.npz",
+  "metal_model": "snapshot",
+  "metal_smoothing": "staircase",
+  "reference_frequency_hz": 588878042500000.0,
+  "max_optical_dz_nm": null,
+  "clock_policy": "integer_step",
+  "incident_normalization": "forward plane-wave modal power from native E samples",
+  "modal_reference_sha256": "e79568b705c81d02e61b1e5998d91236c3febaef1d48fbdfd348e530ea4820cc",
+  "device": "[CudaDevice(id=0)]",
+  "seconds": 566.3106218850007,
+  "grid": [
+    150,
+    150,
+    430
+  ],
+  "dt": 1.4413465606999474e-17,
+  "steps": 35385,
+  "checkpoint_fs": 299.98745967848004,
+  "colocation_side": "plus",
+  "reference": "docs/reviews/cmos-polarized/reference-z-20nm-absorber",
+  "reference_sha256": "ddca7b3435ce234a40b6e2c53ec309e247b7d075651989a0c81877cc79554694",
+  "snapshot_sha256": "4e3bc436bdff467be70c837a068d27c05fd93effadbb1aee5b18085d6c3cb2b3",
+  "central_efficiency_percent": {
+    "red": 9.88881764590242,
+    "green": 20.811541708967095,
+    "blue": 9.223690639513652
+  },
+  "linear_central_percent": {
+    "red": 9.512055168226263,
+    "green": 19.50360691344448,
+    "blue": 8.060562793128637
+  },
+  "sampling_max_change_pp": {
+    "red": 0.4198955495637133,
+    "green": 2.1792643533240037,
+    "blue": 1.9815765193939738
+  },
+  "temporal_max_change_pp": {
+    "red": 0.005398826847494154,
+    "green": 0.0353308992997875,
+    "blue": 0.002596348529390266
+  }
+}
