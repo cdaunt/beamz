@@ -31,6 +31,7 @@ def rasterize_dispersion(
     smoothing="volume",
     metal_smoothing="staircase",
     reference_frequency=None,
+    periodic_axes=(),
 ):
     metals = staircase_materials(
         scene,
@@ -53,6 +54,7 @@ def rasterize_dispersion(
             quality,
             "all" if kind == "3d" else f"two_dimensional_{polarization}",
             metals,
+            tuple(axis in periodic_axes for axis in "xyz"),
         )
         shape = grid.shape_zyx if kind == "3d" else grid.shape_zyx[1:]
         shapes = component_shapes(shape, polarization)
@@ -100,6 +102,7 @@ def rasterize_dispersion(
             options=RasterOptions(
                 quality=quality,
                 smoothing="volume",
+                periodic_axes=periodic_axes,
                 components="all" if kind == "3d" else f"two_dimensional_{polarization}",
             ),
             cache_directory=cache_directory,

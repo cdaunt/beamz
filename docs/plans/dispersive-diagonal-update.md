@@ -110,9 +110,21 @@ its effective poles. Tests compare the response at the trapezoidal mapped
 frequency `tan(omega*dt/2)/(pi*dt)`; continuous-frequency error is a separate
 time-discretization question.
 
-Periodic duplicated faces carry the two physical half-support contributions,
-weighted by their actual widths. Their history increments and step coefficients
-are added, rather than overwriting one another. Interface states participate in
+Periodic supports now join **material fractions before smoothing**. Native
+rasterization integrates the wrapped pieces of the full dual volume, using the
+actual first/last cell widths, then constructs one effective constitutive law.
+Averaging two already-smoothed halves is incorrect for a harmonic response.
+Duplicate faces use the same wrapped support and metal point owner. Curvature
+classification uses the complete support rather than its artificially narrower
+pieces. `Simulation` infers raster periodic axes from its boundaries; standalone
+rasters can set `RasterOptions(periodic_axes=("x", "y"))`. Cache identity includes
+these axes. Explicit precomputed material grids remain responsible for their
+own material geometry.
+
+The compiler retains width-weighted joins for legacy static voxel coefficients
+and externally supplied dispersive supports. For a native periodic raster the
+duplicate supports are already equal. Interface history increments and step
+coefficients are added rather than overwriting one another. Interface states participate in
 continuation checks, memory estimates, cache identity, and source-sheet guards.
 Uniform-grid volume dispersion also consumes the native Yee epsilon-infinity
 arrays: reconstructing them from cell averages would give the instantaneous and

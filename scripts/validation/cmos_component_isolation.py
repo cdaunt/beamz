@@ -65,6 +65,7 @@ def main():
         "--metal-smoothing", choices=["staircase", "inherit"], default="staircase"
     )
     parser.add_argument("--boundary", choices=["absorber", "cpml"], default="absorber")
+    parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     if not any(d.platform == "gpu" for d in jax.devices()):
         raise RuntimeError("Local GPU required")
@@ -77,6 +78,8 @@ def main():
         + ("-staircase-metal" if args.metal_smoothing == "staircase" else "")
         + ("-cpml" if args.boundary == "cpml" else "")
     )
+    if args.output is not None:
+        out = args.output
     out.mkdir(parents=True, exist_ok=True)
     old = ROOT / "docs/reviews/cmos-polarized/reference-z-20nm-absorber"
     import cmos_reference_mesh

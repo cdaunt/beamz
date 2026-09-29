@@ -30,6 +30,7 @@ from beamz.design.materials import Material, MaterialProtocol
 from beamz.design.structures import Box
 from beamz.devices.boundaries import (
     normalize_boundaries,
+    periodic_storage_axes,
     validate_boundary_compatibility,
 )
 from beamz.devices.monitors.monitors import (
@@ -399,8 +400,10 @@ def _prepare_material_grid(
     )
 
 
-def _resolved_raster_options(options, sources):
-    """Resolve classification frequency without baking it into the user spec."""
+def _resolved_raster_options(
+    options, sources, *, boundaries=(), is_3d=True, plane_2d="xy"
+):
+    """Resolve source frequency and periodic raster topology from the simulation."""
     from beamz.design.raster import RasterOptions
 
     if options is None:
@@ -417,28 +420,37 @@ def _resolved_raster_options(options, sources):
         ]
         if positive:
             options = replace(options, reference_frequency=float(np.mean(positive)))
-    return options
+    storage_axes = periodic_storage_axes(boundaries, is_3d=is_3d, plane_2d=plane_2d)
+    axes = "zyx" if is_3d else "yx"
+    return replace(options, periodic_axes=tuple(axes[i] for i in sorted(storage_axes)))
 
 
 def _rasterize_scene_for_simulation(
-    scene, raster_grid, raster_options, polarization: Literal["tm", "te"]
+    scene,
+    raster_grid,
+    raster_options,
+    polarization: Literal["tm", "te"],
+    *,
+    sources=None,
+    boundaries=(),
+    plane_2d="xy",
 ):
     """Convert an imported scene into the same solver grid used by Design."""
 
-    from beamz.design.raster import Grid, RasterOptions, Scene
+    from beamz.design.raster import Grid, Scene
 
     if not isinstance(scene, Scene):
         raise TypeError("Simulation scene must be a raster Scene.")
     if not isinstance(raster_grid, Grid):
         raise TypeError("Simulation raster_grid must be a raster Grid.")
-    options = (
-        RasterOptions(smoothing="farjadpour_diagonal")
-        if raster_options is None
-        else raster_options
-    )
-    if not isinstance(options, RasterOptions):
-        raise TypeError("raster_options must be RasterOptions or None.")
     dimensions = 2 if raster_grid.shape[2] == 1 else 3
+    options = _resolved_raster_options(
+        raster_options,
+        sources,
+        boundaries=boundaries,
+        is_3d=dimensions == 3,
+        plane_2d=plane_2d,
+    )
     if dimensions == 3 and polarization != "tm":
         raise ValueError("polarization applies only to 2D simulations.")
     from beamz.design.dispersion import PoleResidue
@@ -467,6 +479,7 @@ def _rasterize_scene_for_simulation(
             smoothing=options.smoothing,
             metal_smoothing=options.metal_smoothing,
             reference_frequency=options.reference_frequency,
+            periodic_axes=options.periodic_axes,
         )
         material_grid = replace(
             material_grid, dispersion=regions, dispersion_interfaces=interfaces
@@ -731,8 +744,11 @@ class Simulation:
             material_grid = _rasterize_scene_for_simulation(
                 scene,
                 raster_grid,
-                _resolved_raster_options(raster_options, sources),
+                raster_options,
                 polarization,
+                sources=sources,
+                boundaries=boundaries,
+                plane_2d=plane_2d,
             )
             raster_options = None
         require_uniform_grid = _devices_require_uniform_grid(sources, monitors)
@@ -1064,12 +1080,19 @@ class Simulation:
         token = self._material_grid_token()
         cached = _MATERIAL_GRID_CACHE.get(token)
         if cached is None:
-            options = _resolved_raster_options(self.raster_options, self.sources)
+            options = _resolved_raster_options(
+                self.raster_options,
+                self.sources,
+                boundaries=self.boundaries,
+                is_3d=self.is_3d,
+                plane_2d=self.plane_2d,
+            )
             raster_kwargs = {
                 "quality": options.quality,
                 "smoothing": options.smoothing,
                 "metal_smoothing": options.metal_smoothing,
                 "reference_frequency": options.reference_frequency,
+                "periodic_axes": options.periodic_axes,
             }
             with _resolved_setup_device_context(self.setup_device_resolved):
                 cached = build_material_grid(
@@ -1100,7 +1123,13 @@ class Simulation:
                 design.depth,
                 design.background,
                 design.structures,
-                _resolved_raster_options(self.raster_options, self.sources),
+                _resolved_raster_options(
+                    self.raster_options,
+                    self.sources,
+                    boundaries=self.boundaries,
+                    is_3d=self.is_3d,
+                    plane_2d=self.plane_2d,
+                ),
                 self.polarization,
             )
         )

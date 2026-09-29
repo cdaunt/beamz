@@ -540,9 +540,11 @@ def _compile_grid(
             eps_ez=values_by_name["eps_z"],
         )
         materials = type(materials)(**values_by_name)
-    if material_grid.dispersion and boundary_data.periodic_axes:
+    if boundary_data.periodic_axes:
         from beamz.simulation.dispersion import periodic_support_average
 
+        # Native periodic rasters already have equal complete supports. This
+        # also joins clipped coefficients from the legacy static voxel path.
         arrays = dict(materials.items())
         for axis in "xyz":
             for prefix in ("eps_", "sig_"):

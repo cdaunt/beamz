@@ -25,6 +25,8 @@ class RasterOptions:
     Simulation uses the mean positive source center frequency when unspecified;
     standalone rasterization uses each dispersive material's fit-band midpoint.
     ``metal_smoothing="inherit"`` applies ``smoothing`` to every material.
+    ``periodic_axes`` joins material fractions across the specified domain faces
+    before smoothing. Simulation derives these axes from its boundaries.
     """
 
     quality: str = "balanced"
@@ -32,6 +34,7 @@ class RasterOptions:
     components: str = "all"
     metal_smoothing: str = "staircase"
     reference_frequency: float | None = None
+    periodic_axes: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         choices = {
@@ -45,6 +48,11 @@ class RasterOptions:
             if value not in allowed:
                 raise ValueError(f"{name} must be one of {sorted(allowed)}.")
             object.__setattr__(self, name, value)
+
+        axes = tuple(sorted(set(self.periodic_axes)))
+        if set(axes) - {"x", "y", "z"}:
+            raise ValueError("periodic_axes must contain only x, y, z.")
+        object.__setattr__(self, "periodic_axes", axes)
 
         if self.reference_frequency is not None:
             frequency = float(self.reference_frequency)
@@ -120,6 +128,7 @@ class CompiledScene:
             options.smoothing,
             options.components,
             metals,
+            tuple(axis in options.periodic_axes for axis in "xyz"),
         )
         result = RasterResult(
             native,
@@ -161,6 +170,7 @@ class CompiledScene:
                     "metal_smoothing": options.metal_smoothing,
                     "reference_frequency": options.reference_frequency,
                     "staircase_materials": metals,
+                    "periodic_axes": options.periodic_axes,
                 },
                 sort_keys=True,
             ).encode()

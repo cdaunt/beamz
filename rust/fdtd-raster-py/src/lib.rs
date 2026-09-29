@@ -27,7 +27,7 @@ impl NativeCompiledScene {
         &self.scene_hash
     }
 
-    #[pyo3(signature = (grid_edges, quality, components, staircase_materials = Vec::new()))]
+    #[pyo3(signature = (grid_edges, quality, components, staircase_materials = Vec::new(), periodic_axes = [false; 3]))]
     fn interface_samples(
         &self,
         py: Python<'_>,
@@ -35,6 +35,7 @@ impl NativeCompiledScene {
         quality: &str,
         components: &str,
         staircase_materials: Vec<usize>,
+        periodic_axes: [bool; 3],
     ) -> PyResult<Py<PyAny>> {
         let (x, y, z) = grid_edges;
         let grid = Grid::new(x, y, z).map_err(value_error)?;
@@ -46,6 +47,7 @@ impl NativeCompiledScene {
             return Err(value_error("staircase material ID is out of range"));
         }
         options.staircase_materials = staircase_materials;
+        options.periodic_axes = periodic_axes;
         let samples = py.detach(|| interface_samples(&self.scene, &grid, &options));
         let result = PyDict::new(py);
         for sample in samples {
@@ -67,7 +69,9 @@ impl NativeCompiledScene {
         smoothing = "volume",
         components = "all",
         staircase_materials = Vec::new(),
+        periodic_axes = [false; 3],
     ))]
+    #[allow(clippy::too_many_arguments)] // Python API keeps explicit backward-compatible options.
     fn rasterize(
         &self,
         py: Python<'_>,
@@ -76,6 +80,7 @@ impl NativeCompiledScene {
         smoothing: &str,
         components: &str,
         staircase_materials: Vec<usize>,
+        periodic_axes: [bool; 3],
     ) -> PyResult<NativeRasterResult> {
         let (x_edges, y_edges, z_edges) = grid_edges;
         let grid = Grid::new(x_edges, y_edges, z_edges).map_err(value_error)?;
@@ -87,6 +92,7 @@ impl NativeCompiledScene {
             return Err(value_error("staircase material ID is out of range"));
         }
         options.staircase_materials = staircase_materials;
+        options.periodic_axes = periodic_axes;
         let result = py
             .detach(|| rasterize_prevalidated(&self.scene, &grid, &options))
             .map_err(value_error)?;

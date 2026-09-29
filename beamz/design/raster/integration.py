@@ -51,6 +51,7 @@ def _rasterize_design(
     smoothing: str = "farjadpour_diagonal",
     metal_smoothing: str = "staircase",
     reference_frequency: float | None = None,
+    periodic_axes: tuple[str, ...] = (),
     polarization: str = "tm",
     cache_directory: str | Path | None = None,
 ):
@@ -160,6 +161,7 @@ def _rasterize_design(
             smoothing=smoothing,
             metal_smoothing=metal_smoothing,
             reference_frequency=reference_frequency,
+            periodic_axes=periodic_axes,
             components="all" if kind == "3d" else f"two_dimensional_{polarization}",
         ),
         cache_directory=cache_directory,
@@ -189,6 +191,7 @@ def _rasterize_design(
             smoothing=smoothing,
             metal_smoothing=metal_smoothing,
             reference_frequency=reference_frequency,
+            periodic_axes=periodic_axes,
         )
         material_grid = replace(
             material_grid, dispersion=regions, dispersion_interfaces=interfaces

@@ -20,11 +20,11 @@ sys.path.insert(0, str(ROOT / "examples"))
 from cmos_rgb_sensor import load_materials  # noqa: E402
 
 
-def run(dx_nm, polarization, shift, smoothing, medium=None):
+def run(dx_nm, polarization, shift, smoothing, medium=None, *, wavelength_nm=550):
     dx = dx_nm * 1e-9
-    wavelength = 550e-9
+    wavelength = wavelength_nm * 1e-9
     frequency = bz.LIGHT_SPEED / wavelength
-    size = (1.1e-6, 4 * dx, 2.4e-6)
+    size = (2 * wavelength, 4 * dx, 2.4e-6)
     surface = shift * dx
     depth = 4 * dx
     design = bz.Design(background=bz.Material(1))
