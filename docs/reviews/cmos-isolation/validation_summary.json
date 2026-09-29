@@ -1,0 +1,57 @@
+{
+  "initial": {
+    "unit": 1088,
+    "contracts": 340,
+    "characterization": 32,
+    "kernels": 55
+  },
+  "final": {
+    "new-unit": 25,
+    "docs": 2,
+    "performance": 36,
+    "differential": 24,
+    "validation-regression": 1,
+    "validation-invariants": 64,
+    "validation-convergence": 12,
+    "validation-analytical": 120,
+    "test_te_simulation": 6,
+    "test_simulation_plotting": 15,
+    "test_optimization": 27,
+    "native-9": 5,
+    "native-8": 8,
+    "native-7": 8,
+    "native-6": 8,
+    "native-5": 8,
+    "native-4": 8,
+    "native-3": 8,
+    "native-2": 8,
+    "native-1": 8,
+    "native-0": 8,
+    "test_mode_source_monitor_ygrid": 2,
+    "test_mode_source_integration": 6,
+    "test_mode_launch_planner": 43,
+    "test_modal_sparams": 8,
+    "test_mesh_design_equivalence": 12,
+    "test_gaussian_beam_source": 10,
+    "test_custom_field_profile_source": 2,
+    "test_compiled_engine": 27,
+    "test_analysis_video": 6,
+    "test_adjoint_memmap": 2
+  },
+  "total": 2028,
+  "subsequent_unique_passes": {
+    "native_incident_origin": 1,
+    "targeted_depth_mesh": 1,
+    "field_plot_normalization": 1
+  },
+  "skipped": 1,
+  "expected_failures": 1,
+  "note": "Selected suite executed in process batches to limit JAX compilation memory; final entries count only newly added unique tests.",
+  "quality": {
+    "ruff_check": "passed",
+    "ruff_format": "passed",
+    "pyright": "passed",
+    "vulture": "passed",
+    "mkdocs_strict": "passed"
+  }
+}

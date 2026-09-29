@@ -1,0 +1,74 @@
+{
+  "device": "[CudaDevice(id=0)]",
+  "runs": [
+    {
+      "channel": "red",
+      "clock_policy": "integer_step",
+      "courant": 0.35,
+      "max_optical_dz_nm": null,
+      "depth_refinement": 1,
+      "boundary": "absorber",
+      "grid": [
+        4,
+        4,
+        430
+      ],
+      "dt": 8.969993738778554e-18,
+      "steps": 33446,
+      "R_error_pp": 6.921486017531094,
+      "T_error_pp": {
+        "interface": 6.252341293465136,
+        "one_sided": 6.477686786875481,
+        "inside": 3.4985859614424077
+      },
+      "t_complex_max_error": 0.21485498911686995,
+      "min_absorption": 0.1322107607470111
+    },
+    {
+      "channel": "green",
+      "clock_policy": "integer_step",
+      "courant": 0.35,
+      "max_optical_dz_nm": null,
+      "depth_refinement": 1,
+      "boundary": "absorber",
+      "grid": [
+        4,
+        4,
+        430
+      ],
+      "dt": 8.969993738778554e-18,
+      "steps": 33446,
+      "R_error_pp": 14.41490910596357,
+      "T_error_pp": {
+        "interface": 14.898592342845474,
+        "one_sided": 13.492638068393703,
+        "inside": 5.240923216684212
+      },
+      "t_complex_max_error": 0.412136989989196,
+      "min_absorption": 0.1246077022837514
+    },
+    {
+      "channel": "blue",
+      "clock_policy": "integer_step",
+      "courant": 0.35,
+      "max_optical_dz_nm": null,
+      "depth_refinement": 1,
+      "boundary": "absorber",
+      "grid": [
+        4,
+        4,
+        430
+      ],
+      "dt": 8.969993738778554e-18,
+      "steps": 33446,
+      "R_error_pp": 20.183541237704365,
+      "T_error_pp": {
+        "interface": 20.449338545193964,
+        "one_sided": 17.74450782792486,
+        "inside": 3.821515076186499
+      },
+      "t_complex_max_error": 0.5971350957347986,
+      "min_absorption": 0.23564772620709118
+    }
+  ]
+}

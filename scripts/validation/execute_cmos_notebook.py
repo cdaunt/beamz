@@ -75,7 +75,7 @@ def main():
             for o in c.outputs
         ),
     }
-    output = ROOT / "docs/reviews/cmos-polarized/notebook_execution.json"
+    output = ROOT / "docs/reviews/cmos-isolation/notebook_execution.json"
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2) + "\n")
     print(report, flush=True)

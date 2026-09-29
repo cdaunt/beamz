@@ -1,0 +1,146 @@
+[
+  {
+    "dx_nm": 10,
+    "shift": 0,
+    "device": "[CudaDevice(id=0)]",
+    "boundary": "cpml",
+    "R_max_error_pp": 3.2064277012443796,
+    "T_max_error_pp": {
+      "linear": 5.167132427388127,
+      "compiled_minus": 11.586518083830866,
+      "compiled_plus": 3.3603448442060646,
+      "minus1": 8.453044937412935,
+      "minus2": 11.586191044442074,
+      "plus1": 3.8415208518351673,
+      "plus2": 3.3602057399602536
+    }
+  },
+  {
+    "dx_nm": 10,
+    "shift": 0.25,
+    "device": "[CudaDevice(id=0)]",
+    "boundary": "cpml",
+    "R_max_error_pp": 0.7917190281581721,
+    "T_max_error_pp": {
+      "linear": 5.884029517868639,
+      "compiled_minus": 11.66994298398204,
+      "compiled_plus": 0.8262532941082812,
+      "minus1": 8.044741494755392,
+      "minus2": 11.66977024898025,
+      "plus1": 0.9997599316995065,
+      "plus2": 0.8261401639178323
+    }
+  },
+  {
+    "dx_nm": 10,
+    "shift": 0.5,
+    "device": "[CudaDevice(id=0)]",
+    "boundary": "cpml",
+    "R_max_error_pp": 3.2893972873069446,
+    "T_max_error_pp": {
+      "linear": 3.311944698695235,
+      "compiled_minus": 3.311944698695235,
+      "compiled_plus": 3.311944698695235,
+      "minus1": 13.39073119664006,
+      "minus2": 9.853062427870862,
+      "plus1": 2.1705741623945842,
+      "plus2": 3.2692688838164283
+    }
+  },
+  {
+    "dx_nm": 5,
+    "shift": 0,
+    "device": "[CudaDevice(id=0)]",
+    "boundary": "cpml",
+    "R_max_error_pp": 0.7862298947064972,
+    "T_max_error_pp": {
+      "linear": 3.0927988197173626,
+      "compiled_minus": 2.3999430894957374,
+      "compiled_plus": 0.7988199628894854,
+      "minus1": 2.5358649898629015,
+      "minus2": 2.3999917776011293,
+      "plus1": 0.9157828560539816,
+      "plus2": 0.7987255674460014
+    }
+  },
+  {
+    "dx_nm": 5,
+    "shift": 0.25,
+    "device": "[CudaDevice(id=0)]",
+    "boundary": "cpml",
+    "R_max_error_pp": 0.29869146722548146,
+    "T_max_error_pp": {
+      "linear": 2.7841474432465874,
+      "compiled_minus": 2.5122707392096877,
+      "compiled_plus": 0.2898858689003414,
+      "minus1": 2.8127346401286335,
+      "minus2": 2.512474709066115,
+      "plus1": 0.3334930992223373,
+      "plus2": 0.2900261964236983
+    }
+  },
+  {
+    "dx_nm": 5,
+    "shift": 0.5,
+    "device": "[CudaDevice(id=0)]",
+    "boundary": "cpml",
+    "R_max_error_pp": 0.7896767970329399,
+    "T_max_error_pp": {
+      "linear": 0.8161021564490667,
+      "compiled_minus": 0.8161021564490667,
+      "compiled_plus": 0.8161021564490667,
+      "minus1": 2.602046422214188,
+      "minus2": 2.0503342268717084,
+      "plus1": 0.5129099083401978,
+      "plus2": 0.8137856099217133
+    }
+  },
+  {
+    "dx_nm": 2.5,
+    "shift": 0,
+    "device": "[CudaDevice(id=0)]",
+    "boundary": "cpml",
+    "R_max_error_pp": 0.4353677007993939,
+    "T_max_error_pp": {
+      "linear": 1.7415050438462865,
+      "compiled_minus": 0.5324502908671258,
+      "compiled_plus": 0.440175539208687,
+      "minus1": 0.7710488532580606,
+      "minus2": 0.5327356093143387,
+      "plus1": 0.4529389209312118,
+      "plus2": 0.44056336431174126
+    }
+  },
+  {
+    "dx_nm": 2.5,
+    "shift": 0.25,
+    "device": "[CudaDevice(id=0)]",
+    "boundary": "cpml",
+    "R_max_error_pp": 0.4077376273147193,
+    "T_max_error_pp": {
+      "linear": 1.428237687979761,
+      "compiled_minus": 0.4951640535963975,
+      "compiled_plus": 0.40971161195539896,
+      "minus1": 0.9334671642297732,
+      "minus2": 0.4955978742489986,
+      "plus1": 0.41497318578000986,
+      "plus2": 0.40978760334224873
+    }
+  },
+  {
+    "dx_nm": 2.5,
+    "shift": 0.5,
+    "device": "[CudaDevice(id=0)]",
+    "boundary": "cpml",
+    "R_max_error_pp": 0.326843355158124,
+    "T_max_error_pp": {
+      "linear": 0.3282056385872867,
+      "compiled_minus": 0.3282056385872867,
+      "compiled_plus": 0.3282056385872867,
+      "minus1": 0.9589008821036527,
+      "minus2": 0.3760636106326931,
+      "plus1": 0.36192519395570333,
+      "plus2": 0.32909780542526024
+    }
+  }
+]

@@ -1,0 +1,25 @@
+{
+  "device": "[CudaDevice(id=0)]",
+  "clock_policy": "integer_step",
+  "film_thickness_nm": 100,
+  "runs": [
+    {
+      "dx_nm": 10,
+      "R_error_pp": 2.603700862618552,
+      "T_error_pp": 7.275741466950978e-07,
+      "min_absorption": 0.21398175943861023
+    },
+    {
+      "dx_nm": 5,
+      "R_error_pp": 0.9333636444758153,
+      "T_error_pp": 2.2873200504013277e-07,
+      "min_absorption": 0.20470902986159584
+    },
+    {
+      "dx_nm": 2.5,
+      "R_error_pp": 0.25018119713181575,
+      "T_error_pp": 6.183211730629055e-08,
+      "min_absorption": 0.2015610538685535
+    }
+  ]
+}

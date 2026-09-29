@@ -1,0 +1,8 @@
+{
+  "task_id": "fdve-fd0bfa6c-17fc-4595-bcd5-57ae213cf8b9",
+  "source": "https://www.flexcompute.com/tidy3d/examples/notebooks/CMOSRGBSensor/",
+  "sdk_version": "2.12.0.dev3",
+  "attempt": "web.get_info (read only)",
+  "outcome": "API key not found; original numerical outputs not retrieved",
+  "new_cloud_job_submitted": false
+}

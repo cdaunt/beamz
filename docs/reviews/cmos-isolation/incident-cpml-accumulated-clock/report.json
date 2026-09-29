@@ -1,0 +1,26 @@
+{
+  "device": "[CudaDevice(id=0)]",
+  "grid": [
+    4,
+    4,
+    430
+  ],
+  "dt": 1.4413465606999474e-17,
+  "steps": 35385,
+  "planes": [
+    2.2923389845905747e-06,
+    2.402113682476329e-06
+  ],
+  "boundary": "cpml",
+  "air_spacing_nm": 54.88734894287721,
+  "previous_reference_max_difference": 0.0004879751406480226,
+  "modal_power_range": [
+    1.0005336374431149,
+    1.0070776528969034
+  ],
+  "backward_power_max": 0.0021192616534242217,
+  "interpolated_power_range": [
+    0.8896790797423564,
+    0.9634507024113009
+  ]
+}

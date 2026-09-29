@@ -1,0 +1,40 @@
+{
+  "stage": "no_lenses",
+  "clock_policy": "integer_step",
+  "incident_normalization": "forward plane-wave modal power from native E samples",
+  "modal_reference_sha256": "660724fffe6c5b8983432216a37d4ba02fc9ca84068e584beab49a0e328fa25c",
+  "device": "[CudaDevice(id=0)]",
+  "seconds": 574.6617994769476,
+  "grid": [
+    150,
+    150,
+    430
+  ],
+  "dt": 1.4413465606999474e-17,
+  "steps": 35385,
+  "checkpoint_fs": 299.98745967848004,
+  "colocation_side": "plus",
+  "reference": "docs/reviews/cmos-polarized/reference-z-20nm-absorber",
+  "reference_sha256": "ddca7b3435ce234a40b6e2c53ec309e247b7d075651989a0c81877cc79554694",
+  "snapshot_sha256": "4e3bc436bdff467be70c837a068d27c05fd93effadbb1aee5b18085d6c3cb2b3",
+  "central_efficiency_percent": {
+    "red": 7.949442658742206,
+    "green": 14.194463722583572,
+    "blue": 5.830767865528601
+  },
+  "linear_central_percent": {
+    "red": 7.646616824604909,
+    "green": 13.301957185093482,
+    "blue": 5.094822127039337
+  },
+  "sampling_max_change_pp": {
+    "red": 0.32886786652268907,
+    "green": 1.5584640983136526,
+    "blue": 1.32966382890502
+  },
+  "temporal_max_change_pp": {
+    "red": 0.003140074107901847,
+    "green": 0.008436298706361589,
+    "blue": 0.001986497920095781
+  }
+}

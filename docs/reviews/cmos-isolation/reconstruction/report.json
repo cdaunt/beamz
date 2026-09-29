@@ -1,0 +1,155 @@
+[
+  {
+    "dx_nm": 10,
+    "shift": 0,
+    "device": "[CudaDevice(id=0)]",
+    "boundary": "cpml",
+    "clock_policy": "integer_step",
+    "R_max_error_pp": 3.2080157419782926,
+    "T_max_error_pp": {
+      "linear": 5.165123805007754,
+      "compiled_minus": 11.587742898821496,
+      "compiled_plus": 3.3610522311643964,
+      "minus1": 8.453582508226464,
+      "minus2": 11.58772267420839,
+      "plus1": 3.842273831517029,
+      "plus2": 3.3610308514175125
+    }
+  },
+  {
+    "dx_nm": 10,
+    "shift": 0.25,
+    "device": "[CudaDevice(id=0)]",
+    "boundary": "cpml",
+    "clock_policy": "integer_step",
+    "R_max_error_pp": 0.7932214530988413,
+    "T_max_error_pp": {
+      "linear": 5.882124948914286,
+      "compiled_minus": 11.671117150714782,
+      "compiled_plus": 0.8271752969224,
+      "minus1": 8.045379038335355,
+      "minus2": 11.670775961161228,
+      "plus1": 1.0006714072401834,
+      "plus2": 0.8270730178609575
+    }
+  },
+  {
+    "dx_nm": 10,
+    "shift": 0.5,
+    "device": "[CudaDevice(id=0)]",
+    "boundary": "cpml",
+    "clock_policy": "integer_step",
+    "R_max_error_pp": 3.287130766322349,
+    "T_max_error_pp": {
+      "linear": 3.310363131686833,
+      "compiled_minus": 3.310363131686833,
+      "compiled_plus": 3.310363131686833,
+      "minus1": 13.38447248132058,
+      "minus2": 9.85371952186983,
+      "plus1": 2.169161352456178,
+      "plus2": 3.267802872128983
+    }
+  },
+  {
+    "dx_nm": 5,
+    "shift": 0,
+    "device": "[CudaDevice(id=0)]",
+    "boundary": "cpml",
+    "clock_policy": "integer_step",
+    "R_max_error_pp": 0.7874582134381136,
+    "T_max_error_pp": {
+      "linear": 3.090904050151999,
+      "compiled_minus": 2.401250370422414,
+      "compiled_plus": 0.7999775129920117,
+      "minus1": 2.536555031751553,
+      "minus2": 2.401186885053186,
+      "plus1": 0.9171710678879563,
+      "plus2": 0.800156652273909
+    }
+  },
+  {
+    "dx_nm": 5,
+    "shift": 0.25,
+    "device": "[CudaDevice(id=0)]",
+    "boundary": "cpml",
+    "clock_policy": "integer_step",
+    "R_max_error_pp": 0.3001737921704606,
+    "T_max_error_pp": {
+      "linear": 2.78248013979846,
+      "compiled_minus": 2.5133710524986252,
+      "compiled_plus": 0.2911324217000688,
+      "minus1": 2.8134238951648127,
+      "minus2": 2.5134184459075337,
+      "plus1": 0.3346554309758609,
+      "plus2": 0.2911768043652341
+    }
+  },
+  {
+    "dx_nm": 5,
+    "shift": 0.5,
+    "device": "[CudaDevice(id=0)]",
+    "boundary": "cpml",
+    "clock_policy": "integer_step",
+    "R_max_error_pp": 0.7878205006299821,
+    "T_max_error_pp": {
+      "linear": 0.814749278001925,
+      "compiled_minus": 0.814749278001925,
+      "compiled_plus": 0.814749278001925,
+      "minus1": 2.602255633706363,
+      "minus2": 2.051582791264872,
+      "plus1": 0.5113916078895886,
+      "plus2": 0.8119836179567297
+    }
+  },
+  {
+    "dx_nm": 2.5,
+    "shift": 0,
+    "device": "[CudaDevice(id=0)]",
+    "boundary": "cpml",
+    "clock_policy": "integer_step",
+    "R_max_error_pp": 0.43332720869975194,
+    "T_max_error_pp": {
+      "linear": 1.7495811992412125,
+      "compiled_minus": 0.5313968694314442,
+      "compiled_plus": 0.4390920083797045,
+      "minus1": 0.7672648596316667,
+      "minus2": 0.531624209188275,
+      "plus1": 0.45164965950080793,
+      "plus2": 0.439231950056318
+    }
+  },
+  {
+    "dx_nm": 2.5,
+    "shift": 0.25,
+    "device": "[CudaDevice(id=0)]",
+    "boundary": "cpml",
+    "clock_policy": "integer_step",
+    "R_max_error_pp": 0.4056847524556484,
+    "T_max_error_pp": {
+      "linear": 1.4359755816748754,
+      "compiled_minus": 0.494113489392467,
+      "compiled_plus": 0.40836055258379744,
+      "minus1": 0.9295760594070668,
+      "minus2": 0.49451826592288306,
+      "plus1": 0.41369270453590623,
+      "plus2": 0.40848491661736874
+    }
+  },
+  {
+    "dx_nm": 2.5,
+    "shift": 0.5,
+    "device": "[CudaDevice(id=0)]",
+    "boundary": "cpml",
+    "clock_policy": "integer_step",
+    "R_max_error_pp": 0.32525667146708903,
+    "T_max_error_pp": {
+      "linear": 0.3271089006291805,
+      "compiled_minus": 0.3271089006291805,
+      "compiled_plus": 0.3271089006291805,
+      "minus1": 0.9553805004102633,
+      "minus2": 0.3748380841034016,
+      "plus1": 0.3602967710834126,
+      "plus2": 0.3267371357381976
+    }
+  }
+]

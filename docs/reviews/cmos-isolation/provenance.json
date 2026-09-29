@@ -1,0 +1,27 @@
+{
+  "implementation_commit": "c67dea02dde7b682f5667d6d785c930430fedf6a",
+  "gpu": "NVIDIA GeForce RTX 3090, 610.43.03, 24576 MiB",
+  "packages": {
+    "jax": "0.10.2",
+    "jaxlib": "0.10.2",
+    "numpy": "2.4.6",
+    "nbformat": "5.11.1",
+    "nbclient": "0.11.0"
+  },
+  "source_sha256": {
+    "beamz/simulation/execute.py": "e4faabc74619cd3e292c2adb8d4bbd107d6401aeba6620f9c17c3ca3b2f16497",
+    "beamz/lattice.py": "aef54b3ca3d864b9b1ae9ed82c05f62b1f3ba94a86925fcded26c7c878b1dae4",
+    "examples/cmos_rgb_sensor.py": "0211202dc07849cb4de64111993dd7b587bb30b839019da4621c13f6b1545973",
+    "examples/cmos_reference_mesh.py": "0335e626ce664210ea61334e2e438a546671609b596959fc7422cd61a0965f93",
+    "examples/data/cmos_rgb/tidy3d_reference_simulation.json": "4e3bc436bdff467be70c837a068d27c05fd93effadbb1aee5b18085d6c3cb2b3",
+    "examples/data/cmos_rgb/materials.json": "179dd5944332856225b639d369e1f3a50f086b27f8d49b74b2e65d601f09716f",
+    "examples/data/cmos_rgb/filters.json": "3c0845ca3f8fb5d82dcd948373d7fc42df06b58539d1a8b30f95ca7397ef9749",
+    "scripts/validation/cmos_component_isolation.py": "ddec2798b598cd8658ccd6f1b9e8b41be7f228f171318d9d8ca2f8212e64d72f",
+    "scripts/validation/cmos_flux_reconstruction.py": "854ca11908c6558497c97b38bd950adb5ca7aac5513b11957f7a52600c98ad93",
+    "scripts/validation/cmos_incident_calibration.py": "d33661705d74f897eb37a6c6167a2ac8d7db7840457d94906c417a5b33a9ef08",
+    "scripts/validation/cmos_interface_checks.py": "5ef72db1e4f7d32c1a03e1f99dad38fe0a1b17605d4a458b71063910c7716d21",
+    "scripts/validation/cmos_metal_film_control.py": "84060f449b848f5916c3cbdb648430bef9ecc5015a02ca620698fdea7de93163",
+    "scripts/validation/cmos_planar_checks.py": "0b40edb4ee44987777cccd8604db5073c9955a9e97648edeb4fb6471237d032c",
+    "scripts/validation/cmos_stack_isolation.py": "a15fce8980a0f939615519b329c51af2df6ec880bd6e0addc455bc180eeb1364"
+  }
+}

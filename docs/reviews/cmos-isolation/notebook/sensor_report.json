@@ -1,0 +1,58 @@
+{
+  "device": "[CudaDevice(id=0)]",
+  "dx_nm": 20.000000000000018,
+  "runtime_fs": 510.00000000000006,
+  "grid": [
+    150,
+    150,
+    430
+  ],
+  "steps": 35385,
+  "dt": 1.4413465606999474e-17,
+  "reference": false,
+  "smoothing": "farjadpour_diagonal",
+  "reference_z": true,
+  "boundary": "absorber",
+  "clock_policy": "integer_step",
+  "detector_colocation": "plus",
+  "checkpoint_fs": 299.98745967848004,
+  "first_half_seconds": 386.6058648970211,
+  "second_half_seconds": 272.85553696297575,
+  "finite_fields": true,
+  "finite_polarization": true,
+  "temporal_max_absolute_change": {
+    "blue": 1.6686092254192264e-05,
+    "red": 1.7132978769332508e-05,
+    "green1": 7.328871503980983e-05,
+    "green2": 7.261477964931595e-05
+  },
+  "material_checksums": {
+    "materials.json": "179dd5944332856225b639d369e1f3a50f086b27f8d49b74b2e65d601f09716f",
+    "filters.json": "3c0845ca3f8fb5d82dcd948373d7fc42df06b58539d1a8b30f95ca7397ef9749"
+  },
+  "absorbers": [
+    {
+      "edges": [
+        "front"
+      ],
+      "thickness": 4.651162790697683e-07,
+      "sigma_max": 7863036.350452933,
+      "m": 3
+    },
+    {
+      "edges": [
+        "back"
+      ],
+      "thickness": 2.195493957715442e-06,
+      "sigma_max": 7863036.350452933,
+      "m": 3
+    }
+  ],
+  "source_offset": 5.0,
+  "grid_sha256": {
+    "x": "57fa2db3709abb337c7d212ade258269ed3822b93dc833423ef507a99149241d",
+    "y": "57fa2db3709abb337c7d212ade258269ed3822b93dc833423ef507a99149241d",
+    "z": "4d669474e68656b74a8be0c39fe2ebe4b2c7cfd082ef7b41f6a58432c69b0cae"
+  },
+  "setup_seconds": 35.803746485034935
+}

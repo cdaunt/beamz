@@ -1,0 +1,65 @@
+{
+  "device": "[CudaDevice(id=0)]",
+  "runs": [
+    {
+      "channel": "red",
+      "depth_refinement": 1,
+      "boundary": "cpml",
+      "grid": [
+        4,
+        4,
+        430
+      ],
+      "dt": 1.4413465606999474e-17,
+      "steps": 20815,
+      "R_error_pp": 6.933446819294027,
+      "T_error_pp": {
+        "interface": 6.399162375387579,
+        "one_sided": 6.491466354907127,
+        "inside": 3.5875456690684593
+      },
+      "t_complex_max_error": 0.21654412547276355,
+      "min_absorption": 0.13350426881667887
+    },
+    {
+      "channel": "green",
+      "depth_refinement": 1,
+      "boundary": "cpml",
+      "grid": [
+        4,
+        4,
+        430
+      ],
+      "dt": 1.4413465606999474e-17,
+      "steps": 20815,
+      "R_error_pp": 14.427233466990453,
+      "T_error_pp": {
+        "interface": 14.922526726581353,
+        "one_sided": 13.669692309983873,
+        "inside": 5.25552707249424
+      },
+      "t_complex_max_error": 0.41257243911742697,
+      "min_absorption": 0.1220383863235307
+    },
+    {
+      "channel": "blue",
+      "depth_refinement": 1,
+      "boundary": "cpml",
+      "grid": [
+        4,
+        4,
+        430
+      ],
+      "dt": 1.4413465606999474e-17,
+      "steps": 20815,
+      "R_error_pp": 20.126234853091997,
+      "T_error_pp": {
+        "interface": 20.356152547237283,
+        "one_sided": 17.889054433507102,
+        "inside": 3.8110839325954964
+      },
+      "t_complex_max_error": 0.5958481867051961,
+      "min_absorption": 0.22926248336004695
+    }
+  ]
+}

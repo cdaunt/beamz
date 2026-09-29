@@ -1,7 +1,6 @@
 # Resolving CMOS numerical disagreement
 
-Status: causal diagonal interface implementation completed; local accuracy
-experiments are in progress. See [the update derivation](dispersive-diagonal-update.md)
+Status: historical planning record. The subsequent [controlled isolation work](cmos-cause-isolation.md) fixes the DFT clock and adds interface-aware detector sampling and native incident calibration. Its [new results](../reviews/cmos-isolation/README.md) supersede the open detector gate below. Causal diagonal interface implementation is complete. See [the update derivation](dispersive-diagonal-update.md)
 and [measured results](../reviews/cmos-polarized/README.md). The gates below
 remain acceptance criteria, not a claim of reference agreement.
 

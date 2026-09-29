@@ -1,0 +1,49 @@
+{
+  "notebook_component_max_difference_pp": {
+    "red": 5.689893001203927e-14,
+    "green": 8.049116928532385e-14,
+    "blue": 3.3306690738754696e-14
+  },
+  "timesteps": {
+    "red": {
+      "T_smaller_dt_change_pp": 0.3418324473109524,
+      "T_boundary_change_pp": 0.18041588995354463
+    },
+    "green": {
+      "T_smaller_dt_change_pp": 0.5088455304082695,
+      "T_boundary_change_pp": 0.04043914194330478
+    },
+    "blue": {
+      "T_smaller_dt_change_pp": 0.6499969216013562,
+      "T_boundary_change_pp": 0.018936956134374405
+    }
+  },
+  "notebooks": {
+    "cmos_rgb_sensor": {
+      "code_cells_executed": 7,
+      "errors": 0
+    },
+    "cmos_cause_isolation": {
+      "code_cells_executed": 7,
+      "errors": 0
+    }
+  },
+  "normalized_field_maxima": {
+    "field_xy_silicon": [
+      0.3716057649564688,
+      0.4172056241566759,
+      0.47369109558532163
+    ],
+    "field_yz_BG": [
+      2.9032079078852586,
+      5.37651516490711,
+      6.252645564703987
+    ],
+    "field_yz_GR": [
+      4.61183550163006,
+      5.3745075147358525,
+      2.361719304764082
+    ]
+  },
+  "all_npz_arrays_finite": true
+}

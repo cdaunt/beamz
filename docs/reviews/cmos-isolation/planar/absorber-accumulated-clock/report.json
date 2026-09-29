@@ -1,0 +1,245 @@
+{
+  "device": "[CudaDevice(id=0)]",
+  "runs": [
+    {
+      "channel": "red",
+      "depth_refinement": 1,
+      "boundary": "absorber",
+      "grid": [
+        4,
+        4,
+        430
+      ],
+      "dt": 1.4413465606999474e-17,
+      "steps": 20815,
+      "R_error_pp": 6.935436682053027,
+      "T_error_pp": {
+        "interface": 6.4584120303804005,
+        "one_sided": 6.501212724849125,
+        "inside": 3.6041797663744877
+      },
+      "t_complex_max_error": 0.2154362519853603,
+      "min_absorption": 0.1335335179041448
+    },
+    {
+      "channel": "green",
+      "depth_refinement": 1,
+      "boundary": "absorber",
+      "grid": [
+        4,
+        4,
+        430
+      ],
+      "dt": 1.4413465606999474e-17,
+      "steps": 20815,
+      "R_error_pp": 14.412424173663286,
+      "T_error_pp": {
+        "interface": 14.912540332068735,
+        "one_sided": 13.66035453045804,
+        "inside": 5.25210290774763
+      },
+      "t_complex_max_error": 0.41229503420069374,
+      "min_absorption": 0.12207786670533127
+    },
+    {
+      "channel": "blue",
+      "depth_refinement": 1,
+      "boundary": "absorber",
+      "grid": [
+        4,
+        4,
+        430
+      ],
+      "dt": 1.4413465606999474e-17,
+      "steps": 20815,
+      "R_error_pp": 20.144216884804113,
+      "T_error_pp": {
+        "interface": 20.365617569954768,
+        "one_sided": 17.89774961327356,
+        "inside": 3.8127458463919073
+      },
+      "t_complex_max_error": 0.5962133289727839,
+      "min_absorption": 0.2292232760849766
+    },
+    {
+      "channel": "red",
+      "depth_refinement": 2,
+      "boundary": "absorber",
+      "grid": [
+        4,
+        4,
+        860
+      ],
+      "dt": 8.970699847786592e-18,
+      "steps": 33443,
+      "R_error_pp": 2.4806401299124996,
+      "T_error_pp": {
+        "interface": 2.566701884712874,
+        "one_sided": 2.036311409518543,
+        "inside": 1.0486607577253948
+      },
+      "t_complex_max_error": 0.060292713405314696,
+      "min_absorption": 0.14523112046365272
+    },
+    {
+      "channel": "green",
+      "depth_refinement": 2,
+      "boundary": "absorber",
+      "grid": [
+        4,
+        4,
+        860
+      ],
+      "dt": 8.970699847786592e-18,
+      "steps": 33443,
+      "R_error_pp": 6.123338992538787,
+      "T_error_pp": {
+        "interface": 4.488519943244318,
+        "one_sided": 4.374374424015059,
+        "inside": 1.2086616166639252
+      },
+      "t_complex_max_error": 0.11814733814604048,
+      "min_absorption": 0.13270783103422623
+    },
+    {
+      "channel": "blue",
+      "depth_refinement": 2,
+      "boundary": "absorber",
+      "grid": [
+        4,
+        4,
+        860
+      ],
+      "dt": 8.970699847786592e-18,
+      "steps": 33443,
+      "R_error_pp": 8.895694627515237,
+      "T_error_pp": {
+        "interface": 10.031294224115333,
+        "one_sided": 6.338472976245013,
+        "inside": 0.9127667351088331
+      },
+      "t_complex_max_error": 0.17098553337776137,
+      "min_absorption": 0.2361197372046706
+    },
+    {
+      "channel": "red",
+      "depth_refinement": 4,
+      "boundary": "absorber",
+      "grid": [
+        4,
+        4,
+        1720
+      ],
+      "dt": 4.485438200547617e-18,
+      "steps": 66884,
+      "R_error_pp": 0.7833717987721547,
+      "T_error_pp": {
+        "interface": 1.0814052574197541,
+        "one_sided": 0.6606845190755162,
+        "inside": 0.34866286801006896
+      },
+      "t_complex_max_error": 0.018600628040455335,
+      "min_absorption": 0.14824685554487427
+    },
+    {
+      "channel": "green",
+      "depth_refinement": 4,
+      "boundary": "absorber",
+      "grid": [
+        4,
+        4,
+        1720
+      ],
+      "dt": 4.485438200547617e-18,
+      "steps": 66884,
+      "R_error_pp": 1.7883248857038194,
+      "T_error_pp": {
+        "interface": 1.9787860306223926,
+        "one_sided": 1.2163342099932195,
+        "inside": 0.3675322361308464
+      },
+      "t_complex_max_error": 0.03318061882900386,
+      "min_absorption": 0.13651387372054458
+    },
+    {
+      "channel": "blue",
+      "depth_refinement": 4,
+      "boundary": "absorber",
+      "grid": [
+        4,
+        4,
+        1720
+      ],
+      "dt": 4.485438200547617e-18,
+      "steps": 66884,
+      "R_error_pp": 2.4773103317881393,
+      "T_error_pp": {
+        "interface": 3.800182200771751,
+        "one_sided": 1.6713702187246438,
+        "inside": 0.256834234242756
+      },
+      "t_complex_max_error": 0.043505654395811486,
+      "min_absorption": 0.24235638006628113
+    },
+    {
+      "channel": "red",
+      "depth_refinement": 8,
+      "boundary": "absorber",
+      "grid": [
+        4,
+        4,
+        3440
+      ],
+      "dt": 2.242730135262796e-18,
+      "steps": 133767,
+      "R_error_pp": 1.1042346892575439,
+      "T_error_pp": {
+        "interface": 1.3484150214792878,
+        "one_sided": 1.0330549654657295,
+        "inside": 0.6412007605258174
+      },
+      "t_complex_max_error": 0.009523815906516337,
+      "min_absorption": 0.1419829693516016
+    },
+    {
+      "channel": "green",
+      "depth_refinement": 8,
+      "boundary": "absorber",
+      "grid": [
+        4,
+        4,
+        3440
+      ],
+      "dt": 2.242730135262796e-18,
+      "steps": 133767,
+      "R_error_pp": 1.6988131547961507,
+      "T_error_pp": {
+        "interface": 2.0980207193362355,
+        "one_sided": 2.3181428623694655,
+        "inside": 1.1291773114712245
+      },
+      "t_complex_max_error": 0.013996008014844415,
+      "min_absorption": 0.12731395517903232
+    },
+    {
+      "channel": "blue",
+      "depth_refinement": 8,
+      "boundary": "absorber",
+      "grid": [
+        4,
+        4,
+        3440
+      ],
+      "dt": 2.242730135262796e-18,
+      "steps": 133767,
+      "R_error_pp": 0.9114629736544353,
+      "T_error_pp": {
+        "interface": 2.8196359111918756,
+        "one_sided": 3.5006204883566316,
+        "inside": 0.7062360860201857
+      },
+      "t_complex_max_error": 0.013886577618982366,
+      "min_absorption": 0.21921788099200445
+    }
+  ]
+}
