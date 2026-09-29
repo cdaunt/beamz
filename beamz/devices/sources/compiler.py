@@ -408,6 +408,7 @@ def _lower_plane_wave_source(source: PlaneWaveSource, ctx: SourceLoweringContext
     if not _source_requires_rectilinear_operator(ctx):
         return _lower_gaussian_beam_source(source, ctx)
     grid = ctx.grid
+    assert grid is not None  # The rectilinear operator requires grid metrics.
     if np.asarray(ctx.fields.permittivity).ndim != 3:
         raise ValueError("Rectilinear PlaneWaveSource requires a 3D grid.")
     axis, sign = _parse_direction(source.direction)

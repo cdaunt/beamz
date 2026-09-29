@@ -220,13 +220,22 @@ def test_periodic_boundary_executes_for_both_2d_polarizations():
                 ey=state.ey.at[:, 0].set(2.0).at[:, -1].set(4.0),
             )
 
+        # XLA may fuse the two seam writes differently at float32 precision.
         next_state = sim.step(state, backend="jax")
         if polarization == "tm":
-            np.testing.assert_allclose(next_state.ez[0, :], next_state.ez[-1, :])
-            np.testing.assert_allclose(next_state.ez[:, 0], next_state.ez[:, -1])
+            np.testing.assert_allclose(
+                next_state.ez[0, :], next_state.ez[-1, :], rtol=2e-6, atol=1e-7
+            )
+            np.testing.assert_allclose(
+                next_state.ez[:, 0], next_state.ez[:, -1], rtol=2e-6, atol=1e-7
+            )
         else:
-            np.testing.assert_allclose(next_state.ex[0, :], next_state.ex[-1, :])
-            np.testing.assert_allclose(next_state.ey[:, 0], next_state.ey[:, -1])
+            np.testing.assert_allclose(
+                next_state.ex[0, :], next_state.ex[-1, :], rtol=2e-6, atol=1e-7
+            )
+            np.testing.assert_allclose(
+                next_state.ey[:, 0], next_state.ey[:, -1], rtol=2e-6, atol=1e-7
+            )
 
 
 def test_periodic_2d_step_matches_center_of_tiled_domain_for_te_and_tm():

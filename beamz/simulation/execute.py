@@ -351,7 +351,15 @@ def _complete_converged_dft_weights(
         total_weight = _configured_dft_weight_sum(simulation, spec)
         weights = np.full(result.dft_weight_sum.shape, total_weight, dtype=np.float64)
         monitors[name] = replace(result, dft_weight_sum=weights)
-    return replace(results, monitors=monitors)
+    # The DFT denominator now covers the configured window. Source spectra
+    # must use that same window, including its negligible unsimulated tail.
+    # Actual executed steps remain available in the termination report.
+    completed = replace(
+        results,
+        monitors=monitors,
+        metadata=replace(results.metadata, time=np.asarray(simulation.time)),
+    )
+    return completed.renormalize(results.normalization_source)
 
 
 def compiled_source_batches(

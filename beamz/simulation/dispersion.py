@@ -34,7 +34,7 @@ def periodic_support_average(value, cell_shape, periodic_axes, geometry=None):
     for axis in sorted(periodic_axes):
         if value.shape[axis] != cell_shape[axis] + 1:
             continue
-        low = [slice(None)] * value.ndim
+        low: list[slice | int] = [slice(None)] * value.ndim
         high = low.copy()
         low[axis], high[axis] = 0, -1
         first, last = 1.0, 1.0

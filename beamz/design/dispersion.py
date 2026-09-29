@@ -8,8 +8,10 @@ Real poles therefore contribute twice, too.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import cast
 
 import numpy as np
+from numpy.typing import NDArray
 from scipy.optimize import least_squares, nnls
 
 from beamz.const import LIGHT_SPEED
@@ -64,9 +66,9 @@ class PoleResidue(Material):
 
     @property
     def epsilon_inf(self):
-        return self.permittivity
+        return cast(float, self.permittivity)
 
-    def eps_model(self, frequencies):
+    def eps_model(self, frequencies) -> NDArray[np.complex128]:
         """Complex relative permittivity at positive frequencies in Hz."""
         freq = np.asarray(frequencies, dtype=float)
         if np.any(~np.isfinite(freq)) or np.any(freq <= 0):
@@ -227,7 +229,7 @@ def fit_nk(wavelengths, n, k, *, num_poles=9, weights=(1.0, 1.0), max_nfev=300):
         else:
             poles.extend([(a1, c / 2), (a2, -c / 2)])
     material = PoleResidue(e, poles, frequency_range=(f.min(), f.max()))
-    fitted_nk = np.sqrt(material.eps_model(f))
+    fitted_nk: NDArray[np.complex128] = np.sqrt(material.eps_model(f))
     return material, {
         "rms_epsilon": float(
             np.sqrt(np.mean(abs(material.eps_model(f) - target) ** 2))

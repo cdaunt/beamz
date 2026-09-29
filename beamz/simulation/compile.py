@@ -602,7 +602,10 @@ def compile_simulation(request: SimulationRequest) -> CompiledProgram:
             raise ValueError(
                 "Dispersive media cannot yet be combined with full-tensor permittivity."
             )
-        cfl_dt = request.materials.grid.cfl_time_step(
+        material_geometry = request.materials.grid
+        if material_geometry is None:
+            raise ValueError("Dispersive media require physical grid metrics.")
+        cfl_dt = material_geometry.cfl_time_step(
             1.0, active_axes=("x", "y", "z") if request.domain.is_3d else ("x", "y")
         )
         if request.run.dt > cfl_dt * (1 + 1e-6):

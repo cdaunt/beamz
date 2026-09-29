@@ -27,7 +27,7 @@ Setup includes rasterization and coefficient preparation. The advance-call timin
 
 The 25-to-20 nm maximum absolute optical-efficiency changes are 0.0456 percentage points for red, 0.1776 for the combined green channel, and 0.7926 for blue. The red/green curves agree much more closely than at 50 nm. **The full sensor is not established as spatially converged, especially at blue wavelengths.** Further refinement or an efficient locally refined plane-wave grid is needed for quantitative detector design. These results also do not establish agreement with the entire Tidy3D simulation.
 
-The filter targets are hypothetical. The nine-oscillator positive-strength fits have RMS k errors of 0.0354 (red), 0.0611 (green), and 0.0471 (blue). Their fitted n differs from the artificial constant-n target to preserve causality. Inspect [filter fits](../../../examples/data/cmos_rgb/filter_fits.png) and the accompanying error JSON before interpreting absolute efficiency.
+The filter targets are hypothetical. The nine-oscillator positive-strength fits have RMS k errors of 0.0354 (red), 0.0611 (green), and 0.0471 (blue). Their fitted n differs from the artificial constant-n target to preserve causality. Inspect [filter fits](https://github.com/beamzorg/beamz/blob/t3code/add-cmos-rgb-notebook/examples/data/cmos_rgb/filter_fits.png) and the accompanying error JSON before interpreting absolute efficiency.
 
 ## Physics and regression checks
 
@@ -38,7 +38,7 @@ Analytical slab comparisons cover broadband aluminum and amorphous-silicon thin 
 
 At 2.5 nm slab resolution, maximum absolute reflection errors were 0.243 percentage points (aluminum), 0.223 percentage points (silicon). Both materials retained positive absorption across the sampled band.
 
-The checked-in [CMOS notebook](../../../examples/notebooks/cmos_rgb_sensor.ipynb) executed end to end on the RTX 3090 in 122.3 seconds: six code cells, zero errors. Its stored outputs include the material-fit plots, geometry, calibrated efficiency, and RGB field maps. This execution used the 25 nm default grid and two broadband runs.
+The checked-in [CMOS notebook](https://github.com/beamzorg/beamz/blob/t3code/add-cmos-rgb-notebook/examples/notebooks/cmos_rgb_sensor.ipynb) executed end to end on the RTX 3090 in 122.3 seconds: six code cells, zero errors. Its stored outputs include the material-fit plots, geometry, calibrated efficiency, and RGB field maps. This execution used the 25 nm default grid and two broadband runs.
 
 ## Reproduce
 

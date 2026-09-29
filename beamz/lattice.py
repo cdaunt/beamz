@@ -354,18 +354,6 @@ def _component_plane_plan_3d(
     return flat_indices, combined_weights
 
 
-def plane_sample_area(coordinates, fallback_step: float) -> float:
-    def step(values):
-        values = np.asarray(values, dtype=np.float64).reshape(-1)
-        if values.size > 1:
-            spacing = float(np.median(np.abs(np.diff(values))))
-            if np.isfinite(spacing) and spacing > 0.0:
-                return spacing * float(values.size) / float(values.size - 1)
-        return float(fallback_step)
-
-    return float(step(coordinates[0]) * step(coordinates[1]))
-
-
 @dataclass(frozen=True, slots=True)
 class YeePlaneQuadrature:
     """Compiled field colocation and area integration for one Yee-grid plane."""

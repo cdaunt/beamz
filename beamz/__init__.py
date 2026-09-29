@@ -1,4 +1,3 @@
-
 """
 BeamZ - A Python package for electromagnetic simulations.
 """

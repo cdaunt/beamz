@@ -92,3 +92,11 @@ _.check_passivity
 # CUDA diagnostics are consumed by benchmark scripts; cache fields are serialized.
 tuning_report
 _.cuda_tuning_policy
+
+# Public dispersive-material APIs are used by user code and validation examples.
+_.to_spec
+_.from_spec
+_.lorentz
+_.drude
+# singledispatch invokes this registered source compiler.
+_lower_plane_wave_source
