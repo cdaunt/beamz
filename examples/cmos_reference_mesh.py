@@ -23,23 +23,90 @@ from beamz.design.raster import (
 DATA = Path(__file__).resolve().parent / "data/cmos_rgb"
 
 
-def reference_grid(lateral_spacing):
+def decompose_normal_air_wave(e0, e1, frequencies, *, dt, spacing, separation):
+    """Separate -z/+z waves from two native E planes in uniform-grid air.
+
+    Uses the Yee dispersion relation, not the continuum wave number. Both planes
+    must lie in the same uniform air region, away from sources and absorbers.
+    Inputs are transverse electric phasors at native E nodes; no interpolation.
+    This specialized calibration assumes a normally incident plane wave.
+    """
+    frequencies = np.asarray(frequencies, dtype=float)
+    if (
+        not np.isfinite([dt, spacing, separation]).all()
+        or min(dt, spacing, separation) <= 0
+        or np.any(~np.isfinite(frequencies))
+        or np.any(frequencies <= 0)
+    ):
+        raise ValueError("Calibration needs positive finite frequencies and geometry.")
+    argument = spacing * np.sin(np.pi * frequencies * dt) / (bz.LIGHT_SPEED * dt)
+    if np.any(frequencies * dt >= 0.5) or np.any(argument >= 1):
+        raise ValueError("Calibration frequencies must propagate below the Yee cutoff.")
+    k = 2 * np.arcsin(argument) / spacing
+    phase = np.exp(1j * k * separation)
+    denominator = 1 / phase - phase
+    if np.any(abs(denominator) < 1e-6):
+        raise ValueError("Calibration planes give a degenerate wave decomposition.")
+    forward = (np.asarray(e1) - phase * np.asarray(e0)) / denominator
+    backward = np.asarray(e0) - forward
+    return forward, backward, k
+
+
+def reference_grid(lateral_spacing, depth_refinement=1):
     saved = np.load(DATA / "tidy3d_reconstructed_grid.npz")
     if not np.isfinite(lateral_spacing) or lateral_spacing <= 0:
         raise ValueError("Lateral spacing must be finite and positive")
     count = int(np.ceil(3e-6 / lateral_spacing - 1e-10))
     xy = np.linspace(-1.5e-6, 1.5e-6, count + 1)
-    return Grid(xy, xy, saved["z"])
+    if depth_refinement not in (1, 2, 4, 8, 16):
+        raise ValueError("Depth refinement must be 1, 2, 4, 8 or 16")
+    z = saved["z"]
+    if depth_refinement > 1:
+        z = np.concatenate(
+            [
+                np.linspace(a, b, depth_refinement, endpoint=False)
+                for a, b in zip(z[:-1], z[1:], strict=True)
+            ]
+            + [z[-1:]]
+        )
+    return Grid(xy, xy, z)
 
 
-def reference_scene(grid):
+def reference_scene(grid, stage="full"):
     snapshot = json.loads((DATA / "tidy3d_reference_simulation.json").read_text())
     materials = [bz.Material(1)]
     ids = {}
     objects = []
     lower = np.array([a[0] for a in grid.edges])
     upper = np.array([a[-1] for a in grid.edges])
+    if stage not in {
+        "full",
+        "no_lenses",
+        "bare_stack",
+        "planar_red",
+        "planar_green",
+        "planar_blue",
+    }:
+        raise ValueError(f"Unknown component stage: {stage}")
     for item in snapshot["structures"]:
+        name = item["name"]
+        if stage != "full" and name.startswith("len "):
+            continue
+        if (stage == "bare_stack" or stage.startswith("planar_")) and (
+            name.startswith("metal") or name.startswith("interconnect")
+        ):
+            continue
+        planar_filter = stage.startswith("planar_") and name.endswith(" filter")
+        if (
+            planar_filter
+            and name
+            != {
+                "planar_red": "red filter",
+                "planar_green": "green1 filter",
+                "planar_blue": "blue filter",
+            }[stage]
+        ):
+            continue
         medium = item["medium"]
         key = json.dumps(medium, sort_keys=True)
         if key not in ids:
@@ -56,6 +123,9 @@ def reference_scene(grid):
         center = np.asarray(raw["center"]) * 1e-6
         if raw["type"] == "Box":
             size = np.asarray(raw["size"], dtype=float) * 1e-6
+            if planar_filter:
+                center[:2] = (lower[:2] + upper[:2]) / 2
+                size[:2] = upper[:2] - lower[:2]
             geometry = Box(
                 tuple(np.maximum(lower, center - size / 2)),
                 tuple(np.minimum(upper, center + size / 2)),
@@ -86,8 +156,10 @@ def make_reference_mesh_sim(
     reference=False,
     smoothing="farjadpour_diagonal",
     boundary="absorber",
+    stage="full",
+    depth_refinement=1,
 ):
-    grid = reference_grid(lateral_spacing)
+    grid = reference_grid(lateral_spacing, depth_refinement)
     snapshot = json.loads((DATA / "tidy3d_reference_simulation.json").read_text())
     half_size = snapshot["size"][2] * 0.5e-6
     thicknesses = (-half_size - grid.z_edges[0], grid.z_edges[-1] - half_size)
@@ -112,7 +184,7 @@ def make_reference_mesh_sim(
             )
         )
     return bz.Simulation(
-        scene=Scene((bz.Material(1),)) if reference else reference_scene(grid),
+        scene=Scene((bz.Material(1),)) if reference else reference_scene(grid, stage),
         raster_grid=grid,
         raster_options=RasterOptions(smoothing=smoothing),
         sources=sources,

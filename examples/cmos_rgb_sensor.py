@@ -196,6 +196,10 @@ def make_sim(
     smoothing="farjadpour_diagonal",
     reference_z=False,
     boundary="absorber",
+    stage="full",
+    depth_refinement=1,
+    colocation_side=None,
+    compare_colocation=False,
 ):
     design, z_silicon_top, _ = make_sensor_design()
     if reference and grid_spec is None:
@@ -237,8 +241,15 @@ def make_sim(
                 size=(0.7 * pixel_width, 0.7 * pixel_width, 0),
                 freqs=frequencies,
                 name=f"flux_si_{pixel}",
+                colocation_side=colocation_side,
             )
         )
+        if compare_colocation:
+            monitors.append(
+                monitors[-1].updated_copy(
+                    name=f"flux_si_{pixel}_linear", colocation_side=None
+                )
+            )
     if reference:
         monitors.append(
             bz.FieldMonitor(
@@ -275,7 +286,24 @@ def make_sim(
             ),
         ]
     if reference_z:
-        from cmos_reference_mesh import make_reference_mesh_sim
+        from cmos_reference_mesh import make_reference_mesh_sim, reference_grid
+
+        if reference:
+            z = reference_grid(dx, depth_refinement).z_edges
+            i = int(np.searchsorted(z, 2.25e-6))
+            np.testing.assert_allclose(
+                np.diff(z[i - 2 : i + 5]), z[i + 1] - z[i], rtol=1e-12
+            )
+            monitors.extend(
+                bz.FieldMonitor(
+                    center=(0, 0, float(z[j])),
+                    size=(Lx, Ly, 0),
+                    freqs=frequencies,
+                    fields=("Ex",),
+                    name=f"incident_native_E{k}",
+                )
+                for k, j in enumerate((i, i + 2))
+            )
 
         return make_reference_mesh_sim(
             lateral_spacing=dx,
@@ -286,6 +314,12 @@ def make_sim(
             reference=reference,
             smoothing=smoothing,
             boundary=boundary,
+            stage=stage,
+            depth_refinement=depth_refinement,
+        )
+    if stage != "full" or depth_refinement != 1:
+        raise ValueError(
+            "Component stages and depth subdivision require reference_z=True"
         )
     boundary_spec = (
         bz.PML(
@@ -327,6 +361,33 @@ def make_sim(
             time=simulation.time,
         )
     return simulation
+
+
+def reference_incident_power(result, simulation):
+    """Forward incident power from native air E planes on the reference z grid.
+
+    The empty normal-incidence cell can use fewer lateral cells because its
+    transverse derivatives vanish. Its z grid, timestep and source must match
+    the device. This calibration avoids interpolated E/H power attenuation.
+    """
+    from cmos_reference_mesh import decompose_normal_air_wave
+
+    monitors = {m.name: m for m in simulation.monitors}
+    a, b = (monitors[f"incident_native_E{k}"] for k in (0, 1))
+    # Simulation monitors use solver coordinates; the public input grid may
+    # retain a negative origin. Results carry the corresponding solver grid.
+    z = result.metadata.grid.z_edges
+    i = int(np.argmin(abs(z - a.center[2])))
+    forward, backward, _ = decompose_normal_air_wave(
+        result[a.name].get_dft_component("Ex").mean(axis=1),
+        result[b.name].get_dft_component("Ex").mean(axis=1),
+        a.freqs,
+        dt=simulation.dt,
+        spacing=z[i + 1] - z[i],
+        separation=b.center[2] - a.center[2],
+    )
+    factor = 0.5 * Lx * Ly / np.sqrt(bz.MU_0 / bz.EPS_0)
+    return factor * abs(forward) ** 2, factor * abs(backward) ** 2
 
 
 def sensor_grid(*, lateral_nm=20, metal_nm=5, bulk_nm=30, courant=0.7):
@@ -381,15 +442,16 @@ def sensor_grid(*, lateral_nm=20, metal_nm=5, bulk_nm=30, courant=0.7):
     )
 
 
-def plot_rgb_fields(result, reference):
+def plot_rgb_fields(result, reference, *, incident_intensity=None):
     """Total colocated |E|² / |E_inc|², with a shared scale per monitor plane."""
     import matplotlib.pyplot as plt
 
-    incident = reference["incident_field"]
-    incident_intensity = sum(
-        abs(incident.dft_fields[c]) ** 2 for c in ("Ex", "Ey", "Ez")
-    )
-    incident_intensity = incident_intensity.reshape(3, -1).mean(axis=1)
+    if incident_intensity is None:
+        incident = reference["incident_field"]
+        incident_intensity = sum(
+            abs(incident.dft_fields[c]) ** 2 for c in ("Ex", "Ey", "Ez")
+        )
+        incident_intensity = incident_intensity.reshape(3, -1).mean(axis=1)
     figures = []
     for name, axes_names in (
         ("field_xy_silicon", ("x", "y")),

@@ -238,3 +238,27 @@ def test_uniform_cell_center_quadrature_has_exact_aperture_area():
     np.testing.assert_allclose(
         q.sample_area * q.point_count, 103e-9 * 97e-9, rtol=1e-14
     )
+
+
+def test_cmos_native_reference_calibration_handles_shifted_solver_origin(monkeypatch):
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[3]
+    monkeypatch.syspath_prepend(str(root / "examples"))
+    from cmos_rgb_sensor import make_sim, reference_incident_power
+
+    sim = make_sim(
+        dx=750e-9,
+        reference=True,
+        fields=False,
+        reference_z=True,
+        run_time=80e-15,
+        num_freqs=3,
+    )
+    result = sim.run(backend="jax", progress=False)
+    assert sim.grid.z_edges[0] < 0 and result.metadata.grid.z_edges[0] == 0
+    forward, backward = reference_incident_power(result, sim)
+    # The source launches one watt. Check the complete calibration path, not
+    # merely the algebra on already-normalized synthetic coordinates.
+    np.testing.assert_allclose(forward, np.ones(3), atol=0.012)
+    assert np.max(backward) < 0.003
