@@ -23,12 +23,14 @@ from cmos_rgb_sensor import Lx, Ly, Lz, d_absorber_space  # noqa: E402
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--boundary", choices=["absorber", "cpml"], default="absorber")
+    parser.add_argument("--optical-dz-nm", type=float)
     args = parser.parse_args()
     if not any(d.platform == "gpu" for d in jax.devices()):
         raise RuntimeError("GPU required")
     frequencies = np.linspace(bz.LIGHT_SPEED / 700e-9, bz.LIGHT_SPEED / 400e-9, 200)
     f0 = np.mean([frequencies.min(), frequencies.max()])
-    grid = reference_grid(750e-9)
+    max_dz = None if args.optical_dz_nm is None else args.optical_dz_nm * 1e-9
+    grid = reference_grid(750e-9, max_optical_dz=max_dz)
     z = grid.z_edges
     i = int(np.searchsorted(z, 2.25e-6))
     j = i + 2
@@ -55,6 +57,7 @@ def main():
     sim = make_reference_mesh_sim(
         lateral_spacing=750e-9,
         boundary=args.boundary,
+        max_optical_dz=max_dz,
         reference=True,
         run_time=510e-15,
         monitors=monitors,
@@ -91,6 +94,8 @@ def main():
         / "docs/reviews/cmos-isolation"
         / ("incident" if args.boundary == "absorber" else "incident-cpml")
     )
+    if args.optical_dz_nm is not None:
+        out = out.with_name(out.name + f"-dz{args.optical_dz_nm:g}nm")
     out.mkdir(parents=True, exist_ok=True)
     np.savez(
         out / "spectra.npz",
@@ -111,6 +116,7 @@ def main():
         steps=sim.num_steps,
         planes=planes,
         boundary=args.boundary,
+        max_optical_dz_nm=args.optical_dz_nm,
         air_spacing_nm=float(h * 1e9),
         previous_reference_max_difference=error,
         modal_power_range=[float(modal_power.min()), float(modal_power.max())],

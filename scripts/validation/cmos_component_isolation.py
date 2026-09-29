@@ -21,10 +21,13 @@ def main():
     parser.add_argument(
         "--stage", choices=["bare_stack", "no_lenses", "full"], required=True
     )
+    parser.add_argument("--optical-dz-nm", type=float)
     args = parser.parse_args()
     if not any(d.platform == "gpu" for d in jax.devices()):
         raise RuntimeError("Local GPU required")
     out = ROOT / "docs/reviews/cmos-isolation/components" / args.stage
+    suffix = "" if args.optical_dz_nm is None else f"-dz{args.optical_dz_nm:g}nm"
+    out = out.with_name(out.name + suffix)
     out.mkdir(parents=True, exist_ok=True)
     old = ROOT / "docs/reviews/cmos-polarized/reference-z-20nm-absorber"
     sim = make_sim(
@@ -36,6 +39,9 @@ def main():
         stage=args.stage,
         colocation_side="plus",
         compare_colocation=True,
+        max_optical_dz=None
+        if args.optical_dz_nm is None
+        else args.optical_dz_nm * 1e-9,
     )
     prior = json.loads((old / "reference_report.json").read_text())
     # Reuse only the identical empty-cell excitation and numerical domain.
@@ -43,7 +49,12 @@ def main():
     assert sim.sources[0].source_time.offset == prior["source_offset"]
     grid = np.load(old / "reference_grid.npz")
     for axis, edges in zip("xyz", sim.grid.edges, strict=True):
-        np.testing.assert_array_equal(edges, grid[axis])
+        if axis == "z" and suffix:
+            np.testing.assert_array_equal(
+                edges[np.searchsorted(edges, grid[axis])], grid[axis]
+            )
+        else:
+            np.testing.assert_array_equal(edges, grid[axis])
     ref = np.load(old / "reference_spectra.npz")
     np.testing.assert_allclose(
         ref["wavelength_nm"], 299792458 / np.asarray(sim.monitors[0].freqs) * 1e9
@@ -80,13 +91,14 @@ def main():
     }
     earlier = {p: -np.asarray(first.results[f"flux_si_{p}"].flux) for p in pixel_signs}
     wl = ref["wavelength_nm"]
-    modal_path = ROOT / "docs/reviews/cmos-isolation/incident/spectra.npz"
+    modal_path = ROOT / f"docs/reviews/cmos-isolation/incident{suffix}/spectra.npz"
     modal = np.load(modal_path)
     np.testing.assert_allclose(modal["wavelength_nm"], wl, rtol=1e-12)
     incident = modal["modal_power"]
     order = np.argsort(wl)
     report = dict(
         stage=args.stage,
+        max_optical_dz_nm=args.optical_dz_nm,
         clock_policy="integer_step",
         incident_normalization="forward plane-wave modal power from native E samples",
         modal_reference_sha256=hashlib.sha256(modal_path.read_bytes()).hexdigest(),

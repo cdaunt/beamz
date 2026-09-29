@@ -52,7 +52,7 @@ def decompose_normal_air_wave(e0, e1, frequencies, *, dt, spacing, separation):
     return forward, backward, k
 
 
-def reference_grid(lateral_spacing, depth_refinement=1):
+def reference_grid(lateral_spacing, depth_refinement=1, max_optical_dz=None):
     saved = np.load(DATA / "tidy3d_reconstructed_grid.npz")
     if not np.isfinite(lateral_spacing) or lateral_spacing <= 0:
         raise ValueError("Lateral spacing must be finite and positive")
@@ -61,6 +61,31 @@ def reference_grid(lateral_spacing, depth_refinement=1):
     if depth_refinement not in (1, 2, 4, 8, 16):
         raise ValueError("Depth refinement must be 1, 2, 4, 8 or 16")
     z = saved["z"]
+    if max_optical_dz is not None:
+        if not np.isfinite(max_optical_dz) or max_optical_dz <= 0:
+            raise ValueError(
+                "Maximum optical depth spacing must be finite and positive"
+            )
+        snapshot = json.loads((DATA / "tidy3d_reference_simulation.json").read_text())
+        geometries = {o["name"]: o["geometry"] for o in snapshot["structures"]}
+        silicon = geometries["silicon layer"]
+        lower = (silicon["center"][2] + silicon["size"][2] / 2) * 1e-6
+        upper = (
+            max(
+                g["center"][2] + g["radius"]
+                for name, g in geometries.items()
+                if name.startswith("len ")
+            )
+            * 1e-6
+        )
+        refined = []
+        for a, b in zip(z[:-1], z[1:], strict=True):
+            inside = b > lower + 1e-18 and a < upper - 1e-18
+            count = (
+                max(1, int(np.ceil((b - a) / max_optical_dz - 1e-10))) if inside else 1
+            )
+            refined.append(np.linspace(a, b, count, endpoint=False))
+        z = np.concatenate(refined + [z[-1:]])
     if depth_refinement > 1:
         z = np.concatenate(
             [
@@ -158,8 +183,9 @@ def make_reference_mesh_sim(
     boundary="absorber",
     stage="full",
     depth_refinement=1,
+    max_optical_dz=None,
 ):
-    grid = reference_grid(lateral_spacing, depth_refinement)
+    grid = reference_grid(lateral_spacing, depth_refinement, max_optical_dz)
     snapshot = json.loads((DATA / "tidy3d_reference_simulation.json").read_text())
     half_size = snapshot["size"][2] * 0.5e-6
     thicknesses = (-half_size - grid.z_edges[0], grid.z_edges[-1] - half_size)

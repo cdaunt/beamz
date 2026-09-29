@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 
 import beamz as bz
-from examples.cmos_reference_mesh import decompose_normal_air_wave
+from examples.cmos_reference_mesh import decompose_normal_air_wave, reference_grid
 
 
 def test_native_plane_wave_decomposition_recovers_both_directions():
@@ -41,3 +41,21 @@ def test_invalid_or_degenerate_calibration_is_rejected(dt, spacing, separation, 
         decompose_normal_air_wave(
             [1], [1], f, dt=dt, spacing=spacing, separation=separation
         )
+
+
+def test_targeted_depth_control_preserves_external_grid_and_cfl():
+    original = reference_grid(20e-9)
+    refined = reference_grid(20e-9, max_optical_dz=20e-9)
+    for a, b in zip(original.edges[:2], refined.edges[:2], strict=True):
+        np.testing.assert_array_equal(a, b)
+    z, zr = original.z_edges, refined.z_edges
+    np.testing.assert_array_equal(zr[np.searchsorted(zr, z)], z)
+    # Silicon, both external absorbers, and the native air calibration region
+    # retain exactly the original coordinates. Only the optical stack changes.
+    np.testing.assert_array_equal(zr[zr < -1.554749e-6], z[z < -1.554749e-6])
+    np.testing.assert_array_equal(zr[zr > 2.15e-6], z[z > 2.15e-6])
+    active = (zr[:-1] >= -1.554748e-6) & (zr[1:] <= 2.054748e-6)
+    assert np.max(np.diff(zr)[active]) <= 20e-9 * (1 + 1e-12)
+    assert original.cfl_time_step(0.7) == refined.cfl_time_step(0.7)
+    with pytest.raises(ValueError, match="finite and positive"):
+        reference_grid(20e-9, max_optical_dz=0)

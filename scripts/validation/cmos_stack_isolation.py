@@ -49,7 +49,7 @@ def stack_solution(channel, wl):
     return top, si, abs(r) ** 2, ns.real * abs(t) ** 2, t, ns
 
 
-def run(channel, refine, boundary, wl, courant=0.7):
+def run(channel, refine, boundary, wl, courant=0.7, max_optical_dz=None):
     top, si, *_ = stack_solution("red" if channel == "reference" else channel, wl)
     freq = bz.LIGHT_SPEED / wl
     positions = {"input": 2.5e-6, "top": top, "interface": si, "inside": si - 50e-9}
@@ -71,6 +71,7 @@ def run(channel, refine, boundary, wl, courant=0.7):
         depth_refinement=refine,
         boundary=boundary,
         courant=courant,
+        max_optical_dz=max_optical_dz,
         reference=channel == "reference",
         stage="full" if channel == "reference" else f"planar_{channel}",
         sources=[
@@ -97,6 +98,7 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--refinements", type=int, nargs="+", default=[1, 2, 4])
     p.add_argument("--courant", type=float, default=0.7)
+    p.add_argument("--optical-dz-nm", type=float)
     p.add_argument(
         "--channels",
         nargs="+",
@@ -110,6 +112,9 @@ def main():
     label = args.boundary
     if args.courant != 0.7:
         label += f"-courant-{args.courant:g}"
+    max_dz = None if args.optical_dz_nm is None else args.optical_dz_nm * 1e-9
+    if args.optical_dz_nm is not None:
+        label += f"-dz{args.optical_dz_nm:g}nm"
     out = ROOT / "docs/reviews/cmos-isolation/planar" / label
     out.mkdir(parents=True, exist_ok=True)
     wl = np.linspace(400e-9, 700e-9, 61)
@@ -125,9 +130,9 @@ def main():
         or r["channel"] not in args.channels
     ]
     for refine in args.refinements:
-        ref, meta = run("reference", refine, args.boundary, wl, args.courant)
+        ref, meta = run("reference", refine, args.boundary, wl, args.courant, max_dz)
         for channel in args.channels:
-            dev, _ = run(channel, refine, args.boundary, wl, args.courant)
+            dev, _ = run(channel, refine, args.boundary, wl, args.courant, max_dz)
             _, _, R, T, t, n = stack_solution(channel, wl)
             measured_R = 1 - dev["input"] / ref["input"]
             Ts = {
@@ -139,6 +144,7 @@ def main():
                 channel=channel,
                 clock_policy="integer_step",
                 courant=args.courant,
+                max_optical_dz_nm=args.optical_dz_nm,
                 depth_refinement=refine,
                 boundary=args.boundary,
                 **meta,

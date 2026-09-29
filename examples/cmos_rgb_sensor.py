@@ -200,6 +200,7 @@ def make_sim(
     depth_refinement=1,
     colocation_side=None,
     compare_colocation=False,
+    max_optical_dz=None,
 ):
     design, z_silicon_top, _ = make_sensor_design()
     if reference and grid_spec is None:
@@ -289,7 +290,7 @@ def make_sim(
         from cmos_reference_mesh import make_reference_mesh_sim, reference_grid
 
         if reference:
-            z = reference_grid(dx, depth_refinement).z_edges
+            z = reference_grid(dx, depth_refinement, max_optical_dz).z_edges
             i = int(np.searchsorted(z, 2.25e-6))
             np.testing.assert_allclose(
                 np.diff(z[i - 2 : i + 5]), z[i + 1] - z[i], rtol=1e-12
@@ -316,8 +317,9 @@ def make_sim(
             boundary=boundary,
             stage=stage,
             depth_refinement=depth_refinement,
+            max_optical_dz=max_optical_dz,
         )
-    if stage != "full" or depth_refinement != 1:
+    if stage != "full" or depth_refinement != 1 or max_optical_dz is not None:
         raise ValueError(
             "Component stages and depth subdivision require reference_z=True"
         )
