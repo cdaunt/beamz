@@ -25,7 +25,8 @@ class PoleResidue(Material):
     ``poles`` contains (pole, residue) in rad/s. ``frequency_range`` (Hz)
     declares the validated fit band. Passivity is checked on a dense frequency
     grid; this is a numerical check, not a global mathematical certificate.
-    Interfaces use volume averaging. Only JAX single-device execution is supported.
+    Interfaces support causal diagonal Farjadpour or explicit volume averaging.
+    Only JAX single-device execution is supported.
     """
 
     poles: tuple[tuple[complex, complex], ...]

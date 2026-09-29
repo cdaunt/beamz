@@ -1,0 +1,35 @@
+{
+  "device": "[CudaDevice(id=0)]",
+  "dx_nm": 25.0,
+  "runtime_fs": 510.0,
+  "grid": [
+    120,
+    120,
+    285
+  ],
+  "steps": 15134,
+  "dt": 3.370208102706291e-17,
+  "reference": false,
+  "smoothing": "farjadpour_diagonal",
+  "graded": false,
+  "metal_nm": null,
+  "absorber_nm": 400,
+  "material_checksums": {
+    "materials.json": "179dd5944332856225b639d369e1f3a50f086b27f8d49b74b2e65d601f09716f",
+    "filters.json": "3c0845ca3f8fb5d82dcd948373d7fc42df06b58539d1a8b30f95ca7397ef9749"
+  },
+  "setup_seconds": 22.002689986024052,
+  "polarization_bytes": 474892440,
+  "first_half_seconds": 108.7026582370163,
+  "second_half_seconds": 105.75417767697945,
+  "finite_fields": true,
+  "finite_polarization": true,
+  "temporal_max_absolute_change": {
+    "blue": 2.5199314403714923e-05,
+    "red": 5.4566222359581085e-05,
+    "green1": 0.00018976879421263304,
+    "green2": 0.00018833751900416973
+  },
+  "launched_power": 1.0,
+  "peak_field": 12813.1044921875
+}

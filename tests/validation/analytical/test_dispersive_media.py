@@ -63,7 +63,7 @@ def test_raster_keeps_same_epsilon_materials_distinct_and_painter_order():
     assert first[2, 2] == 1 and second[2, 2] == 0
     assert first[7, 7] == 0 and second[7, 7] == 1
     assert first[10, 10] == second[10, 10] == 0
-    assert grid.smoothing == "volume"
+    assert grid.smoothing == "farjadpour_diagonal"
 
 
 @pytest.mark.parametrize("polarization", ["tm", "te"])

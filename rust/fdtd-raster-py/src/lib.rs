@@ -1,6 +1,6 @@
 use fdtd_raster_core::{
     Grid, IntegrationOptions, OutputComponents, Quality, RasterResult, Scene, SmoothingMode,
-    TensorArray, TriangleMesh, rasterize_prevalidated,
+    TensorArray, TriangleMesh, interface_samples, rasterize_prevalidated,
 };
 use numpy::{PyArray1, PyArrayMethods};
 use pyo3::exceptions::PyValueError;
@@ -25,6 +25,31 @@ impl NativeCompiledScene {
     #[getter]
     fn scene_hash(&self) -> &str {
         &self.scene_hash
+    }
+
+    fn interface_samples(
+        &self,
+        py: Python<'_>,
+        grid_edges: (Vec<f64>, Vec<f64>, Vec<f64>),
+        quality: &str,
+        components: &str,
+    ) -> PyResult<Py<PyAny>> {
+        let (x, y, z) = grid_edges;
+        let grid = Grid::new(x, y, z).map_err(value_error)?;
+        let options = integration_options(quality, "farjadpour_diagonal", components)?;
+        let samples = py.detach(|| interface_samples(&self.scene, &grid, &options));
+        let result = PyDict::new(py);
+        for sample in samples {
+            let record = PyDict::new(py);
+            record.set_item("indices", PyArray1::from_vec(py, sample.indices))?;
+            record.set_item("fractions", PyArray1::from_vec(py, sample.fractions))?;
+            record.set_item(
+                "normal_squared",
+                PyArray1::from_vec(py, sample.normal_squared),
+            )?;
+            result.set_item(sample.component, record)?;
+        }
+        Ok(result.into_any().unbind())
     }
 
     #[pyo3(signature = (

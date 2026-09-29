@@ -8,6 +8,7 @@ import numpy as np
 
 import beamz as bz
 from beamz.design.discretization import MaterialGrid
+from beamz.design.raster import RasterOptions
 
 um = bz.um
 DATA = Path(__file__).resolve().parent / "data/cmos_rgb"
@@ -192,6 +193,9 @@ def make_sim(
     grid_spec=None,
     absorber_thickness=0.4e-6,
     num_freqs=None,
+    smoothing="farjadpour_diagonal",
+    reference_z=False,
+    boundary="absorber",
 ):
     design, z_silicon_top, _ = make_sensor_design()
     if reference and grid_spec is None:
@@ -266,14 +270,35 @@ def make_sim(
                 name="field_yz_GR",
             ),
         ]
+    if reference_z:
+        from cmos_reference_mesh import make_reference_mesh_sim
+
+        return make_reference_mesh_sim(
+            lateral_spacing=dx,
+            sources=[source],
+            monitors=monitors,
+            run_time=run_time,
+            courant=courant,
+            reference=reference,
+            smoothing=smoothing,
+            boundary=boundary,
+        )
+    boundary_spec = (
+        bz.PML(
+            edges=("front", "back"), thickness=absorber_thickness, formulation="cpml"
+        )
+        if boundary == "cpml"
+        else bz.Absorber(edges=("front", "back"), thickness=absorber_thickness)
+    )
     simulation = bz.Simulation(
         design=design,
+        raster_options=RasterOptions(smoothing=smoothing),
         size=(Lx, Ly, Lz),
         sources=[source],
         monitors=monitors,
         boundaries=[
             bz.Periodic(axes=("x", "y")),
-            bz.Absorber(edges=("front", "back"), thickness=absorber_thickness),
+            boundary_spec,
         ],
         grid_spec=grid_spec or bz.GridSpec.uniform(dx, courant=courant),
         run_time=run_time,

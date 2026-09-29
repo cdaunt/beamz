@@ -1,0 +1,62 @@
+[
+  {
+    "device": "[CpuDevice(id=0)]",
+    "boundary": "cpml",
+    "dx_nm": 5.0,
+    "polarization": "TE",
+    "shift": 0.25,
+    "smoothing": "volume",
+    "R": 0.4836792988799554,
+    "T": 0.3516492603923552,
+    "R_exact": 0.4852232699729903,
+    "T_exact": 0.353462563365884,
+    "R_error": -0.0015439710930348904,
+    "T_error": -0.0018133029735287742,
+    "reference_flux_ratio": 0.9998484127056207
+  },
+  {
+    "device": "[CpuDevice(id=0)]",
+    "boundary": "cpml",
+    "dx_nm": 5.0,
+    "polarization": "TE",
+    "shift": 0.25,
+    "smoothing": "farjadpour_diagonal",
+    "R": 0.4836792755580346,
+    "T": 0.3516492662698603,
+    "R_exact": 0.4852232699729903,
+    "T_exact": 0.353462563365884,
+    "R_error": -0.0015439944149557294,
+    "T_error": -0.0018132970960236805,
+    "reference_flux_ratio": 0.9998484127056207
+  },
+  {
+    "device": "[CpuDevice(id=0)]",
+    "boundary": "cpml",
+    "dx_nm": 5.0,
+    "polarization": "TM",
+    "shift": 0.25,
+    "smoothing": "volume",
+    "R": 0.3798713322676571,
+    "T": 0.42110107422254667,
+    "R_exact": 0.38208855240317796,
+    "T_exact": 0.4242782384301586,
+    "R_error": -0.0022172201355208365,
+    "T_error": -0.0031771642076119377,
+    "reference_flux_ratio": 0.9998536307165529
+  },
+  {
+    "device": "[CpuDevice(id=0)]",
+    "boundary": "cpml",
+    "dx_nm": 5.0,
+    "polarization": "TM",
+    "shift": 0.25,
+    "smoothing": "farjadpour_diagonal",
+    "R": 0.38054840804298873,
+    "T": 0.4218914406772321,
+    "R_exact": 0.38208855240317796,
+    "T_exact": 0.4242782384301586,
+    "R_error": -0.0015401443601892328,
+    "T_error": -0.002386797752926495,
+    "reference_flux_ratio": 0.9998536307165529
+  }
+]

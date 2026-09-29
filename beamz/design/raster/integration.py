@@ -150,8 +150,6 @@ def _rasterize_design(
     from beamz.design.dispersion import PoleResidue
 
     has_dispersion = any(isinstance(m, PoleResidue) for m in scene.materials)
-    if has_dispersion:
-        smoothing = "volume"
     result = rasterize(
         scene,
         native_grid,
@@ -176,7 +174,7 @@ def _rasterize_design(
             raise ValueError(
                 "Dispersive media currently require scalar/diagonal background materials."
             )
-        regions = rasterize_dispersion(
+        regions, interfaces = rasterize_dispersion(
             scene,
             native_grid,
             kind=kind,
@@ -184,6 +182,9 @@ def _rasterize_design(
             quality=quality,
             resolution=representative_resolution,
             cache_directory=cache_directory,
+            smoothing=smoothing,
         )
-        material_grid = replace(material_grid, dispersion=regions)
+        material_grid = replace(
+            material_grid, dispersion=regions, dispersion_interfaces=interfaces
+        )
     return material_grid

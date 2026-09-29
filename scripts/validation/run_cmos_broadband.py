@@ -29,17 +29,27 @@ def main():
     parser.add_argument("--runtime-fs", type=float, default=300)
     parser.add_argument("--output", default="docs/reviews/cmos-reference-parity")
     parser.add_argument("--reference", action="store_true")
+    parser.add_argument("--reference-z", action="store_true")
+    parser.add_argument("--boundary", choices=("absorber", "cpml"), default="absorber")
+    parser.add_argument("--checkpoint-fs", type=float)
     parser.add_argument("--graded", action="store_true")
     parser.add_argument("--metal-nm", type=float, default=5)
     parser.add_argument("--absorber-nm", type=float, default=400)
     parser.add_argument("--num-freqs", type=int)
     parser.add_argument("--no-fields", action="store_true")
+    parser.add_argument(
+        "--smoothing",
+        choices=("volume", "farjadpour_diagonal"),
+        default="farjadpour_diagonal",
+    )
     args = parser.parse_args()
     label = (
         f"graded-{args.dx_nm:g}-{args.metal_nm:g}nm"
         if args.graded
         else f"{args.dx_nm:g}nm"
     )
+    if args.reference_z:
+        label = f"reference-z-{args.dx_nm:g}nm-{args.boundary}"
     output = ROOT / args.output / label
     output.mkdir(parents=True, exist_ok=True)
     if not any(device.platform == "gpu" for device in jax.devices()):
@@ -48,6 +58,9 @@ def main():
         dx=args.dx_nm * 1e-9,
         run_time=args.runtime_fs * 1e-15,
         reference=args.reference,
+        smoothing=args.smoothing,
+        reference_z=args.reference_z,
+        boundary=args.boundary,
         fields=not args.reference and not args.no_fields,
         num_freqs=args.num_freqs,
         grid_spec=sensor_grid(lateral_nm=args.dx_nm, metal_nm=args.metal_nm)
@@ -63,7 +76,10 @@ def main():
         "steps": int(sim.num_steps),
         "dt": float(sim.dt),
         "reference": args.reference,
+        "smoothing": args.smoothing,
         "graded": args.graded,
+        "reference_z": args.reference_z,
+        "boundary": args.boundary,
         "metal_nm": args.metal_nm if args.graded else None,
         "absorber_nm": args.absorber_nm,
         "material_checksums": {
@@ -79,10 +95,18 @@ def main():
     program = sim.compile(backend="jax")
     report["setup_seconds"] = time.perf_counter() - start
     report["polarization_bytes"] = sum(
-        np.prod(r.shape) * 8 for r in program.dispersion.regions
+        np.prod(r.shape) * 8
+        for r in (*program.dispersion.regions, *program.dispersion.interfaces)
     )
     print("Setup finished", report, flush=True)
-    half = int(sim.num_steps // 2)
+    half = (
+        int(round(args.checkpoint_fs * 1e-15 / sim.dt))
+        if args.checkpoint_fs is not None
+        else int(sim.num_steps // 2)
+    )
+    if not 0 < half < sim.num_steps:
+        raise ValueError("Checkpoint must fall inside the simulation duration")
+    report["checkpoint_fs"] = half * float(sim.dt) * 1e15
     start = time.perf_counter()
     first = sim.advance(num_steps=half, backend="jax", performance=False)
     report["first_half_seconds"] = time.perf_counter() - start
@@ -120,6 +144,10 @@ def main():
         for c in ("ex", "ey", "ez")
     )
     name = "reference" if args.reference else "sensor"
+    np.savez(output / f"{name}_checkpoint_spectra.npz", wavelength_nm=wl, **first_raw)
+    np.savez(
+        output / f"{name}_grid.npz", **dict(zip("xyz", sim.grid.edges, strict=True))
+    )
     np.savez(
         output / f"{name}_spectra.npz",
         wavelength_nm=wl,

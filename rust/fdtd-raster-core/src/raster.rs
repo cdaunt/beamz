@@ -660,6 +660,77 @@ fn material_component_count(
     components
 }
 
+/// Sparse laminar mixtures on electric supports, using the same geometry
+/// integration and ambiguity classification as the static Farjadpour path.
+pub struct InterfaceSamples {
+    pub component: &'static str,
+    pub indices: Vec<usize>,
+    pub fractions: Vec<f64>,
+    pub normal_squared: Vec<f64>,
+}
+
+pub fn interface_samples(
+    scene: &Scene,
+    grid: &Grid,
+    options: &IntegrationOptions,
+) -> Vec<InterfaceSamples> {
+    // Geometry ownership must distinguish media with identical static epsilon
+    // but different dispersion. Prevent static-material coalescing by assigning
+    // unique scalar labels before the geometry-only integration.
+    let mut labelled = scene.clone();
+    for (id, material) in labelled.materials.iter_mut().enumerate() {
+        material.epsilon_r = SymmetricTensor::isotropic((id + 1) as f64);
+    }
+    let scene = &labelled;
+    let resolved = ResolvedExtrusions::build(scene);
+    let mut index = ObjectIndex::build(resolved.as_ref().map_or(scene, |v| &v.scene), grid);
+    index.resolved = resolved;
+    let scene = index.resolved.as_ref().map_or(scene, |v| &v.scene);
+    let mut output = Vec::new();
+    for (axis, (name, component)) in [
+        ("Ex", Component::Ex),
+        ("Ey", Component::Ey),
+        ("Ez", Component::Ez),
+    ]
+    .into_iter()
+    .enumerate()
+    {
+        if !options.output_components.includes(component) {
+            continue;
+        }
+        let (_, samples) = raster_support(scene, &index, grid, component, |volume, candidates| {
+            let m = integrate_mixture(scene, volume, candidates, options, index.resolved.as_ref());
+            match (m.uniform_owner, m.interface, m.fractions) {
+                (None, InterfaceClass::Laminar(n), Some(f)) => {
+                    let length2: f64 = n.iter().map(|x| x * x).sum();
+                    let weight = n[axis] * n[axis] / length2;
+                    if weight > 1e-12 {
+                        Some((f, weight))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            }
+        });
+        let mut result = InterfaceSamples {
+            component: name,
+            indices: Vec::new(),
+            fractions: Vec::new(),
+            normal_squared: Vec::new(),
+        };
+        for (flat, sample) in samples.into_iter().enumerate() {
+            if let Some((fractions, weight)) = sample {
+                result.indices.push(flat);
+                result.fractions.extend(fractions);
+                result.normal_squared.push(weight);
+            }
+        }
+        output.push(result);
+    }
+    output
+}
+
 fn raster_scalar_support(
     scene: &Scene,
     index: &ObjectIndex,
@@ -1838,6 +1909,25 @@ mod tests {
                 .iter()
                 .all(|tensor| tensor.shape[0] == 1)
         );
+    }
+
+    #[test]
+    fn interface_geometry_preserves_equal_epsilon_material_identity() {
+        let scene = box_scene(Aabb::new([0.0, -1.0, -1.0], [0.5, 3.0, 5.0]).unwrap(), 1.0);
+        let grid = Grid::new(vec![0.0, 1.0, 3.0], vec![0.0, 2.0], vec![0.0, 4.0]).unwrap();
+        let options = IntegrationOptions {
+            smoothing: SmoothingMode::FarjadpourDiagonal,
+            ..IntegrationOptions::default()
+        };
+        let samples = interface_samples(&scene, &grid, &options);
+        assert!(!samples[0].indices.is_empty());
+        assert!(samples[1].indices.is_empty());
+        assert!(samples[2].indices.is_empty());
+        for fractions in samples[0].fractions.chunks_exact(2) {
+            assert_abs_diff_eq!(fractions[0], 0.5, epsilon = 1e-12);
+            assert_abs_diff_eq!(fractions[1], 0.5, epsilon = 1e-12);
+        }
+        assert!(samples[0].normal_squared.iter().all(|v| *v == 1.0));
     }
 
     #[test]

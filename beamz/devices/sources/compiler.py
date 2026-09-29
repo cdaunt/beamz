@@ -480,6 +480,14 @@ def _lower_plane_wave_source(source: PlaneWaveSource, ctx: SourceLoweringContext
                     component in supports and np.any(supports[component][index] > 1e-7)
                     for _, supports in ctx.fields.material_grid.dispersion
                 )
+                dispersive = dispersive or any(
+                    interface.component == component
+                    and np.any(
+                        np.unravel_index(interface.indices, target.shape)[array_axis]
+                        == plane_index
+                    )
+                    for interface in ctx.fields.material_grid.dispersion_interfaces
+                )
                 if np.any(conductivity != 0) or dispersive:
                     raise ValueError(
                         "Plane-wave injection sheet must be in a lossless nondispersive background."

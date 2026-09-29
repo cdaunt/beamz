@@ -1173,6 +1173,32 @@ def _compiled_memory_entries(program):
                 "polarization_state",
                 "runtime",
             )
+        for index, interface in enumerate(dispersion.interfaces):
+            for name in (
+                "indices",
+                "fractions",
+                "weight",
+                "epsilon",
+                "a",
+                "b",
+                "response",
+                "harmonic_inf",
+                "harmonic_step",
+                "delta",
+            ):
+                _add_memory_arrays(
+                    owned,
+                    f"interface[{index}].{name}",
+                    getattr(interface, name),
+                    "dispersion_coefficients",
+                )
+            _add_memory_arrays(
+                owned,
+                f"interface_polarization[{index}]",
+                SimpleNamespace(shape=interface.shape, dtype=np.complex64),
+                "polarization_state",
+                "runtime",
+            )
         for component, ratio, inverse, response in dispersion.coefficients:
             for name, value in (
                 ("ratio", ratio),

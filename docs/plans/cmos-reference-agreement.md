@@ -1,8 +1,9 @@
 # Resolving CMOS numerical disagreement
 
-Status: implementation and investigation plan, not a claim of agreement. No additional full-sensor
-GPU runs are required to repair CI; the experiments below are the next accuracy
-work, to be run sequentially on the local RTX3090.
+Status: causal diagonal interface implementation completed; local accuracy
+experiments are in progress. See [the update derivation](dispersive-diagonal-update.md)
+and [measured results](../reviews/cmos-polarized/README.md). The gates below
+remain acceptance criteria, not a claim of reference agreement.
 
 ## What the evidence currently supports
 
@@ -105,9 +106,9 @@ The snapshot's subpixel policies are inspectable in its `subpixel` field.
 
 ## Dispersive diagonal Farjadpour implementation specification
 
-The present bypasses are in `beamz/design/raster/integration.py` and
-`beamz/simulation/api.py`: both force dispersive scenes to `volume`.
-`MaterialGrid` also rejects dispersive coefficients with any other policy.
+The previous bypasses were in `beamz/design/raster/integration.py` and
+`beamz/simulation/api.py`: both forced dispersive scenes to `volume`.
+`MaterialGrid` also rejected dispersive coefficients with any other policy.
 Removing these guards alone would smooth epsilon-infinity while leaving the
 polarization response volume-averaged, which is not the intended constitutive law.
 
@@ -185,8 +186,8 @@ reject unsupported combinations rather than silently leaving it volume-averaged.
 The theoretical direction follows [Farjadpour et al. (2006)](https://doi.org/10.1364/OL.31.002972)
 and the extension to dispersive media is supported by
 [Deinega and Valuev (2007)](https://doi.org/10.1364/OL.32.003429).
-The realization above is a proposed implementation to derive and validate, not
-an assertion that this code already implements either paper's complete scheme.
+The realization above is now implemented and covered by constitutive tests.
+It does not implement either paper's complete full-tensor scheme.
 
 ## RTX3090 execution budget
 

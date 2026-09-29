@@ -425,7 +425,7 @@ def _rasterize_scene_for_simulation(
     has_dispersion = any(isinstance(m, PoleResidue) for m in scene.materials)
     options = RasterOptions(
         quality=options.quality,
-        smoothing="volume" if has_dispersion else options.smoothing,
+        smoothing=options.smoothing,
         components=(f"two_dimensional_{polarization}" if dimensions == 2 else "all"),
     )
     material_grid = MaterialGrid.from_raster_result(
@@ -436,7 +436,7 @@ def _rasterize_scene_for_simulation(
     if has_dispersion:
         from beamz.design.raster.dispersion import rasterize_dispersion
 
-        regions = rasterize_dispersion(
+        regions, interfaces = rasterize_dispersion(
             scene,
             raster_grid,
             kind="3d" if dimensions == 3 else "2d",
@@ -444,8 +444,11 @@ def _rasterize_scene_for_simulation(
             quality=options.quality,
             resolution=material_grid.resolution,
             cache_directory=None,
+            smoothing=options.smoothing,
         )
-        material_grid = replace(material_grid, dispersion=regions)
+        material_grid = replace(
+            material_grid, dispersion=regions, dispersion_interfaces=interfaces
+        )
     return material_grid
 
 
