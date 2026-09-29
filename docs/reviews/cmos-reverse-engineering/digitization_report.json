@@ -1,0 +1,40 @@
+{
+  "source": "https://www.flexcompute.com/tidy3d/examples/notebooks/CMOSRGBSensor/",
+  "method": "RGB segmentation; median curve row per column; dashed guides excluded; clipped/axis-overlapped samples omitted",
+  "axis_pixels": {
+    "left": 135,
+    "right": 878,
+    "top": 29,
+    "bottom": 620
+  },
+  "reading_uncertainty_pp": 0.15,
+  "channels": {
+    "red": {
+      "central_percent": 6.186548223350254,
+      "passband_median_ratio": 1.5761952603706626,
+      "passband_ratio_p10_p90": [
+        1.4854204381228997,
+        1.6640432498857052
+      ],
+      "passband_rms_difference_pp": 3.118018612243771
+    },
+    "green": {
+      "central_percent": 20.31831641285956,
+      "passband_median_ratio": 1.0124117883170431,
+      "passband_ratio_p10_p90": [
+        1.0022644640362166,
+        1.0544767936856743
+      ],
+      "passband_rms_difference_pp": 0.5039111067593317
+    },
+    "blue": {
+      "central_percent": 6.244359842075578,
+      "passband_median_ratio": 1.4453282861854042,
+      "passband_ratio_p10_p90": [
+        1.3596491766111363,
+        1.5275416593160995
+      ],
+      "passband_rms_difference_pp": 2.8931270651077328
+    }
+  }
+}

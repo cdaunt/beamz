@@ -26,6 +26,17 @@ at mixed supports. Its constituents share normal D, while their fraction-weighte
 E fields sum to the macroscopic E. There is no harmonic averaging of residues,
 frequency-by-frequency fitting, or extra wavelength simulation.
 
+## Relation to inverse-tensor smoothing
+
+This implementation diagonalizes the effective **permittivity** tensor before
+inversion. It is not the diagonal of the inverse tensor in Deinega and Valuev
+(2007), Eq. (1): in general, `1 / [(1-w) A + w H]` differs from
+`(1-w)/A + w/H`. They coincide at the pure normal/tangential limits. Neither
+diagonal truncation retains the full cross-component coupling required by that
+paper's method. This distinction is especially important at curved metal
+interfaces; see the [paper audit](../reviews/cmos-reverse-engineering/paper-interface-audit.md)
+for numerical examples and proposed physical validation gates.
+
 ## Trapezoidal elimination
 
 For each constituent pole p and residue c, in relative-polarization units,

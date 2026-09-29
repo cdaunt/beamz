@@ -1,0 +1,19 @@
+{
+  "README.md": "dccb5e0cfc37c300a92c0b4084a671a60769ddcdd40af4a778f77ef22df7ea7c",
+  "aluminum_control_comparison.png": "81b471930e95d580f47ab51d788f6fad20b6f0293a5bd838f492267311767a45",
+  "digitization_report.json": "9d023b1091a781d2aaec86a03d07eca940b297fa44578233eaad76dc8dbcc5dd",
+  "digitized_comparison.png": "45245430922529d4cc7fe04c9f99b6ca2ad42c3e77a04a014b4e6b97fdaca145",
+  "digitized_efficiency.npz": "869bcc5569671c2f098d481a91de4a2d1ba6ba0f895a033f75b1f45b1cfa45a4",
+  "digitized_filter_fits.npz": "ccc6489f891ecee8f03e36f8ab25f395536cf4f532f6f66948b1db3ae18e74d7",
+  "field_display_report.json": "7f5bad2e281638a82fa7e20dcf1a6c8e4494a1de8c987c47076317be1fb8bd48",
+  "filter_fit_crosscheck.json": "c53729fe15078bbe658c0f92d4357427215d2158a01718f158538e99d6e455e8",
+  "filter_fit_crosscheck.png": "8a06b3ca340a5d45cde9b7f552cc5caa79dce4ebb7a3cdf7425ae36b03b546f3",
+  "grid_fingerprint.json": "6e8839d70c2563882ca15d14323c579864cbb177cb06c8f2d90cde6e47f66a37",
+  "interface_law_audit.json": "f4f65285bc3582b9d1c893ccc0dda898f332c67632b019199d2a17ec313dbaa7",
+  "interface_law_comparison.png": "e8a60a3ed5d2fcb92b0a3684b41f97b8f0e5f0a6b109a0eaf5dbb3b6142d726f",
+  "matched_field_display.png": "d736318ac06c75ed73caec9164493ed7f7d81657bcc8776e2f6a410855cd891a",
+  "paper-interface-audit.md": "75b1b0eb5dd78a6cf88d4495a9ba224ea3d094faca7b6eed30a972b9026fdfb6",
+  "provenance.json": "b8a51d0f40a6722935465bf20e6021f3ce8e77a361941af42ab37fa9a61edf4c",
+  "published_efficiency.png": "8ccbdb17463af9c7c8f29e61aaeae7712d8c05831b1c4d65beb4f77a042ed37c",
+  "published_filter_fits.png": "57de74739d0508aa01e64887cb8ec08c7a7967834f29bd76fc8c5999937d18da"
+}

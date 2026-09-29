@@ -1,0 +1,22 @@
+{
+  "baseline_commit": "8deaed5cb06511fae6eec7020cb8147b8e10c30f",
+  "source_sha256": {
+    "scripts/validation/cmos_component_isolation.py": "ab67ced34d056756a5a2d4c427d798e4efc1f91cdbb10a342582db20d4490b80",
+    "scripts/validation/cmos_digitize_reference.py": "c148e9bdf2a28485c133c9c8e54455154313803c4407f728641af18bfb7c3799",
+    "scripts/validation/cmos_reference_grid_fingerprint.py": "58979be5bdaa905b2a76b80a9d3a2467b72f85a70f4429c666724bfff8f05433",
+    "scripts/validation/cmos_interface_law_audit.py": "56e7b5af6e7b6013912fccda6e134b0d64d24a0ae68ba7dfad0a7207254d4921",
+    "examples/data/cmos_rgb/materials_library_legacy.json": "2d169491bfe4b0850e6f815f124fb2db9b27c7bded93895bb681ec1ca86faade",
+    "examples/data/cmos_rgb/tidy3d_reference_simulation.json": "4e3bc436bdff467be70c837a068d27c05fd93effadbb1aee5b18085d6c3cb2b3"
+  },
+  "paper_doi": "10.1364/OL.32.003429",
+  "paper_sha256": "0e2bd568a87aef3ac156500c858def10c15b3bca36584f9b871d9c500305aa34",
+  "digitization_missing_samples": "NaN marks pixels obscured by guides, clipping, or axes; no server result arrays were recovered.",
+  "validation": [
+    "Ruff check/format passed",
+    "strict MkDocs passed",
+    "diagnostic notebook: eight executed code cells, zero errors",
+    "algebra: full tensor inverse and axis-aligned limits checked",
+    "metal substitution changes only one material, preserving all geometry; checked full/no_lenses/bare_stack",
+    "local RTX3090 full device control completed; finite fields and polarization"
+  ]
+}

@@ -216,7 +216,9 @@ sensor attempt; that attempt produced no accepted final data.
 The executed `examples/notebooks/cmos_cause_isolation.ipynb` loads these saved
 arrays and retains editable plotting code. `cmos_rgb_sensor.ipynb` executes the
 full corrected sensor and empty reference and retains field-intensity plots.
-Both notebooks executed seven code cells with zero errors. The corrected full
+The full sensor notebook executed seven code cells with zero errors. The
+diagnostic notebook now executes eight code cells, including the subsequent
+[image/code/paper reconstruction](../cmos-reverse-engineering/README.md). The corrected full
 notebook took 713.74 seconds on the RTX3090 and reproduced the independent
 full-sensor spectra to within 8.1e-14 percentage points. Saved numerical arrays
 are finite; `consistency_checks.json` records the comparisons and field maxima,

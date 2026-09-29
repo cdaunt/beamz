@@ -1,0 +1,21 @@
+{
+  "normalization": "1 W per 3x3 um\u00b2 cell; |E|\u00b2 = normalized intensity * 2 Z0 / 9",
+  "display": "per-panel 2nd and 98th percentiles; published colorbars are clipped, not maxima",
+  "statistics": {
+    "red": {
+      "percentile_2": 0.016183359463026282,
+      "percentile_98": 24.795058080822653,
+      "maximum": 31.110034753975018
+    },
+    "green": {
+      "percentile_2": 0.04885489717202792,
+      "percentile_98": 29.619596286202402,
+      "maximum": 34.9275568116885
+    },
+    "blue": {
+      "percentile_2": 0.004013329070512386,
+      "percentile_98": 21.99297528115869,
+      "maximum": 39.65639889368818
+    }
+  }
+}

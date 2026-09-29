@@ -1,0 +1,81 @@
+{
+  "wavelength_nm": 550,
+  "material_fraction": 0.5,
+  "cases": {
+    "air_silica": {
+      "constituent_epsilon": [
+        [
+          1.0,
+          0.0
+        ],
+        [
+          2.131719318529495,
+          9.17889558618672e-12
+        ]
+      ],
+      "current_effective_epsilon_x_at_45deg": [
+        1.4636164115737107,
+        3.23061381052693e-12
+      ],
+      "inverse_diagonal_effective_epsilon_x_at_45deg": [
+        1.4564740472111997,
+        3.0565320115412408e-12
+      ],
+      "full_tensor_inverse_xy_at_45deg": [
+        0.047962809551102825,
+        4.3091431113471325e-13
+      ],
+      "relative_update_coefficient_difference_at_45deg": 0.004879942795142256
+    },
+    "silica_aluminum": {
+      "constituent_epsilon": [
+        [
+          2.131719318529495,
+          9.17889558618672e-12
+        ],
+        [
+          -21.901043344449192,
+          74.8586471102467
+        ]
+      ],
+      "current_effective_epsilon_x_at_45deg": [
+        -2.795625591577777,
+        18.771408224669102
+      ],
+      "inverse_diagonal_effective_epsilon_x_at_45deg": [
+        8.679006516951997,
+        1.1945627199280207
+      ],
+      "full_tensor_inverse_xy_at_45deg": [
+        0.11967403698960317,
+        0.009411277806850155
+      ],
+      "relative_update_coefficient_difference_at_45deg": 1.1060325836557485
+    },
+    "static_1_12": {
+      "constituent_epsilon": [
+        [
+          1.0,
+          0.0
+        ],
+        [
+          12.0,
+          0.0
+        ]
+      ],
+      "current_effective_epsilon_x_at_45deg": [
+        4.1730769230769225,
+        0.0
+      ],
+      "inverse_diagonal_effective_epsilon_x_at_45deg": [
+        2.8755760368663594,
+        0.0
+      ],
+      "full_tensor_inverse_xy_at_45deg": [
+        0.19391025641025636,
+        0.0
+      ],
+      "relative_update_coefficient_difference_at_45deg": 0.3109218713499966
+    }
+  }
+}

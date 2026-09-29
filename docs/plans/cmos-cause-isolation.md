@@ -79,3 +79,19 @@ from the complete depth grid, retaining physical geometry and recording the
 interface policy. A matched operator comparison must distinguish BeamZ's
 diagonal causal averaging from Tidy3D's dielectric contour-path/metal-staircase
 settings. Do not change material poles or detector positions to fit a plot.
+
+## Follow-up: public-reference and paper reconstruction
+
+The user confirmed no numerical Tidy3D files are available. They are no longer
+being treated as a prerequisite: full published curves have been digitized,
+filter curves independently cross-checked, and the grid log used to select
+between conflicting aluminum inputs. A fixed-grid RTX3090 metal substitution
+changes central R/G/B by only +0.030/+0.292/+0.010 points, excluding that
+substitution as the explanation of the red/blue gap.
+
+The user-provided Deinega–Valuev (2007) paper identifies a specific limitation:
+our diagonal-ε constitutive approximation omits cross-component inverse-tensor
+coupling at curved dispersive metal interfaces. The [paper audit](../reviews/cmos-reverse-engineering/paper-interface-audit.md)
+records the code comparison, local numerical examples, Tidy3D policy differences
+and proposed curved-metal validation gates. It does not claim the CMOS gap is
+already attributed or that changing one diagonal formula implements the full tensor.
