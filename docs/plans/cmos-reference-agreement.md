@@ -1,6 +1,6 @@
 # Resolving CMOS numerical disagreement
 
-Status: investigation plan, not a claim of agreement. No additional full-sensor
+Status: implementation and investigation plan, not a claim of agreement. No additional full-sensor
 GPU runs are required to repair CI; the experiments below are the next accuracy
 work, to be run sequentially on the local RTX3090.
 
@@ -63,14 +63,15 @@ The snapshot's subpixel policies are inspectable in its `subpixel` field.
    and decreasing error under refinement. Fix discontinuity-aware E/H colocation
    if the error is primarily observational. Keep the sensor detector plane fixed.
 
-3. **Isolate the dispersive interface model.** At the same grid, compare the
-   present volume average against reference-matched staircasing where applicable.
-   Add polarized/conformal dispersive averaging only if the planar and curved
-   geometry controls show it is necessary. It must enforce normal-D and
-   tangential-E continuity with a causal, passive time-domain update; reusing
-   static harmonic averaging of scalar residues is not sufficient. Require stable
-   long-time evolution, correct TE/TM Fresnel response, and positive absorption
-   before applying a new interface model to the sensor.
+3. **Implement causal diagonal Farjadpour averaging for dispersive interfaces.**
+   This is the intended extension of the existing default, not merely an optional
+   later experiment. Follow the implementation specification below. Keep volume
+   averaging as an explicit comparison policy and preserve the native rasterizer's
+   documented fallback for ambiguous interface normals. Establish analytical
+   accuracy and stability before switching the CMOS validation runs to the new
+   default. Compare reference-matched metal staircasing separately where applicable;
+   a general polarized scheme is not automatically identical to Tidy3D's metal
+   policy. Do not change material coefficients to compensate for interface errors.
 
 4. **Separate time and depth errors in the sensor.** Hold lateral spacing at
    20 nm, fix 200 frequencies, the materials, detector plane, source path, and
@@ -101,6 +102,91 @@ The snapshot's subpixel policies are inspectable in its `subpixel` field.
    with a documented error budget for time, depth, lateral grid, interface policy,
    and absorber. Agreement is not achieved merely by finite fields or a smoother
    curve.
+
+## Dispersive diagonal Farjadpour implementation specification
+
+The present bypasses are in `beamz/design/raster/integration.py` and
+`beamz/simulation/api.py`: both force dispersive scenes to `volume`.
+`MaterialGrid` also rejects dispersive coefficients with any other policy.
+Removing these guards alone would smooth epsilon-infinity while leaving the
+polarization response volume-averaged, which is not the intended constitutive law.
+
+For an interface between locally isotropic materials, let f_j denote physical
+volume fractions and n_i the interface unit normal's component along E_i.
+With s the Laplace frequency, use the complete causal material responses:
+
+```text
+A(s) = sum_j f_j epsilon_j(s)
+H(s) = 1 / sum_j [f_j / epsilon_j(s)]
+epsilon_eff,ii(s) = (1 - n_i^2) A(s) + n_i^2 H(s)
+```
+
+This reproduces the scalar-material diagonal projection of the existing native
+Farjadpour tensor: arithmetic tangential response and harmonic normal response.
+It deliberately omits off-diagonal coupling, as the existing diagonal method does.
+It is not a promise of the full tensor method's accuracy for tilted interfaces.
+The harmonic response can introduce poles beyond those of either constituent;
+rescaling the original residues alone cannot represent it.
+
+### Geometry and material data
+
+Expose native geometry integration's material fractions, interface normal, and
+laminar/ambiguous classification on each electric Yee support. Preserve painter
+order and reuse the actual integration, rather than estimating normals from
+sampled permittivity (different materials can share the same epsilon-infinity).
+Store interface data sparsely; retain the existing bulk-material ADE path.
+Use physical support volumes on rectilinear grids and treat periodic half-supports
+consistently. Include interface geometry, policy, and constituent models in cache
+identity. Explicitly reject unsupported intrinsic tensor combinations initially.
+
+### Causal update
+
+Prefer a local constituent-field state realization of H(s), avoiding polynomial
+root finding or a fitted effective material per mixed cell. For the normal branch,
+constituents share D while E = sum_j f_j E_j. Each constituent retains its own
+polarization q_j and satisfies D/epsilon0 = epsilon_inf,j E_j + P_j/epsilon0.
+The tangential branch uses a shared E and the volume-weighted polarizations.
+Blend the two branch responses with n_i^2 to obtain the diagonal component.
+
+Derive the coupled trapezoidal E/polarization solve from these constraints before
+implementation. For a constituent with q' = a q + c E, the step has the form
+q_new = A q_old + B(E_old + E_new), with A and B determined by the timestep.
+Eliminate the local constituent fields algebraically in the normal branch, solve
+for the new macroscopic E, then update all polarization histories. Do not apply
+an instantaneous harmonic correction after the existing volume ADE step.
+Continuation, memory accounting, source-material guards, periodic seams, and
+explicit unsupported-backend errors must include these new interface states.
+Ohmic conductivity in a mixed interface needs the same constitutive treatment;
+reject unsupported combinations rather than silently leaving it volume-averaged.
+
+### Acceptance tests and rollout
+
+- Compare the discrete-time constitutive transfer response with the analytical
+  diagonal mixture evaluated under the trapezoidal frequency mapping, including
+  fractions 0/1, equal materials, static limits, and shared epsilon-infinity.
+- Cover Lorentz dielectrics, Drude metals, dielectric/dispersive and
+  dispersive/dispersive pairs, and interfaces near a normal-response resonance.
+  Check passivity and long-time stability; do not assume component stability alone
+  proves stability of the complete spatially discretized solver.
+- Test slab reflection/transmission at normal and oblique incidence, both TE and
+  TM. Normal incidence on a flat interface has tangential E and cannot validate
+  the harmonic branch by itself. Use rotated interfaces or a validated oblique
+  excitation fixture; the present rectilinear PlaneWaveSource is normal-incidence
+  only, and nonzero-phase Bloch boundaries remain unsupported.
+- Sweep interface position through a cell, test curved geometry and grid
+  refinement, and verify continuation and periodic seam equivalence. Preserve
+  constant-material and explicit-volume results.
+- After these checks pass, honor `farjadpour_diagonal` for dispersive scenes by
+  default and remove the forced-volume bypasses. Keep `volume` selectable, rerun
+  the matched CMOS device/reference pair on the RTX3090, and publish the measured
+  difference. Keep detector-plane flux colocation as an independent validation:
+  constitutive averaging does not automatically repair monitor interpolation.
+
+The theoretical direction follows [Farjadpour et al. (2006)](https://doi.org/10.1364/OL.31.002972)
+and the extension to dispersive media is supported by
+[Deinega and Valuev (2007)](https://doi.org/10.1364/OL.32.003429).
+The realization above is a proposed implementation to derive and validate, not
+an assertion that this code already implements either paper's complete scheme.
 
 ## RTX3090 execution budget
 
