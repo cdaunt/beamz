@@ -451,7 +451,7 @@ def plot_rgb_fields(result, reference, *, incident_intensity=None):
     if incident_intensity is None:
         incident = reference["incident_field"]
         incident_intensity = sum(
-            abs(incident.dft_fields[c]) ** 2 for c in ("Ex", "Ey", "Ez")
+            abs(incident.get_dft_component(c)) ** 2 for c in ("Ex", "Ey", "Ez")
         )
         incident_intensity = incident_intensity.reshape(3, -1).mean(axis=1)
     figures = []
@@ -461,7 +461,9 @@ def plot_rgb_fields(result, reference, *, incident_intensity=None):
         ("field_yz_GR", ("y", "z")),
     ):
         monitor = result[name]
-        intensity = sum(abs(monitor.dft_fields[c]) ** 2 for c in ("Ex", "Ey", "Ez"))
+        intensity = sum(
+            abs(monitor.get_dft_component(c)) ** 2 for c in ("Ex", "Ey", "Ez")
+        )
         grid = result.metadata.grid
         coordinates = []
         for axis in axes_names:
