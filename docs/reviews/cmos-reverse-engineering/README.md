@@ -58,7 +58,7 @@ MPLBACKEND=Agg .venv/bin/python scripts/validation/cmos_digitize_reference.py
 # Use an environment containing tidy3d==2.12.0.dev3; offline, no API key needed:
 python scripts/validation/cmos_reference_grid_fingerprint.py
 XLA_PYTHON_CLIENT_PREALLOCATE=false OPENBLAS_NUM_THREADS=1 \
-  .venv/bin/python scripts/validation/cmos_component_isolation.py --stage full --metal-model library
+  .venv/bin/python scripts/validation/cmos_component_isolation.py --stage full --metal-model library --metal-smoothing inherit
 ```
 
 The library-metal run uses the baseline 150×150×430 BeamZ control grid, rather than remeshing, to isolate the material substitution. Its raw results are stored separately in `../cmos-isolation/components/full-library-metal`.

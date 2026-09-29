@@ -95,3 +95,15 @@ coupling at curved dispersive metal interfaces. The [paper audit](../reviews/cmo
 records the code comparison, local numerical examples, Tidy3D policy differences
 and proposed curved-metal validation gates. It does not claim the CMOS gap is
 already attributed or that changing one diagonal formula implements the full tensor.
+
+## Material-dependent default policy
+
+Completed in `2632030e`: optical metals use point-sampled staircasing, while
+dielectrics retain causal diagonal Farjadpour averaging. This preserves the
+documented diagonal constitutive law and makes the metal exception explicit.
+The 20 nm RTX3090 control gives R/G/B **9.906/20.821/9.223%**, changing the previous
+all-diagonal values by **+0.181/+0.169/+0.020 percentage points**. Raw comparisons and
+interpretation are in the [isolation report](../reviews/cmos-isolation/README.md).
+The affected Python suite passes 829 tests, including 20 policy regressions;
+53 Rust tests pass (one ignored). Full dispersive tensor smoothing and curved
+metal Mie convergence remain separate work.

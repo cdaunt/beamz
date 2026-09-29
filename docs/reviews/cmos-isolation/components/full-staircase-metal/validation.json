@@ -1,0 +1,43 @@
+{
+  "implementation_commit": "2632030e",
+  "python_tests": {
+    "command": "JAX_PLATFORMS=cpu OPENBLAS_NUM_THREADS=1 python -m pytest tests/unit/raster tests/integration/test_native_design_rasterization.py tests/validation/analytical/test_polarized_dispersion.py tests/validation/analytical/test_dispersive_media.py -q",
+    "passed": 829,
+    "seconds": 71.07,
+    "environment": {
+      "python": "3.11.15",
+      "jax": "0.9.0",
+      "numpy": "2.4.1"
+    }
+  },
+  "rust_tests": {
+    "command": "cargo test --workspace --quiet",
+    "passed": 53,
+    "ignored": 1
+  },
+  "checks_passed": [
+    "cargo fmt --all --check",
+    "cargo clippy --workspace --all-targets -- -D warnings",
+    "ruff check",
+    "ruff format --check",
+    "pyright",
+    "vulture --min-confidence 80",
+    "mkdocs build --strict"
+  ],
+  "simulation_environment": {
+    "python": "3.11.15",
+    "jax": "0.10.2",
+    "numpy": "2.4.6",
+    "gpu": "NVIDIA GeForce RTX 3090"
+  },
+  "additional_cmos_tests": {
+    "passed": 23,
+    "seconds": 14.45,
+    "command": "python -m pytest tests/unit/test_cmos_field_plot_normalization.py tests/unit/test_cmos_incident_calibration.py tests/validation/analytical/test_rectilinear_plane_wave.py -q"
+  },
+  "notebook": {
+    "code_cells_executed": 9,
+    "errors": 0,
+    "inspection": "Rendered HTML checked in headless Chromium; full-curve figure inspected."
+  }
+}

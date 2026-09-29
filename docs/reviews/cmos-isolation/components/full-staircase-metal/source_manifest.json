@@ -1,0 +1,34 @@
+{
+  "implementation_commit": "2632030ec9e45c5a8a359304ff825600bc1b4bd4",
+  "command": "XLA_PYTHON_CLIENT_PREALLOCATE=false OPENBLAS_NUM_THREADS=1 .venv/bin/python scripts/validation/cmos_component_isolation.py --stage full --metal-smoothing staircase",
+  "source_sha256": {
+    "beamz/design/dispersion.py": "f838da9826e4a2f96a1a92e24a1429108b6c71de6f8f28234ba740ed1fb10216",
+    "beamz/design/raster/dispersion.py": "8fdc8e67587b1a6bb16eacf952e1cc8060915efd8cb06e5291aed535400e070c",
+    "beamz/design/raster/engine.py": "dfdd38d85339165bea1ee47fc8fee1448ac4be3839d76ef0743471e38eeb8bd2",
+    "beamz/design/raster/integration.py": "d6f6eabc6c42234032d4fc8c25b3a681459d2727977cf63326e1d94f0926c981",
+    "beamz/design/raster/schema.py": "32ece1f8e270c1b2d41e6e14584aa73dce01d12ea88463cbcc85131678df4f30",
+    "beamz/simulation/api.py": "b5e97b5268678569915ea599c78346dfe54ce86b4854a702a93b7e4c4f963a57",
+    "examples/cmos_reference_mesh.py": "c60cd15d5c1f4539a173655a94283b2eb1587b7b339462fba83f60a4c89e09e6",
+    "examples/cmos_rgb_sensor.py": "50505994e3d8ed25c49be6300c66a3c1e6f3665821984213821f4cb9d9adc6d3",
+    "rust/fdtd-raster-core/src/grid.rs": "802d9e8053190306fcd18f72c90e97dccbf42045844ac6da42d198b0a56dde21",
+    "rust/fdtd-raster-core/src/ownership.rs": "cb3195c086fa57454197a26656ed9f80ae3410db1c31bfba81558fc034f1d005",
+    "rust/fdtd-raster-core/src/raster.rs": "a5e201b0ce0f6b48012e03d45a36d25478fc61a9ae6b6c499e21b333a2553572",
+    "rust/fdtd-raster-py/src/lib.rs": "630f6082cbf27ba0b440fa0f7ac2083781eee90503f1e37d4ad14d596e2aad4e",
+    "scripts/validation/cmos_component_isolation.py": "e1f675ac8e368ae0b7762fc3d0c0021dea581b20ecb8299868ea46e490f01594",
+    "tests/unit/raster/test_metal_policy.py": "1b8010a5e0efcca8b40d20beb3526e0fa50433a27c4e3175d523c5844b7cd2f7"
+  },
+  "metal_material_ids": [
+    5
+  ],
+  "reference_frequency_hz": 588878042500000.0,
+  "material_real_epsilon_at_reference": [
+    1.0,
+    2.136995405619909,
+    1.7772255996451116,
+    1.885709617466628,
+    2.597011828378287,
+    -18.62354573099748,
+    3.790904830279486,
+    22.161548757575133
+  ]
+}

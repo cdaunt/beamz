@@ -71,6 +71,60 @@ sensor the plus-side stencil lies inside SiN. It should not be applied blindly
 to the coarse smoke-test grid or across a second material interface. The
 independent native-plane probe control checks the compiled implementation.
 
+## Interface policy and historical runs
+
+The original results below use diagonal smoothing for **all** materials.
+The current default retains diagonal dielectric averaging and uses metal
+staircasing. Reproduce the original component controls with
+`--metal-smoothing inherit`; new default runs write separate `*-staircase-metal`
+folders so the earlier evidence is preserved. The new comparison is in the
+executed [diagnostic notebook](https://github.com/beamzorg/beamz/blob/t3code/add-cmos-rgb-notebook/examples/notebooks/cmos_cause_isolation.ipynb).
+The main sensor notebook's previously saved field plots remain from the
+all-diagonal execution; they are not relabeled as staircase results.
+
+## Metal-interface policy: controlled RTX3090 comparison
+
+The new default changes only aluminum interfaces to staircasing and retains
+causal diagonal averaging for every dielectric. At the source center frequency
+588.878 THz, only material 5 (aluminum) satisfies Re(εr) < 1. Mesh, poles,
+source, timestep, duration, incident calibration and detector positions are fixed.
+The native rasterizer applies the same point ownership to ε∞ and all ADE terms;
+terminal faces use the interior domain limit to avoid an artificial air seam.
+
+| Policy | R, 650 nm | G, 550 nm | B, 450 nm |
+| --- | ---: | ---: | ---: |
+| Diagonal metals (previous) | 9.725% | 20.652% | 9.203% |
+| Staircase metals (default) | 9.906% | 20.821% | 9.223% |
+| Published plot (approximate) | 6.187% | 20.318% | 6.244% |
+
+Central changes are **+0.181/+0.169/+0.020 percentage points** (R/G/B); maximum changes
+anywhere in the spectra are 0.191/0.466/0.163 points. Residual central differences from
+the digitized reference are **+3.719/+0.503/+2.979 points**, versus its conservative
+±0.15-point image-reading allowance. This control tests the documented metal
+policy difference; it does not establish full spatial convergence or identical
+Tidy3D dielectric operators.
+
+The 510 fs run completed in 606.9 seconds after setup on the
+RTX3090, with finite fields and polarization. Maximum 300–510 fs change is
+0.0152 percentage points. It uses one broadband device run for all
+200 frequencies and reuses the configuration-matched empty reference.
+
+[Raw run metadata](components/full-staircase-metal/report.json),
+[source and input provenance](components/full-staircase-metal/source_manifest.json),
+[comparison values](components/full-staircase-metal/metal_policy_comparison.json),
+and [validation](components/full-staircase-metal/validation.json) accompany the
+saved NPZ arrays. The implementation is commit `2632030e`.
+
+![Metal-policy comparison](components/full-staircase-metal/metal_policy_comparison.png)
+
+Reproduce with:
+
+```bash
+XLA_PYTHON_CLIENT_PREALLOCATE=false OPENBLAS_NUM_THREADS=1 \
+  .venv/bin/python scripts/validation/cmos_component_isolation.py \
+  --stage full --metal-smoothing staircase
+```
+
 ## Full sensor: separate each correction
 
 All rows below use the same physical geometry and detector plane. Green sums
@@ -198,13 +252,13 @@ export XLA_PYTHON_CLIENT_PREALLOCATE=false OPENBLAS_NUM_THREADS=1
 .venv/bin/python scripts/validation/cmos_stack_isolation.py --refinements 16 --channels blue
 .venv/bin/python scripts/validation/cmos_stack_isolation.py --refinements 1 --boundary cpml
 .venv/bin/python scripts/validation/cmos_metal_film_control.py
-.venv/bin/python scripts/validation/cmos_component_isolation.py --stage full
-.venv/bin/python scripts/validation/cmos_component_isolation.py --stage no_lenses
-.venv/bin/python scripts/validation/cmos_component_isolation.py --stage bare_stack
+.venv/bin/python scripts/validation/cmos_component_isolation.py --metal-smoothing inherit --stage full
+.venv/bin/python scripts/validation/cmos_component_isolation.py --metal-smoothing inherit --stage no_lenses
+.venv/bin/python scripts/validation/cmos_component_isolation.py --metal-smoothing inherit --stage bare_stack
 .venv/bin/python scripts/validation/cmos_stack_isolation.py --refinements 1 --courant 0.35
 .venv/bin/python scripts/validation/cmos_incident_calibration.py --optical-dz-nm 20
 .venv/bin/python scripts/validation/cmos_stack_isolation.py --refinements 1 --optical-dz-nm 20
-.venv/bin/python scripts/validation/cmos_component_isolation.py --stage full --optical-dz-nm 20
+.venv/bin/python scripts/validation/cmos_component_isolation.py --metal-smoothing inherit --stage full --optical-dz-nm 20
 .venv/bin/python scripts/validation/execute_cmos_notebook.py
 ```
 
@@ -217,7 +271,7 @@ The executed `examples/notebooks/cmos_cause_isolation.ipynb` loads these saved
 arrays and retains editable plotting code. `cmos_rgb_sensor.ipynb` executes the
 full corrected sensor and empty reference and retains field-intensity plots.
 The full sensor notebook executed seven code cells with zero errors. The
-diagnostic notebook now executes eight code cells, including the subsequent
+diagnostic notebook previously executed eight code cells, including the subsequent
 [image/code/paper reconstruction](../cmos-reverse-engineering/README.md). The corrected full
 notebook took 713.74 seconds on the RTX3090 and reproduced the independent
 full-sensor spectra to within 8.1e-14 percentage points. Saved numerical arrays
@@ -258,3 +312,5 @@ the patterned filters, metal structures and lenses with identical monitor
 definitions. The remaining lateral-grid and interface-operator differences are
 candidates, not demonstrated causes of the inter-solver gap. Increasing
 frequency sample count is not a replacement for this accuracy work.
+
+The metal-policy extension executes nine code cells with no errors. Its new full-curve figure and rendered HTML were inspected. The final affected suite passes 829 Python tests plus 23 additional CMOS/plane-wave tests, and 53 Rust tests (one ignored).

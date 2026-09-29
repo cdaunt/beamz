@@ -1,0 +1,23 @@
+{
+  "red": {
+    "diagonal_percent": 9.72495994392676,
+    "staircase_percent": 9.905702541895629,
+    "published_plot_percent": 6.186548223350254,
+    "central_change_pp": 0.1807425979688677,
+    "max_spectral_change_pp": 0.1909963098242734
+  },
+  "green": {
+    "diagonal_percent": 20.652364649680408,
+    "staircase_percent": 20.821021644108722,
+    "published_plot_percent": 20.318316412859556,
+    "central_change_pp": 0.16865699442831428,
+    "max_spectral_change_pp": 0.46610718792103323
+  },
+  "blue": {
+    "diagonal_percent": 9.203209758028802,
+    "staircase_percent": 9.223372811440555,
+    "published_plot_percent": 6.244359842075579,
+    "central_change_pp": 0.020163053411753395,
+    "max_spectral_change_pp": 0.16282936233886908
+  }
+}
