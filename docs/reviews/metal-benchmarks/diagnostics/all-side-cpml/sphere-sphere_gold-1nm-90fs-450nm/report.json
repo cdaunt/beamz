@@ -1,0 +1,52 @@
+{
+  "material": "sphere_gold",
+  "dx_nm": 1.0,
+  "runtime_fs": 90,
+  "padding_nm": 450,
+  "device": "[CudaDevice(id=0)]",
+  "grid": [
+    108,
+    108,
+    108
+  ],
+  "dt": 1.540666561237176e-18,
+  "steps": 58417,
+  "elapsed_s": 59.007496975013055,
+  "device_execution": {
+    "grid": [
+      108,
+      108,
+      108
+    ],
+    "dt": 1.540666561237176e-18,
+    "steps": 58417,
+    "elapsed_s": 71.48252282396425
+  },
+  "magnetic_timing_aligned": true,
+  "surfaces": [
+    {
+      "half_nm": 6,
+      "absorption_relative_max": 0.37598255995075924,
+      "scattering_relative_max": 0.47620599158385185,
+      "absorption_peak_nm": 509.61538461538464,
+      "exact_peak_nm": 490.7407407407408,
+      "min_absorption": 1.3266662114645282e-18,
+      "min_scattering": 1.871368024040971e-21,
+      "scattering_projected_relative_max": 0.34376709378958686
+    },
+    {
+      "half_nm": 8,
+      "absorption_relative_max": 0.3760289636247604,
+      "scattering_relative_max": 0.3859327460772224,
+      "absorption_peak_nm": 509.61538461538464,
+      "exact_peak_nm": 490.7407407407408,
+      "min_absorption": 1.3272312036564607e-18,
+      "min_scattering": 1.9655684497826602e-21,
+      "scattering_projected_relative_max": 0.3437598264712845
+    }
+  ],
+  "incident_impedance_max_error": 0.32200218890307264,
+  "incident_cross_polarization_max": 0.0,
+  "excluded_from_mie_convergence": true,
+  "exclusion_reason": "Default CPML alpha gives an invalid incident plane-wave impedance on the strongly graded mesh."
+}

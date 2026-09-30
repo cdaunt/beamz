@@ -1,0 +1,83 @@
+{
+  "device": "[CudaDevice(id=0)]",
+  "dx_nm": 2.5,
+  "gold_model": "snapshot",
+  "mesh": "refined",
+  "reflection_measurement": "above_source_native_power",
+  "monitor_z_nm": {
+    "r0": 498.61842105263156,
+    "r": 508.5855263157894,
+    "r2": 518.5526315789474,
+    "input0": 179.67105263157893,
+    "input1": 189.63815789473685,
+    "t": -300.0
+  },
+  "runtime_fs": 300.0,
+  "grid": [
+    48,
+    120,
+    231
+  ],
+  "dt": 3.85166640309291e-18,
+  "steps": 77889,
+  "elapsed_s": 79.92114842904266,
+  "checkpoint_fraction": 0.75,
+  "checkpoint_to_full_dft_relative_change": {
+    "E": 3.882541944507083e-08,
+    "H": 3.8196381776888275e-08
+  },
+  "runs": [
+    {
+      "length_nm": 0.0,
+      "execution": {
+        "grid": [
+          48,
+          120,
+          231
+        ],
+        "dt": 3.85166640309291e-18,
+        "steps": 77889,
+        "elapsed_s": 77.03187506005634,
+        "checkpoint_fraction": 0.75,
+        "checkpoint_to_full_dft_relative_change": {
+          "E": 3.024578168208689e-09,
+          "H": 3.5271219585432756e-08
+        }
+      },
+      "r_real": -0.7546339406744336,
+      "r_imag": 0.6442376534365546,
+      "r_power": 0.9845145385232628,
+      "r2_real": -0.8000188658091874,
+      "r2_imag": 0.5869278637759963,
+      "r2_power": 0.9845145029272728,
+      "empty_grid_reflectivity": 4.0178054637616935e-07,
+      "transmission": 2.0540721220335085e-05
+    },
+    {
+      "length_nm": 132.3076923076923,
+      "execution": {
+        "grid": [
+          48,
+          120,
+          231
+        ],
+        "dt": 3.85166640309291e-18,
+        "steps": 77889,
+        "elapsed_s": 76.19797608803492,
+        "checkpoint_fraction": 0.75,
+        "checkpoint_to_full_dft_relative_change": {
+          "E": 4.826948249338477e-07,
+          "H": 7.818464724631759e-08
+        }
+      },
+      "r_real": 0.1617510024812443,
+      "r_imag": -0.8980475513027687,
+      "r_power": 0.8326527912045865,
+      "r2_real": 0.22743308797280673,
+      "r2_imag": -0.8837073556235867,
+      "r2_power": 0.8326644998880788,
+      "empty_grid_reflectivity": 4.0178054637616935e-07,
+      "transmission": 3.884374043140932e-05
+    }
+  ]
+}

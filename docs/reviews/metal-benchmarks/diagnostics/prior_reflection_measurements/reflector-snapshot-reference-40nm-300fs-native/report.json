@@ -1,0 +1,57 @@
+{
+  "device": "[CudaDevice(id=0)]",
+  "dx_nm": 7.5,
+  "gold_model": "snapshot",
+  "mesh": "reference",
+  "reflection_measurement": "native_e_discrete_power",
+  "monitor_z_nm": {
+    "r0": 143.09887158475155,
+    "r": 173.010103702222,
+    "r2": 214.8858286666807,
+    "t": -300.0
+  },
+  "runtime_fs": 300.0,
+  "grid": [
+    16,
+    40,
+    88
+  ],
+  "dt": 1.3369049573658037e-17,
+  "steps": 22441,
+  "elapsed_s": 7.512126705958508,
+  "checkpoint_fraction": 0.75,
+  "checkpoint_to_full_dft_relative_change": {
+    "E": 1.7443984044656722e-16,
+    "H": 1.631876947936565e-16
+  },
+  "runs": [
+    {
+      "length_nm": 40.0,
+      "execution": {
+        "grid": [
+          16,
+          40,
+          88
+        ],
+        "dt": 1.3369049573658037e-17,
+        "steps": 22441,
+        "elapsed_s": 8.353504133061506,
+        "checkpoint_fraction": 0.75,
+        "checkpoint_to_full_dft_relative_change": {
+          "E": 6.638236765652354e-08,
+          "H": 1.8269243055619233e-07
+        }
+      },
+      "r0_interpolated_flux_R": 0.9897882276189742,
+      "r_interpolated_flux_R": 0.9897884627165102,
+      "r2_interpolated_flux_R": 0.9897887858660545,
+      "r_real": 0.9927367698133522,
+      "r_imag": 0.06347382210114103,
+      "r_power": 0.9895552202315762,
+      "r2_real": 0.769009683351364,
+      "r2_imag": 0.6310147600150993,
+      "r2_power": 0.9895555204450786,
+      "transmission": 5.984065228442656e-05
+    }
+  ]
+}

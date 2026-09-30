@@ -1,0 +1,116 @@
+[
+  {
+    "dx_nm": 1,
+    "alpha_max": null,
+    "impedance_error": 0.322000207562175,
+    "reflection_amplitude": 0.155247939112302,
+    "grid": [
+      4,
+      4,
+      108
+    ],
+    "dt": 1.540666561237176e-18,
+    "steps": 58417,
+    "elapsed_s": 4.229138980037533,
+    "checkpoint_fraction": 0.75,
+    "checkpoint_to_full_dft_relative_change": {
+      "E": 5.216652830094085e-06,
+      "H": 9.891381243040142e-06
+    }
+  },
+  {
+    "dx_nm": 1,
+    "alpha_max": 0.0,
+    "impedance_error": 0.0032853003500692033,
+    "reflection_amplitude": 0.0016432073955687586,
+    "grid": [
+      4,
+      4,
+      108
+    ],
+    "dt": 1.540666561237176e-18,
+    "steps": 58417,
+    "elapsed_s": 1.917995149968192,
+    "checkpoint_fraction": 0.75,
+    "checkpoint_to_full_dft_relative_change": {
+      "E": 9.224296255165848e-07,
+      "H": 7.489132013828068e-07
+    }
+  },
+  {
+    "dx_nm": 0.5,
+    "alpha_max": null,
+    "impedance_error": 1.7504262903597076,
+    "reflection_amplitude": 0.4966315497883792,
+    "grid": [
+      4,
+      4,
+      134
+    ],
+    "dt": 7.703332806185879e-19,
+    "steps": 116834,
+    "elapsed_s": 5.027245828998275,
+    "checkpoint_fraction": 0.75,
+    "checkpoint_to_full_dft_relative_change": {
+      "E": 0.0010657903956562574,
+      "H": 0.00205234095424519
+    }
+  },
+  {
+    "dx_nm": 0.5,
+    "alpha_max": 0.0,
+    "impedance_error": 0.003292203358223495,
+    "reflection_amplitude": 0.001646476507173849,
+    "grid": [
+      4,
+      4,
+      134
+    ],
+    "dt": 7.703332806185879e-19,
+    "steps": 116834,
+    "elapsed_s": 3.636827831971459,
+    "checkpoint_fraction": 0.75,
+    "checkpoint_to_full_dft_relative_change": {
+      "E": 2.9249823433187535e-07,
+      "H": 5.520468593756168e-07
+    }
+  },
+  {
+    "dx_nm": 0.25,
+    "alpha_max": null,
+    "impedance_error": 5.74814949311314,
+    "reflection_amplitude": 0.8169746185218129,
+    "grid": [
+      4,
+      4,
+      178
+    ],
+    "dt": 3.8516664030929354e-19,
+    "steps": 233666,
+    "elapsed_s": 9.572797055006959,
+    "checkpoint_fraction": 0.75,
+    "checkpoint_to_full_dft_relative_change": {
+      "E": 0.03699499472819405,
+      "H": 0.06475741278106881
+    }
+  },
+  {
+    "dx_nm": 0.25,
+    "alpha_max": 0.0,
+    "impedance_error": 0.003312881667917383,
+    "reflection_amplitude": 0.0016567348870471206,
+    "grid": [
+      4,
+      4,
+      178
+    ],
+    "dt": 3.8516664030929354e-19,
+    "steps": 233666,
+    "elapsed_s": 8.101275364984758,
+    "checkpoint_fraction": 0.75,
+    "checkpoint_to_full_dft_relative_change": {
+      "E": 3.781516020556906e-07,
+      "H": 2.6600186502008273e-06
+    }
+  }
+]

@@ -1,0 +1,47 @@
+{
+  "device": "[CudaDevice(id=0)]",
+  "dx_nm": 7.5,
+  "gold_model": "snapshot",
+  "mesh": "reference",
+  "runtime_fs": 300.0,
+  "grid": [
+    16,
+    40,
+    88
+  ],
+  "dt": 1.3369049573658037e-17,
+  "steps": 22441,
+  "elapsed_s": 6.661154317087494,
+  "checkpoint_fraction": 0.75,
+  "checkpoint_to_full_dft_relative_change": {
+    "E": 1.5663395150325122e-16,
+    "H": 1.6273307428324229e-16
+  },
+  "runs": [
+    {
+      "length_nm": 0.0,
+      "execution": {
+        "grid": [
+          16,
+          40,
+          88
+        ],
+        "dt": 1.3369049573658037e-17,
+        "steps": 22441,
+        "elapsed_s": 7.301291146082804,
+        "checkpoint_fraction": 0.75,
+        "checkpoint_to_full_dft_relative_change": {
+          "E": 1.0615607251029056e-09,
+          "H": 4.078657490394514e-08
+        }
+      },
+      "r_real": 0.9317933552265775,
+      "r_imag": -0.36726893497928154,
+      "r_power": 0.992472566682112,
+      "r2_real": 0.931777709088656,
+      "r2_imag": 0.35929327093815194,
+      "r2_power": 0.9924739633590264,
+      "transmission": 5.391668740630058e-05
+    }
+  ]
+}

@@ -96,3 +96,6 @@ MARKETING_2.md
 
 # Generated reference data
 /beamz/devices/reference/
+
+# Reproducible metal benchmark raw DFT surfaces (large local diagnostics)
+/docs/reviews/metal-benchmarks/**/surface_fields.npz

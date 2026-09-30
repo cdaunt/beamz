@@ -1,0 +1,41 @@
+{
+  "recorded_at": "2026-09-30T01:04:11.263828+00:00",
+  "implementation_commit": "91eedcc2682f518eaedfc61cfa97410ed61d2e93",
+  "python": "3.11.15",
+  "packages": {
+    "jax": "0.10.2",
+    "jaxlib": "0.10.2",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "matplotlib": "3.11.2",
+    "pandas": "3.0.6",
+    "nbclient": "0.11.0",
+    "nbformat": "5.11.1",
+    "miepython": "3.3.0"
+  },
+  "gpu": "NVIDIA GeForce RTX 3090, 610.43.03",
+  "scope": "Local JAX/CUDA sphere and metasurface controls; independent analytical and small CPML controls on CPU. No Tidy3D cloud jobs.",
+  "validation": {
+    "targeted_python_tests": 65,
+    "ruff": "passed configured CI scope",
+    "pyright": "passed",
+    "vulture": "passed",
+    "mie": "independently cross-checked with miepython 3.3.0",
+    "dipole": "surface-current radiation integral checked against analytic dipole"
+  },
+  "scripts_sha256": {
+    "analyze_metal_reflector.py": "37e798da6e001b6b68fa2addd86f1c2f9b570b1043d9046698edd8273f7a4fc6",
+    "analyze_metal_sphere.py": "40e2fc545bf6221a114237a6a042e2f858ed674a7a9ffa04ae276be434e62ddd",
+    "cmos_metal_film_control.py": "84060f449b848f5916c3cbdb648430bef9ecc5015a02ca620698fdea7de93163",
+    "execute_metal_notebook.py": "d6dd9f93764b696995f7c4c6de363dd02a9e763f555ec460ad712e494ae7219c",
+    "export_metal_reference_grid.py": "8e56dd98cb55e5746287be8ab30d591f3e97078b5350ec830e71f11597cfaeb5",
+    "metal_benchmarks.py": "6d35f5cf6358caf008e61dbd3c1cc98ae52676e041a67f3cdaf791f3a52730e6",
+    "metal_dielectric_variant.py": "9436430ee03ef94f18cf4efca8ba89408960671e7d365718b147e4f79b40a586",
+    "metal_discrete_planar.py": "9b7a632767dea6f274659ad342637e68b85d8f25d5af4993e0b332a25fe948fc",
+    "metal_far_field.py": "603a2dab26dc2ceeb09b0ab77b9a2492bbff7dbfedae4f98af42f3b842222cda",
+    "metal_ownership_check.py": "e2e86cf68e2d9b5cbabed1b37aadfad8157bf377bb20c7e4368c07562c4cbb7c",
+    "metal_pml_control.py": "5083495aa36088e18694b2415f8be59bc61272e6661a285dc94f6d7406643c5e",
+    "metal_reference_checks.py": "65662b83d69b5991897e7e3d3306b14216cf6a5c87dcfc969ff40036b26ded2b"
+  },
+  "input_manifest": "examples/data/metal_benchmarks/sources.json"
+}

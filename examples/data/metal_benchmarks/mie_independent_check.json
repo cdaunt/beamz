@@ -1,0 +1,40 @@
+{
+  "reflector_epsilon_850nm": {
+    "snapshot": [
+      -29.4518320924805,
+      1.0251111738139596
+    ],
+    "sdk": [
+      -28.62467615512745,
+      1.2515987885332152
+    ],
+    "snapshot_loss_reduction": 0.18095864009638662
+  },
+  "package": "miepython",
+  "version": "3.3.0",
+  "runs": [
+    {
+      "material": "sphere_gold",
+      "absorption_error": 8.055016894679219e-12,
+      "scattering_error": 2.3168615560576815e-15,
+      "permittivity_max_error": 7.105427357601002e-15
+    },
+    {
+      "material": "aluminum",
+      "absorption_error": 8.731692313815803e-12,
+      "scattering_error": 2.018668994073888e-15
+    }
+  ],
+  "published_table_comparison": {
+    "abs": {
+      "relative_max_error": 0.06974300279121028,
+      "ratio_min": 0.9180366155446095,
+      "ratio_max": 0.9302670804575423
+    },
+    "scat": {
+      "relative_max_error": 0.06402893020216033,
+      "ratio_min": 0.9359432526976158,
+      "ratio_max": 0.936196149248997
+    }
+  }
+}

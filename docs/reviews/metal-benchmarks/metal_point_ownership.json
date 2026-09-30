@@ -1,0 +1,20 @@
+[
+  {
+    "component": "Ex",
+    "beamz_count": 10800,
+    "tidy3d_point_count": 10800,
+    "mismatch_count": 0
+  },
+  {
+    "component": "Ey",
+    "beamz_count": 10800,
+    "tidy3d_point_count": 10800,
+    "mismatch_count": 0
+  },
+  {
+    "component": "Ez",
+    "beamz_count": 11424,
+    "tidy3d_point_count": 11424,
+    "mismatch_count": 0
+  }
+]

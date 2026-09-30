@@ -1,0 +1,51 @@
+{
+  "mie_plasmonic_flux_abs.txt": {
+    "url": "https://raw.githubusercontent.com/flexcompute/tidy3d-notebooks/develop/misc/mie_plasmonic_flux_abs.txt",
+    "sha256": "2d1ce8f1d39e1dceddca56ae7d651673792d19f3d8869861548d95d7e9638542"
+  },
+  "mie_plasmonic_flux_scat.txt": {
+    "url": "https://raw.githubusercontent.com/flexcompute/tidy3d-notebooks/develop/misc/mie_plasmonic_flux_scat.txt",
+    "sha256": "84ee968970a25dfe51bcae27bcd7616595007a7402cae12f0711f4e213bf0346"
+  },
+  "PlasmonicNanoparticle": {
+    "url": "https://github.com/flexcompute/tidy3d-notebooks/blob/develop/PlasmonicNanoparticle.ipynb",
+    "sha256": "582fc1707ac66c03847f69a48a920f707573f42f240e95ad94a52b5429ad2407"
+  },
+  "GradientMetasurfaceReflector": {
+    "url": "https://github.com/flexcompute/tidy3d-notebooks/blob/develop/GradientMetasurfaceReflector.ipynb",
+    "sha256": "8405b0f2f91c2b5b542272cbf9547e67b33961ab367849a3eb137345116be7ff"
+  },
+  "derived_inputs": {
+    "tidy3d_gold.json": "Pole-residue export from tidy3d 2.12.0.dev3 material library; named sphere and reflector gold models.",
+    "tidy3d_permittivity.npz": "Complex permittivity sampled by that SDK over 400\u2013700 nm, for independent import checking.",
+    "tidy3d_reflector_snapshot.json": "Decoded data-simulation payload in the saved GradientMetasurfaceReflector plot_3d HTML: base64 \u2192 gzip \u2192 HDF5 JSON_STRING. Original simulation version 2.9.0.",
+    "tidy3d_metasurface.png": "Original phase/reflectivity output image extracted from GradientMetasurfaceReflector.ipynb.",
+    "metasurface_digitized.json": "Green-line pixel centers in the preceding image; reproducible with metal_reference_checks.py.",
+    "reference_grids.json": "Reconstructed locally from saved snapshot using tidy3d==2.9.0; export_metal_reference_grid.py. No server calls.",
+    "reflector_point_epsilon.npz": "Tidy3D 2.9.0 client epsilon_on_grid at infinite frequency and actual Ex/Ey/Ez coordinates; central antenna length. No server subpixel operator is represented.",
+    "tidy3d_pml_defaults.json": "SDK default PML parameters; saved snapshot also records alpha_max=0."
+  },
+  "input_sha256": {
+    "metasurface_digitized.json": "baf1d57d3b243a1afda95f8837158f6e87bdf8b5c92e20aa866ba29fd2347fc2",
+    "mie_independent_check.json": "39d496a502c9ce064bcab575850fa10329641428fb4a4941b075255843a44c63",
+    "mie_plasmonic_flux_abs.txt": "2d1ce8f1d39e1dceddca56ae7d651673792d19f3d8869861548d95d7e9638542",
+    "mie_plasmonic_flux_scat.txt": "84ee968970a25dfe51bcae27bcd7616595007a7402cae12f0711f4e213bf0346",
+    "reference_grids.json": "1842a941094b7abbb960efbf03a6a2d349eb98916495d2287d3d167311543ea8",
+    "reflector_grid_132.308nm.npz": "cdcbace54689de9d1b8511256374caecf156ea9a3502d815a14c97bc57f97c6a",
+    "reflector_grid_280nm.npz": "28f0355074aef34a829f5b10291b7911a373e4a9cf10d301438e684e8d3f93b9",
+    "reflector_grid_40nm.npz": "794efb9eae4c124c3f862c6f0662b2c3f98ac37921d8c28537f7ad5c72cac7bd",
+    "reflector_point_epsilon.npz": "f985b2716afc67b823e3b8a8c25769210bc4ff4f15cea9567135537bc62f5c11",
+    "tidy3d_gold.json": "062e7dcb6f5c6a678a176c5f4fa5f54d1e59e36bcf3ea9568ced3c5c1aa381f1",
+    "tidy3d_metasurface.png": "c7445f3c88cf8a8838887de9f0dbf0d449288ec558976c54c501adf93974e933",
+    "tidy3d_permittivity.npz": "b713ac689c3f3c5732e63f63378033f0b2de2ad3697c16ba5c887d68465edc8e",
+    "tidy3d_pml_defaults.json": "0bb668b4b6fcf41ba874018a9db74be00ce689f26a615fed3f21731924bbd68f",
+    "tidy3d_reflector_snapshot.json": "0cb146ea2ce3ee17697d5f5879946097e7bd53bba1063e014b27c9badeae2a9a"
+  },
+  "theory_references": [
+    {
+      "title": "Toward Perfect Optical Diffusers: Dielectric Huygens\u2019 Metasurfaces with Critical Positional Disorder",
+      "url": "https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202105868",
+      "usage": "Electric-dipole array amplitude formula; the array/isolated radiation ratio in the report is derived from it."
+    }
+  ]
+}

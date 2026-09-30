@@ -1,0 +1,80 @@
+{
+  "source": "tidy3d_metasurface.png",
+  "method": "Green-line center pixels; axes tick calibration. Approximate image comparison, not solver arrays.",
+  "approximate_allowance": {
+    "phase_degrees": 2,
+    "reflectivity": 0.002
+  },
+  "runs": [
+    {
+      "length_nm": 40.0,
+      "phase_degrees": 0.0,
+      "reflectivity": 0.9813846153846154
+    },
+    {
+      "length_nm": 58.46153846153846,
+      "phase_degrees": 7.668711656441717,
+      "reflectivity": 0.9766153846153846
+    },
+    {
+      "length_nm": 76.92307692307692,
+      "phase_degrees": 19.55521472392638,
+      "reflectivity": 0.9670769230769231
+    },
+    {
+      "length_nm": 95.38461538461539,
+      "phase_degrees": 41.41104294478527,
+      "reflectivity": 0.9458461538461538
+    },
+    {
+      "length_nm": 113.84615384615384,
+      "phase_degrees": 78.6042944785276,
+      "reflectivity": 0.9083076923076923
+    },
+    {
+      "length_nm": 132.3076923076923,
+      "phase_degrees": 134.20245398773008,
+      "reflectivity": 0.8741538461538462
+    },
+    {
+      "length_nm": 150.76923076923077,
+      "phase_degrees": 185.58282208588957,
+      "reflectivity": 0.8892307692307693
+    },
+    {
+      "length_nm": 169.23076923076923,
+      "phase_degrees": 217.4079754601227,
+      "reflectivity": 0.917076923076923
+    },
+    {
+      "length_nm": 187.69230769230768,
+      "phase_degrees": 236.19631901840492,
+      "reflectivity": 0.9387692307692308
+    },
+    {
+      "length_nm": 206.15384615384613,
+      "phase_degrees": 247.6993865030675,
+      "reflectivity": 0.9526153846153846
+    },
+    {
+      "length_nm": 224.61538461538458,
+      "phase_degrees": 254.60122699386503,
+      "reflectivity": 0.961076923076923
+    },
+    {
+      "length_nm": 243.07692307692307,
+      "phase_degrees": 259.96932515337426,
+      "reflectivity": 0.9675384615384616
+    },
+    {
+      "length_nm": 261.53846153846155,
+      "phase_degrees": 264.1871165644172,
+      "reflectivity": 0.9721538461538461
+    },
+    {
+      "length_nm": 280.0,
+      "phase_degrees": 268.4049079754601,
+      "reflectivity": 0.9764615384615385
+    }
+  ]
+}

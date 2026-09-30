@@ -1,0 +1,85 @@
+{
+  "device": "[CudaDevice(id=0)]",
+  "dx_nm": 2.5,
+  "gold_model": "snapshot",
+  "mesh": "refined",
+  "reflection_measurement": "native_e_discrete_power",
+  "monitor_z_nm": {
+    "r0": 169.70394736842107,
+    "r": 179.67105263157893,
+    "r2": 189.63815789473685,
+    "t": -300.0
+  },
+  "runtime_fs": 300.0,
+  "grid": [
+    48,
+    120,
+    231
+  ],
+  "dt": 3.85166640309291e-18,
+  "steps": 77889,
+  "elapsed_s": 37.143576530972496,
+  "checkpoint_fraction": 0.75,
+  "checkpoint_to_full_dft_relative_change": {
+    "E": 1.7957404074406457e-16,
+    "H": 1.4780584527582037e-16
+  },
+  "runs": [
+    {
+      "length_nm": 0.0,
+      "execution": {
+        "grid": [
+          48,
+          120,
+          231
+        ],
+        "dt": 3.85166640309291e-18,
+        "steps": 77889,
+        "elapsed_s": 60.06295772199519,
+        "checkpoint_fraction": 0.75,
+        "checkpoint_to_full_dft_relative_change": {
+          "E": 4.7259033966287574e-11,
+          "H": 2.343873291012098e-07
+        }
+      },
+      "r0_interpolated_flux_R": 0.9846554619410874,
+      "r_interpolated_flux_R": 0.9846541420103464,
+      "r2_interpolated_flux_R": 0.9846534614461437,
+      "r_real": 0.992289500294785,
+      "r_imag": 0.0036873995615488253,
+      "r_power": 0.9846520493108007,
+      "r2_real": 0.9809924731654791,
+      "r2_imag": 0.1493728561576944,
+      "r2_power": 0.9846584825640304,
+      "transmission": 2.0540721220335085e-05
+    },
+    {
+      "length_nm": 132.3076923076923,
+      "execution": {
+        "grid": [
+          48,
+          120,
+          231
+        ],
+        "dt": 3.85166640309291e-18,
+        "steps": 77889,
+        "elapsed_s": 71.93827176198829,
+        "checkpoint_fraction": 0.75,
+        "checkpoint_to_full_dft_relative_change": {
+          "E": 4.0332894480295884e-07,
+          "H": 7.818464724631759e-08
+        }
+      },
+      "r0_interpolated_flux_R": 0.8332870692037508,
+      "r_interpolated_flux_R": 0.8332863727971139,
+      "r2_interpolated_flux_R": 0.8332853942349547,
+      "r_real": -0.7078174196606887,
+      "r_imag": 0.5764406416224778,
+      "r_power": 0.8332893128892495,
+      "r2_real": -0.7848028627276182,
+      "r2_imag": 0.46624517861286935,
+      "r2_power": 0.8333000999252114,
+      "transmission": 3.884374043140932e-05
+    }
+  ]
+}

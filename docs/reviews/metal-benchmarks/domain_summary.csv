@@ -1,0 +1,3 @@
+Boundary,Mesh (nm),Actual lateral span (nm),Absorption change / Mie peak (%),Scattering change / Mie peak (%)
+periodic,0.5,265.11666640442616,0.0367105672753468,0.03375018090022735
+cpml,1.0,902.3918464548865,0.016651086329049353,0.017336095901702445

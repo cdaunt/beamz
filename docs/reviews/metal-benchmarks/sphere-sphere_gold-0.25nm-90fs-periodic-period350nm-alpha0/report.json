@@ -1,0 +1,72 @@
+{
+  "material": "sphere_gold",
+  "dx_nm": 0.25,
+  "runtime_fs": 90,
+  "padding_nm": 450,
+  "period_nm": 350,
+  "lateral_boundary": "periodic",
+  "cpml_alpha_max": 0.0,
+  "actual_period_nm": 369.01535972810905,
+  "actual_xy_dx_nm": 0.24999999999999892,
+  "device": "[CudaDevice(id=0)]",
+  "grid": [
+    132,
+    132,
+    178
+  ],
+  "dt": 3.851666403092925e-19,
+  "steps": 233666,
+  "elapsed_s": 644.9987063250737,
+  "checkpoint_fraction": 0.75,
+  "checkpoint_to_full_dft_relative_change": {
+    "E": 2.317846720144125e-06,
+    "H": 3.523291395762804e-06
+  },
+  "device_execution": {
+    "grid": [
+      132,
+      132,
+      178
+    ],
+    "dt": 3.851666403092925e-19,
+    "steps": 233666,
+    "elapsed_s": 763.0514076669933,
+    "checkpoint_fraction": 0.75,
+    "checkpoint_to_full_dft_relative_change": {
+      "E": 4.485035175297119e-06,
+      "H": 3.474829403134825e-06
+    }
+  },
+  "magnetic_timing_aligned": true,
+  "surfaces": [
+    {
+      "half_nm": 6,
+      "absorption_relative_max": 0.07189145622702041,
+      "scattering_relative_max": 0.697709899078535,
+      "absorption_peak_nm": 490.7407407407408,
+      "exact_peak_nm": 490.7407407407408,
+      "min_absorption": 1.0247957625373859e-18,
+      "min_scattering": 1.4510422862011377e-21,
+      "absorption_optical_theorem_relative_max": 0.07403663789190441,
+      "absorption_extraction_difference_relative_max": 0.002168799709273652,
+      "scattering_projected_relative_max": 0.0406450837610651,
+      "direct_vs_array_dipole_relative_max": 0.3134691290036358
+    },
+    {
+      "half_nm": 8,
+      "absorption_relative_max": 0.07194690049023343,
+      "scattering_relative_max": 0.6694308035774369,
+      "absorption_peak_nm": 490.7407407407408,
+      "exact_peak_nm": 490.7407407407408,
+      "min_absorption": 1.024412617259469e-18,
+      "min_scattering": 1.4311524387613477e-21,
+      "absorption_optical_theorem_relative_max": 0.07409187119888488,
+      "absorption_extraction_difference_relative_max": 0.0021522995007768886,
+      "scattering_projected_relative_max": 0.04063498506644728,
+      "direct_vs_array_dipole_relative_max": 0.2528134497259764
+    }
+  ],
+  "incident_impedance_max_error": 0.003304828487806516,
+  "incident_cross_polarization_max": 0.0,
+  "direct_scattering_observable": "periodic array power per cell"
+}

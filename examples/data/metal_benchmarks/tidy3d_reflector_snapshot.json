@@ -1,0 +1,469 @@
+{
+  "attrs": {},
+  "type": "Simulation",
+  "center": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "size": [
+    0.12,
+    0.3,
+    1.275
+  ],
+  "medium": {
+    "attrs": {},
+    "name": null,
+    "frequency_range": null,
+    "allow_gain": false,
+    "nonlinear_spec": null,
+    "modulation_spec": null,
+    "viz_spec": null,
+    "heat_spec": null,
+    "type": "Medium",
+    "permittivity": 1.0,
+    "conductivity": 0.0
+  },
+  "structures": [
+    {
+      "attrs": {},
+      "geometry": {
+        "attrs": {},
+        "type": "Box",
+        "center": [
+          0.0,
+          0.0,
+          -50.065
+        ],
+        "size": [
+          200.0,
+          200.0,
+          99.87
+        ]
+      },
+      "name": null,
+      "background_permittivity": null,
+      "background_medium": null,
+      "priority": null,
+      "type": "Structure",
+      "medium": {
+        "attrs": {},
+        "name": null,
+        "frequency_range": null,
+        "allow_gain": false,
+        "nonlinear_spec": null,
+        "modulation_spec": null,
+        "viz_spec": null,
+        "heat_spec": null,
+        "type": "Medium",
+        "permittivity": 2.25,
+        "conductivity": 0.0
+      }
+    },
+    {
+      "attrs": {},
+      "geometry": {
+        "attrs": {},
+        "type": "Box",
+        "center": [
+          0.0,
+          0.0,
+          -0.065
+        ],
+        "size": [
+          200.0,
+          200.0,
+          0.13
+        ]
+      },
+      "name": null,
+      "background_permittivity": null,
+      "background_medium": null,
+      "priority": null,
+      "type": "Structure",
+      "medium": {
+        "attrs": {},
+        "name": "Au_Olmon2012evaporated",
+        "frequency_range": [
+          12025369359446.29,
+          999308193769986.8
+        ],
+        "allow_gain": false,
+        "nonlinear_spec": null,
+        "modulation_spec": null,
+        "viz_spec": null,
+        "heat_spec": null,
+        "type": "PoleResidue",
+        "eps_inf": 5.632132676065586,
+        "poles": [
+          [
+            {
+              "real": -208702733035001.06,
+              "imag": -205285605362650.1
+            },
+            {
+              "real": -5278287093117479.0,
+              "imag": 1877992342820785.5
+            }
+          ],
+          [
+            {
+              "real": -5802337384288.284,
+              "imag": -6750566414892.662
+            },
+            {
+              "real": 4391102400709820.0,
+              "imag": 6.164348337888482e+18
+            }
+          ],
+          [
+            {
+              "real": -56597670698540.76,
+              "imag": -8080114483410.944
+            },
+            {
+              "real": 895004078070708.5,
+              "imag": 5.346045584373232e+18
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "attrs": {},
+      "geometry": {
+        "attrs": {},
+        "type": "Box",
+        "center": [
+          0.0,
+          0.0,
+          0.025
+        ],
+        "size": [
+          200.0,
+          200.0,
+          0.05
+        ]
+      },
+      "name": null,
+      "background_permittivity": null,
+      "background_medium": null,
+      "priority": null,
+      "type": "Structure",
+      "medium": {
+        "attrs": {},
+        "name": null,
+        "frequency_range": null,
+        "allow_gain": false,
+        "nonlinear_spec": null,
+        "modulation_spec": null,
+        "viz_spec": null,
+        "heat_spec": null,
+        "type": "Medium",
+        "permittivity": 1.892,
+        "conductivity": 0.0
+      }
+    },
+    {
+      "attrs": {},
+      "geometry": {
+        "attrs": {},
+        "type": "Box",
+        "center": [
+          0.0,
+          0.0,
+          0.065
+        ],
+        "size": [
+          0.09,
+          0.15,
+          0.03
+        ]
+      },
+      "name": null,
+      "background_permittivity": null,
+      "background_medium": null,
+      "priority": null,
+      "type": "Structure",
+      "medium": {
+        "attrs": {},
+        "name": "Au_Olmon2012evaporated",
+        "frequency_range": [
+          12025369359446.29,
+          999308193769986.8
+        ],
+        "allow_gain": false,
+        "nonlinear_spec": null,
+        "modulation_spec": null,
+        "viz_spec": null,
+        "heat_spec": null,
+        "type": "PoleResidue",
+        "eps_inf": 5.632132676065586,
+        "poles": [
+          [
+            {
+              "real": -208702733035001.06,
+              "imag": -205285605362650.1
+            },
+            {
+              "real": -5278287093117479.0,
+              "imag": 1877992342820785.5
+            }
+          ],
+          [
+            {
+              "real": -5802337384288.284,
+              "imag": -6750566414892.662
+            },
+            {
+              "real": 4391102400709820.0,
+              "imag": 6.164348337888482e+18
+            }
+          ],
+          [
+            {
+              "real": -56597670698540.76,
+              "imag": -8080114483410.944
+            },
+            {
+              "real": 895004078070708.5,
+              "imag": 5.346045584373232e+18
+            }
+          ]
+        ]
+      }
+    }
+  ],
+  "symmetry": [
+    0,
+    0,
+    0
+  ],
+  "sources": [
+    {
+      "attrs": {},
+      "name": null,
+      "type": "PlaneWave",
+      "center": [
+        0.0,
+        0.0,
+        0.255
+      ],
+      "size": [
+        "Infinity",
+        "Infinity",
+        0.0
+      ],
+      "source_time": {
+        "attrs": {},
+        "amplitude": 1.0,
+        "phase": 0.0,
+        "type": "GaussianPulse",
+        "freq0": 352697009411764.7,
+        "fwidth": 35269700941176.47,
+        "offset": 5.0,
+        "remove_dc_component": true
+      },
+      "num_freqs": 3,
+      "direction": "-",
+      "angle_theta": 0.0,
+      "angle_phi": 0.0,
+      "pol_angle": 1.5707963267948966,
+      "angular_spec": {
+        "attrs": {},
+        "type": "FixedInPlaneKSpec"
+      }
+    }
+  ],
+  "boundary_spec": {
+    "attrs": {},
+    "x": {
+      "attrs": {},
+      "plus": {
+        "attrs": {},
+        "name": null,
+        "type": "Periodic"
+      },
+      "minus": {
+        "attrs": {},
+        "name": null,
+        "type": "Periodic"
+      },
+      "type": "Boundary"
+    },
+    "y": {
+      "attrs": {},
+      "plus": {
+        "attrs": {},
+        "name": null,
+        "type": "Periodic"
+      },
+      "minus": {
+        "attrs": {},
+        "name": null,
+        "type": "Periodic"
+      },
+      "type": "Boundary"
+    },
+    "z": {
+      "attrs": {},
+      "plus": {
+        "attrs": {},
+        "name": null,
+        "type": "PML",
+        "num_layers": 12,
+        "parameters": {
+          "attrs": {},
+          "sigma_order": 3,
+          "sigma_min": 0.0,
+          "sigma_max": 1.5,
+          "type": "PMLParams",
+          "kappa_order": 3,
+          "kappa_min": 1.0,
+          "kappa_max": 3.0,
+          "alpha_order": 1,
+          "alpha_min": 0.0,
+          "alpha_max": 0.0
+        }
+      },
+      "minus": {
+        "attrs": {},
+        "name": null,
+        "type": "PML",
+        "num_layers": 12,
+        "parameters": {
+          "attrs": {},
+          "sigma_order": 3,
+          "sigma_min": 0.0,
+          "sigma_max": 1.5,
+          "type": "PMLParams",
+          "kappa_order": 3,
+          "kappa_min": 1.0,
+          "kappa_max": 3.0,
+          "alpha_order": 1,
+          "alpha_min": 0.0,
+          "alpha_max": 0.0
+        }
+      },
+      "type": "Boundary"
+    },
+    "type": "BoundarySpec"
+  },
+  "monitors": [
+    {
+      "attrs": {},
+      "type": "DiffractionMonitor",
+      "center": [
+        0.0,
+        0.0,
+        0.51
+      ],
+      "size": [
+        "Infinity",
+        "Infinity",
+        0.0
+      ],
+      "name": "R",
+      "interval_space": [
+        1,
+        1,
+        1
+      ],
+      "colocate": false,
+      "freqs": [
+        352697009411764.7
+      ],
+      "apodization": {
+        "attrs": {},
+        "start": null,
+        "end": null,
+        "width": null,
+        "type": "ApodizationSpec"
+      },
+      "normal_dir": "+"
+    }
+  ],
+  "grid_spec": {
+    "attrs": {},
+    "grid_x": {
+      "attrs": {},
+      "type": "AutoGrid",
+      "max_scale": 1.4,
+      "mesher": {
+        "attrs": {},
+        "type": "GradedMesher"
+      },
+      "dl_min": 0.0,
+      "min_steps_per_wvl": 20.0,
+      "min_steps_per_sim_size": 10.0
+    },
+    "grid_y": {
+      "attrs": {},
+      "type": "AutoGrid",
+      "max_scale": 1.4,
+      "mesher": {
+        "attrs": {},
+        "type": "GradedMesher"
+      },
+      "dl_min": 0.0,
+      "min_steps_per_wvl": 20.0,
+      "min_steps_per_sim_size": 10.0
+    },
+    "grid_z": {
+      "attrs": {},
+      "type": "AutoGrid",
+      "max_scale": 1.4,
+      "mesher": {
+        "attrs": {},
+        "type": "GradedMesher"
+      },
+      "dl_min": 0.0,
+      "min_steps_per_wvl": 20.0,
+      "min_steps_per_sim_size": 10.0
+    },
+    "wavelength": 0.85,
+    "override_structures": [],
+    "snapping_points": [],
+    "layer_refinement_specs": [],
+    "type": "GridSpec"
+  },
+  "version": "2.9.0",
+  "plot_length_units": "\u03bcm",
+  "structure_priority_mode": "equal",
+  "lumped_elements": [],
+  "subpixel": {
+    "attrs": {},
+    "dielectric": {
+      "attrs": {},
+      "type": "PolarizedAveraging"
+    },
+    "metal": {
+      "attrs": {},
+      "type": "Staircasing"
+    },
+    "pec": {
+      "attrs": {},
+      "type": "PECConformal",
+      "timestep_reduction": 0.3,
+      "edge_singularity_correction": false
+    },
+    "pmc": {
+      "attrs": {},
+      "type": "Staircasing"
+    },
+    "lossy_metal": {
+      "attrs": {},
+      "type": "SurfaceImpedance",
+      "timestep_reduction": 0.0,
+      "edge_singularity_correction": false
+    },
+    "type": "SubpixelSpec"
+  },
+  "simulation_type": "tidy3d",
+  "post_norm": 1.0,
+  "courant": 0.99,
+  "precision": "hybrid",
+  "normalize_index": 0,
+  "shutoff": 1e-05,
+  "run_time": 3e-13
+}

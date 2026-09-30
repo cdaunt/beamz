@@ -1,0 +1,69 @@
+{
+  "material": "sphere_gold",
+  "dx_nm": 1.0,
+  "runtime_fs": 90,
+  "padding_nm": 450,
+  "period_nm": 350,
+  "lateral_boundary": "cpml",
+  "cpml_alpha_max": 0.0,
+  "actual_period_nm": 902.3918464548865,
+  "actual_xy_dx_nm": 0.9999999999999999,
+  "device": "[CudaDevice(id=0)]",
+  "grid": [
+    108,
+    108,
+    108
+  ],
+  "dt": 1.540666561237176e-18,
+  "steps": 58417,
+  "elapsed_s": 45.69281823094934,
+  "checkpoint_fraction": 0.75,
+  "checkpoint_to_full_dft_relative_change": {
+    "E": 2.0720042750856924e-06,
+    "H": 2.286444937530065e-06
+  },
+  "device_execution": {
+    "grid": [
+      108,
+      108,
+      108
+    ],
+    "dt": 1.540666561237176e-18,
+    "steps": 58417,
+    "elapsed_s": 51.756797399022616,
+    "checkpoint_fraction": 0.75,
+    "checkpoint_to_full_dft_relative_change": {
+      "E": 0.0002478882611067864,
+      "H": 3.246185007580026e-06
+    }
+  },
+  "magnetic_timing_aligned": true,
+  "surfaces": [
+    {
+      "half_nm": 6,
+      "absorption_relative_max": 0.2903230715157095,
+      "scattering_relative_max": 0.27691783324787206,
+      "absorption_peak_nm": 496.8750000000001,
+      "exact_peak_nm": 490.7407407407408,
+      "min_absorption": 1.3973278269845342e-18,
+      "min_scattering": 2.1886120294174072e-21,
+      "absorption_optical_theorem_relative_max": 0.29974077706666774,
+      "absorption_extraction_difference_relative_max": 0.009513170153934212,
+      "scattering_projected_relative_max": 0.17185277843297136
+    },
+    {
+      "half_nm": 8,
+      "absorption_relative_max": 0.2903590876821496,
+      "scattering_relative_max": 0.19793362176017418,
+      "absorption_peak_nm": 496.8750000000001,
+      "exact_peak_nm": 490.7407407407408,
+      "min_absorption": 1.3971226454910039e-18,
+      "min_scattering": 2.1822332053731535e-21,
+      "absorption_optical_theorem_relative_max": 0.2997442700740845,
+      "absorption_extraction_difference_relative_max": 0.009475970705317655,
+      "scattering_projected_relative_max": 0.17185773315822564
+    }
+  ],
+  "incident_impedance_max_error": 0.0032833752102297397,
+  "incident_cross_polarization_max": 0.0
+}

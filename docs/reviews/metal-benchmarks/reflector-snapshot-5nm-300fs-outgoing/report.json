@@ -1,0 +1,135 @@
+{
+  "device": "[CudaDevice(id=0)]",
+  "dx_nm": 5.0,
+  "gold_model": "snapshot",
+  "mesh": "refined",
+  "reflection_measurement": "above_source_native_power",
+  "monitor_z_nm": {
+    "r0": 498.61842105263156,
+    "r": 508.5855263157894,
+    "r2": 518.5526315789474,
+    "input0": 179.67105263157893,
+    "input1": 189.63815789473685,
+    "t": -300.0
+  },
+  "runtime_fs": 300.0,
+  "grid": [
+    24,
+    60,
+    189
+  ],
+  "dt": 7.703332806185842e-18,
+  "steps": 38945,
+  "elapsed_s": 18.623609729111195,
+  "checkpoint_fraction": 0.75,
+  "checkpoint_to_full_dft_relative_change": {
+    "E": 3.1035528974193467e-08,
+    "H": 3.120897137396663e-08
+  },
+  "runs": [
+    {
+      "length_nm": 0.0,
+      "execution": {
+        "grid": [
+          24,
+          60,
+          189
+        ],
+        "dt": 7.703332806185842e-18,
+        "steps": 38945,
+        "elapsed_s": 29.084056615945883,
+        "checkpoint_fraction": 0.75,
+        "checkpoint_to_full_dft_relative_change": {
+          "E": 1.512467234328076e-09,
+          "H": 3.4128013287806874e-08
+        }
+      },
+      "r_real": -0.7711126121777506,
+      "r_imag": 0.6243587946643008,
+      "r_power": 0.9844385651342523,
+      "r2_real": -0.8149894281204295,
+      "r2_imag": 0.5658905050323068,
+      "r2_power": 0.9844398316337839,
+      "empty_grid_reflectivity": 2.5567719544275716e-07,
+      "transmission": 2.3233128192122e-05
+    },
+    {
+      "length_nm": 40.0,
+      "execution": {
+        "grid": [
+          24,
+          60,
+          189
+        ],
+        "dt": 7.703332806185842e-18,
+        "steps": 38945,
+        "elapsed_s": 30.6715985579649,
+        "checkpoint_fraction": 0.75,
+        "checkpoint_to_full_dft_relative_change": {
+          "E": 7.799807819293558e-08,
+          "H": 1.0300737675048806e-07
+        }
+      },
+      "r_real": -0.8252007061366732,
+      "r_imag": 0.5480784198403568,
+      "r_power": 0.9813461597031663,
+      "r2_real": -0.8633139821118079,
+      "r2_imag": 0.48583444391728925,
+      "r2_power": 0.9813461386061687,
+      "empty_grid_reflectivity": 2.5567719544275716e-07,
+      "transmission": 2.5806457088385232e-05
+    },
+    {
+      "length_nm": 132.3076923076923,
+      "execution": {
+        "grid": [
+          24,
+          60,
+          189
+        ],
+        "dt": 7.703332806185842e-18,
+        "steps": 38945,
+        "elapsed_s": 30.678820948000066,
+        "checkpoint_fraction": 0.75,
+        "checkpoint_to_full_dft_relative_change": {
+          "E": 2.762385283171868e-07,
+          "H": 4.6166453201293416e-08
+        }
+      },
+      "r_real": 0.17653480639737348,
+      "r_imag": -0.8986250486980782,
+      "r_power": 0.8386915160173817,
+      "r2_real": 0.24221737332561974,
+      "r2_imag": -0.8831865204979829,
+      "r2_power": 0.8386876859300965,
+      "empty_grid_reflectivity": 2.5567719544275716e-07,
+      "transmission": 4.3680995966244524e-05
+    },
+    {
+      "length_nm": 280.0,
+      "execution": {
+        "grid": [
+          24,
+          60,
+          189
+        ],
+        "dt": 7.703332806185842e-18,
+        "steps": 38945,
+        "elapsed_s": 30.762564753065817,
+        "checkpoint_fraction": 0.75,
+        "checkpoint_to_full_dft_relative_change": {
+          "E": 8.097423055514695e-07,
+          "H": 5.035418983913025e-07
+        }
+      },
+      "r_real": 0.4099393357473179,
+      "r_imag": 0.8978436788625783,
+      "r_power": 0.9741735306664409,
+      "r2_real": 0.34272203960923536,
+      "r2_imag": 0.9255881013468705,
+      "r2_power": 0.9741717297888188,
+      "empty_grid_reflectivity": 2.5567719544275716e-07,
+      "transmission": 2.4425211409569797e-07
+    }
+  ]
+}
