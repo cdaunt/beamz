@@ -1,0 +1,6 @@
+{
+  "peak_host_rss_gib": 13.988037109375,
+  "minimum_available_ram_gib": 1.3989677429199219,
+  "memory_guard_stopped": true,
+  "exit_code": -15
+}

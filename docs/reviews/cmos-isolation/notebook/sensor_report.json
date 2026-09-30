@@ -11,24 +11,27 @@
   "dt": 1.4413465606999474e-17,
   "reference": false,
   "smoothing": "farjadpour_diagonal",
+  "metal_smoothing": "staircase",
+  "periodic_material_supports": true,
   "reference_z": true,
   "boundary": "absorber",
   "clock_policy": "integer_step",
   "detector_colocation": "plus",
   "checkpoint_fs": 299.98745967848004,
-  "first_half_seconds": 386.6058648970211,
-  "second_half_seconds": 272.85553696297575,
+  "first_half_seconds": 389.8227913849987,
+  "second_half_seconds": 276.3016129139578,
   "finite_fields": true,
   "finite_polarization": true,
   "temporal_max_absolute_change": {
-    "blue": 1.6686092254192264e-05,
-    "red": 1.7132978769332508e-05,
-    "green1": 7.328871503980983e-05,
-    "green2": 7.261477964931595e-05
+    "blue": 1.7341634885828516e-05,
+    "red": 1.778116318430778e-05,
+    "green1": 7.624038890135729e-05,
+    "green2": 7.645188359495236e-05
   },
   "material_checksums": {
     "materials.json": "179dd5944332856225b639d369e1f3a50f086b27f8d49b74b2e65d601f09716f",
-    "filters.json": "3c0845ca3f8fb5d82dcd948373d7fc42df06b58539d1a8b30f95ca7397ef9749"
+    "filters.json": "3c0845ca3f8fb5d82dcd948373d7fc42df06b58539d1a8b30f95ca7397ef9749",
+    "tidy3d_reference_simulation.json": "4e3bc436bdff467be70c837a068d27c05fd93effadbb1aee5b18085d6c3cb2b3"
   },
   "absorbers": [
     {
@@ -54,5 +57,5 @@
     "y": "57fa2db3709abb337c7d212ade258269ed3822b93dc833423ef507a99149241d",
     "z": "4d669474e68656b74a8be0c39fe2ebe4b2c7cfd082ef7b41f6a58432c69b0cae"
   },
-  "setup_seconds": 35.803746485034935
+  "setup_seconds": 49.074157434049994
 }

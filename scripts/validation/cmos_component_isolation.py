@@ -66,6 +66,11 @@ def main():
     )
     parser.add_argument("--boundary", choices=["absorber", "cpml"], default="absorber")
     parser.add_argument("--output", type=Path)
+    parser.add_argument(
+        "--smoothing",
+        choices=["farjadpour_diagonal", "volume"],
+        default="farjadpour_diagonal",
+    )
     args = parser.parse_args()
     if not any(d.platform == "gpu" for d in jax.devices()):
         raise RuntimeError("Local GPU required")
@@ -77,6 +82,7 @@ def main():
         + ("-library-metal" if args.metal_model == "library" else "")
         + ("-staircase-metal" if args.metal_smoothing == "staircase" else "")
         + ("-cpml" if args.boundary == "cpml" else "")
+        + ("-volume" if args.smoothing == "volume" else "")
     )
     if args.output is not None:
         out = args.output
@@ -100,6 +106,7 @@ def main():
             stage=args.stage,
             boundary=args.boundary,
             metal_smoothing=args.metal_smoothing,
+            smoothing=args.smoothing,
             colocation_side="plus",
             compare_colocation=True,
             max_optical_dz=None
@@ -176,6 +183,7 @@ def main():
         ],
         incident_reference=str(modal_path.relative_to(ROOT)),
         metal_model=args.metal_model,
+        dielectric_smoothing=args.smoothing,
         metal_smoothing=args.metal_smoothing,
         reference_frequency_hz=float(sim.sources[0].source_time.freq0),
         max_optical_dz_nm=args.optical_dz_nm,

@@ -1,0 +1,50 @@
+{
+  "volume_minus_diagonal_pp": {
+    "red": 0.003086791356707863,
+    "green": -0.01053695583495795,
+    "blue": 0.00023650324399326905
+  },
+  "frozen_minus_broadband_blue_pp": -0.0008015624635433483,
+  "closed_faces_minus_native_blue_pp": 0.061816136788250375,
+  "meep": {
+    "unmatched_central_difference_pp": -4.31163360612512,
+    "matched_central_difference_pp": -0.012076902212876384,
+    "max_abs_spectral_difference_pp": 0.41195607649610055,
+    "rms_spectral_difference_pp": 0.20427151193720916,
+    "frequency_count": 41,
+    "ownership_audit": {
+      "Ex": {
+        "changed_sites": 372,
+        "z_nm": [
+          50.00000000000005,
+          80.00000000000009
+        ]
+      },
+      "Ey": {
+        "changed_sites": 390,
+        "z_nm": [
+          50.00000000000005,
+          80.00000000000009
+        ]
+      },
+      "Ez": {
+        "changed_sites": 0,
+        "z_nm": []
+      }
+    }
+  },
+  "exact_mesh_completed": false,
+  "lateral_10nm": {
+    "grid": [
+      300,
+      300,
+      430
+    ],
+    "checkpoint_blue_percent": 9.204278270722176,
+    "checkpoint_time_fs": 300,
+    "completed_510fs": true,
+    "blue_percent": 9.204161505155492,
+    "fine_minus_coarse_blue_pp": -0.018359851868273935,
+    "checkpoint_to_final_blue_change_pp": -0.00011676556668405169
+  }
+}

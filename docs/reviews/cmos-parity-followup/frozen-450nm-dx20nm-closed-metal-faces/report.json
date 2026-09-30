@@ -1,0 +1,58 @@
+{
+  "wavelength_nm": 450,
+  "grid": [
+    150,
+    150,
+    430
+  ],
+  "reference_xy": false,
+  "dx_nm": 20,
+  "runtime_fs": 510,
+  "elapsed_s": 211.13561161002144,
+  "device": "[CudaDevice(id=0)]",
+  "dielectric_audit": {
+    "Ex": {
+      "min_real": 1.0,
+      "max_imag": 13.289379742816404
+    },
+    "Ey": {
+      "min_real": 1.0,
+      "max_imag": 13.289379742816404
+    },
+    "Ez": {
+      "min_real": 1.0,
+      "max_imag": 13.289379742816404
+    },
+    "closed_metal_faces": {
+      "Ex": {
+        "face_sites": 71556,
+        "changed_metal_sites": 15880
+      },
+      "Ey": {
+        "face_sites": 71556,
+        "changed_metal_sites": 15880
+      },
+      "Ez": {
+        "face_sites": 9412,
+        "changed_metal_sites": 0
+      }
+    }
+  },
+  "efficiency_percent": {
+    "blue": 9.284337493812016,
+    "red": 0.01110267042678599,
+    "green1": 0.06883928832773237,
+    "green2": 0.031738561570655015,
+    "green": 0.10057784989838739
+  },
+  "fluxes": {
+    "blue": 0.09322711568679881,
+    "red": 0.00011148560045347863,
+    "green1": 0.0006912381525341765,
+    "green2": 0.00031869743568155903
+  },
+  "checkpoint_to_final_max_change_pp": 0.0002626288550045322,
+  "incident_power": 1.0041332055080334,
+  "dt": 1.4413465606999474e-17,
+  "simplified_jax_constants": false
+}

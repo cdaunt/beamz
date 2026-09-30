@@ -1,0 +1,26 @@
+Loading cached frozen coefficients
+{"grid": [390, 390, 430], "dt": 1.4413465606999474e-17, "dielectric_audit": {"method": "slab raster with one-cell halos", "reference_xy": true}}
+Thread 0x00007f55badff6c0 (most recent call first):
+  File "scripts/validation/cmos_frequency_frozen.py", line 40 in release
+  File "<home>/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/threading.py", line 982 in run
+  File "<home>/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/threading.py", line 1045 in _bootstrap_inner
+  File "<home>/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/threading.py", line 1002 in _bootstrap
+
+Current thread 0x00007f55dba09740 (most recent call first):
+  File "<repo>/.venv/lib/python3.11/site-packages/jax/_src/compiler.py", line 353 in backend_compile_and_load
+  File "<repo>/.venv/lib/python3.11/site-packages/jax/_src/profiler.py", line 420 in wrapper
+  File "<repo>/.venv/lib/python3.11/site-packages/jax/_src/compiler.py", line 422 in compile_or_get_cached
+  File "<repo>/.venv/lib/python3.11/site-packages/jax/_src/interpreters/pxla.py", line 1516 in _cached_compilation
+  File "<repo>/.venv/lib/python3.11/site-packages/jax/_src/interpreters/pxla.py", line 1733 in from_hlo
+  File "<repo>/.venv/lib/python3.11/site-packages/jax/_src/interpreters/pxla.py", line 1239 in compile
+  File "<repo>/.venv/lib/python3.11/site-packages/jax/_src/stages.py", line 592 in compile
+  File "<repo>/beamz/simulation/execute.py", line 1087 in _compiled_program_execution
+  File "<repo>/beamz/simulation/execute.py", line 1206 in _run_program_state_timed
+  File "<repo>/beamz/simulation/execute.py", line 1283 in run_simulation_program
+  File "<repo>/beamz/simulation/api.py", line 1568 in advance
+  File "scripts/validation/cmos_frequency_frozen.py", line 194 in main
+  File "scripts/validation/cmos_frequency_frozen.py", line 250 in <module>
+  File "<frozen runpy>", line 88 in _run_code
+  File "<frozen runpy>", line 98 in _run_module_code
+  File "<frozen runpy>", line 291 in run_path
+  File "/tmp/run_cmos_reference_trim.py", line 6 in <module>

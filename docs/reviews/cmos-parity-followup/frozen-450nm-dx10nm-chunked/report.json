@@ -1,0 +1,35 @@
+{
+  "wavelength_nm": 450,
+  "grid": [
+    300,
+    300,
+    430
+  ],
+  "reference_xy": false,
+  "dx_nm": 10.0,
+  "runtime_fs": 510,
+  "elapsed_s": 682.96606488002,
+  "device": "[CudaDevice(id=0)]",
+  "dielectric_audit": {
+    "method": "slab raster with one-cell halos",
+    "reference_xy": false
+  },
+  "efficiency_percent": {
+    "blue": 9.204161505155492,
+    "red": 0.01090113875617913,
+    "green1": 0.07758655550380025,
+    "green2": 0.032780340517287676,
+    "green": 0.11036689602108793
+  },
+  "fluxes": {
+    "blue": 0.0924220419618543,
+    "red": 0.00010946195402930006,
+    "green1": 0.000779072366823579,
+    "green2": 0.0003291582840126894
+  },
+  "single_pass": true,
+  "checkpoint_to_final_max_change_pp": null,
+  "incident_power": 1.0041332055080334,
+  "dt": 1.4413465606999474e-17,
+  "simplified_jax_constants": true
+}

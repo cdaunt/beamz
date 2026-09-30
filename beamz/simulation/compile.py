@@ -519,19 +519,20 @@ def _compile_grid(
                     and not assembly.has_cpml
                 ):
                     component = {"sig_x": "Ex", "sig_y": "Ey", "sig_z": "Ez"}[source]
-                    centered = (
-                        sample_voxel_grid_at_e_component_3d_centered(
+                    if assembly.conductivity.ndim == 0:
+                        centered = assembly.conductivity
+                    elif assembly.permittivity.ndim == 3:
+                        centered = sample_voxel_grid_at_e_component_3d_centered(
                             assembly.conductivity,
                             component,
                         )
-                        if assembly.permittivity.ndim == 3
-                        else sample_voxel_grid_at_component_2d(
+                    else:
+                        centered = sample_voxel_grid_at_component_2d(
                             assembly.conductivity,
                             component,
                             "xy",
                             assembly.polarization_2d,
                         )
-                    )
                     value = value + values_by_name[target] - centered
                 values_by_name[target] = value
         values_by_name.update(

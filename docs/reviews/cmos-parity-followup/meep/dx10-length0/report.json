@@ -1,0 +1,19 @@
+{
+  "meep_version": "1.34.0",
+  "dx_nm": 10.0,
+  "length_nm": 0.0,
+  "metal_model": "Drude matched at 850 nm",
+  "epsilon_850": [
+    -29.45183209247959,
+    1.0251111738139587
+  ],
+  "epsilon_inf": 5.632132676065586,
+  "gamma_rad_s": 64750622314522.875,
+  "plasma_rad_s": 1.3131710097045338e+16,
+  "eps_averaging": false,
+  "runtime_fs": 300,
+  "elapsed_s": 12.544982418068685,
+  "reflection_850": 0.9838939002666496,
+  "transmission_850": 3.1465080757422374e-05,
+  "settling_max": 4.1361375767658566e-10
+}

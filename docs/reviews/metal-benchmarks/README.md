@@ -2,7 +2,7 @@
 
 The smaller examples reproduce the **remaining inter-solver discrepancy** without the complete CMOS sensor. They also reveal two benchmark pitfalls: a material-library fit change and a CPML default that fails this strongly graded mesh. Neither is an established explanation of the original CMOS discrepancy.
 
-[Executed notebook](../../../examples/notebooks/metal_solver_benchmarks.ipynb) · [GPU runner](../../../scripts/validation/metal_benchmarks.py) · [Sphere source](https://www.flexcompute.com/tidy3d/examples/notebooks/PlasmonicNanoparticle/) · [Metasurface source](https://www.flexcompute.com/tidy3d/examples/notebooks/GradientMetasurfaceReflector/)
+[Executed notebook](https://github.com/beamzorg/beamz/blob/t3code/add-cmos-rgb-notebook/examples/notebooks/metal_solver_benchmarks.ipynb) · [GPU runner](https://github.com/beamzorg/beamz/blob/t3code/add-cmos-rgb-notebook/scripts/validation/metal_benchmarks.py) · [Sphere source](https://www.flexcompute.com/tidy3d/examples/notebooks/PlasmonicNanoparticle/) · [Metasurface source](https://www.flexcompute.com/tidy3d/examples/notebooks/GradientMetasurfaceReflector/)
 
 ## What the controls establish
 

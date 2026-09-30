@@ -1,0 +1,14 @@
+{
+  "red": {
+    "efficiency_percent": 9.905630053085869,
+    "max_difference_from_control_pp": 3.350590083162075e-08
+  },
+  "green": {
+    "efficiency_percent": 20.82106381933481,
+    "max_difference_from_control_pp": 5.709893391436793e-08
+  },
+  "blue": {
+    "efficiency_percent": 9.223322925443146,
+    "max_difference_from_control_pp": 4.330616004688537e-08
+  }
+}

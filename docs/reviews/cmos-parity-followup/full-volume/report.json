@@ -1,0 +1,76 @@
+{
+  "stage": "full",
+  "boundary": "absorber",
+  "boundary_specs": [
+    {
+      "type": "Periodic",
+      "axes": [
+        "x",
+        "y"
+      ]
+    },
+    {
+      "type": "Absorber",
+      "edges": [
+        "front"
+      ],
+      "thickness": 4.651162790697683e-07,
+      "sigma_max": 7863036.350452933,
+      "m": 3,
+      "target_reflection": 1e-06
+    },
+    {
+      "type": "Absorber",
+      "edges": [
+        "back"
+      ],
+      "thickness": 2.195493957715442e-06,
+      "sigma_max": 7863036.350452933,
+      "m": 3,
+      "target_reflection": 1e-06
+    }
+  ],
+  "incident_reference": "docs/reviews/cmos-isolation/incident/spectra.npz",
+  "metal_model": "snapshot",
+  "dielectric_smoothing": "volume",
+  "metal_smoothing": "staircase",
+  "reference_frequency_hz": 588878042500000.0,
+  "max_optical_dz_nm": null,
+  "clock_policy": "integer_step",
+  "incident_normalization": "forward plane-wave modal power from native E samples",
+  "modal_reference_sha256": "037ffd12191011d1fac71f32d1eabb60599d7bc49e8fc4f99aeb6bd87831ab47",
+  "device": "[CudaDevice(id=0)]",
+  "seconds": 566.2660507229157,
+  "grid": [
+    150,
+    150,
+    430
+  ],
+  "dt": 1.4413465606999474e-17,
+  "steps": 35385,
+  "checkpoint_fs": 299.98745967848004,
+  "colocation_side": "plus",
+  "reference": "docs/reviews/cmos-polarized/reference-z-20nm-absorber",
+  "reference_sha256": "ddca7b3435ce234a40b6e2c53ec309e247b7d075651989a0c81877cc79554694",
+  "snapshot_sha256": "4e3bc436bdff467be70c837a068d27c05fd93effadbb1aee5b18085d6c3cb2b3",
+  "central_efficiency_percent": {
+    "red": 9.908716846168916,
+    "green": 20.810526884336937,
+    "blue": 9.223559422731302
+  },
+  "linear_central_percent": {
+    "red": 9.53120941779195,
+    "green": 19.50265263160464,
+    "blue": 8.060440829427602
+  },
+  "sampling_max_change_pp": {
+    "red": 0.4198885969115801,
+    "green": 2.181106581923392,
+    "blue": 1.9830512604757933
+  },
+  "temporal_max_change_pp": {
+    "red": 0.0018152701199924959,
+    "green": 0.015156937007513444,
+    "blue": 0.001731123975334814
+  }
+}

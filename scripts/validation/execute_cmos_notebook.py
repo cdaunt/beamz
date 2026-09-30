@@ -61,7 +61,11 @@ def main():
             name: hashlib.sha256(
                 (ROOT / "examples/data/cmos_rgb" / name).read_bytes()
             ).hexdigest()
-            for name in ("materials.json", "filters.json")
+            for name in (
+                "materials.json",
+                "filters.json",
+                "tidy3d_reference_simulation.json",
+            )
         },
         "seconds": time.perf_counter() - start,
         "code_cells_executed": sum(

@@ -1,0 +1,20 @@
+{
+  "dx_nm": 10.0,
+  "length_nm": 132.3076923076923,
+  "device": "[CudaDevice(id=0)]",
+  "dt": 1.66782047599076e-17,
+  "metal_model": "Drude matched at 850 nm",
+  "epsilon_850": [
+    -29.4518320924805,
+    1.0251111738139596
+  ],
+  "epsilon_inf": 5.632132676065586,
+  "gamma_rad_s": 64750622314521.24,
+  "plasma_rad_s": 1.3131710097045506e+16,
+  "all_interfaces_staircased": true,
+  "meep_ownership": false,
+  "reflection_850": 0.826012882173894,
+  "transmission_850": 3.554072423667348e-05,
+  "empty_reflection_850": 1.0919377395760492e-10,
+  "elapsed_s": 18.596859509008937
+}

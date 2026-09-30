@@ -1,0 +1,32 @@
+{
+  "status": "local checks passed; hosted CI not asserted",
+  "tests": [
+    {
+      "command": "OPENBLAS_NUM_THREADS=1 JAX_PLATFORMS=cpu python -m pytest -q tests/integration/test_native_design_rasterization.py tests/validation/convergence/test_cmos_frozen_raster.py",
+      "passed": 80,
+      "seconds": 27.05
+    },
+    {
+      "command": "OPENBLAS_NUM_THREADS=1 JAX_PLATFORMS=cpu BEAMZ_DOCS_TEST=1 MPLBACKEND=Agg python -m pytest tests/docs/ -m 'not slow' -q",
+      "passed": 2,
+      "seconds": 2.74
+    }
+  ],
+  "quality": [
+    "ruff check beamz tests examples scripts release_version.py vulture_allowlist.py",
+    "ruff format --check beamz tests examples scripts release_version.py vulture_allowlist.py",
+    "pyright",
+    "vulture beamz vulture_allowlist.py --min-confidence 60",
+    "mkdocs build --strict"
+  ],
+  "notebook_execution": {
+    "metal_code_cells": 11,
+    "cause_isolation_code_cells": 15,
+    "errors": 0,
+    "cmos_code_cells": 7,
+    "cmos_backend": "jax-cuda",
+    "cmos_seconds": 734.5056531700538
+  },
+  "visual_inspection": "All three rendered notebook HTML outputs, the blue-efficiency controls, current CMOS field maps and full Meep comparison spectrum inspected using Chromium/Playwright and saved images.",
+  "main_notebook_max_spectral_difference_from_existing_control_pp": 5.709893391436793e-08
+}

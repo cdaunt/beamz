@@ -79,8 +79,10 @@ staircasing. Reproduce the original component controls with
 `--metal-smoothing inherit`; new default runs write separate `*-staircase-metal`
 folders so the earlier evidence is preserved. The new comparison is in the
 executed [diagnostic notebook](https://github.com/beamzorg/beamz/blob/t3code/add-cmos-rgb-notebook/examples/notebooks/cmos_cause_isolation.ipynb).
-The main sensor notebook's previously saved field plots remain from the
-all-diagonal execution; they are not relabeled as staircase results.
+The main sensor notebook is re-executed with current metal staircasing and
+periodic material supports. Historical all-diagonal numerical controls remain
+in their original folders; the [parity follow-up](../cmos-parity-followup/README.md)
+records the newer dielectric-response, ownership and lateral-grid comparisons.
 
 ## Metal-interface policy: controlled RTX3090 comparison
 
@@ -180,8 +182,8 @@ colocation operators are not an exact common-discretization comparison.
 Component runs use patterned filters, then add the shield/interconnects, then
 lenses. They share the 20 nm xy / reconstructed z grid, source, 510 fs duration,
 200 frequencies, modal denominator and plus-side detector sampling. Removing
-structures measures their effect within BeamZ; matched Tidy3D component outputs
-are required to attribute a difference between solvers.
+structures measures their effect within BeamZ; the published notebook does not expose the corresponding component curves,
+so these BeamZ-only changes cannot by themselves attribute an inter-solver difference.
 
 ### Completed component and metal controls
 
