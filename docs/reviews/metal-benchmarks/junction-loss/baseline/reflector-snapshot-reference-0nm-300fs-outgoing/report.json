@@ -1,0 +1,81 @@
+{
+  "device": "[CudaDevice(id=0)]",
+  "dx_nm": 5,
+  "gold_model": "snapshot",
+  "mesh": "reference",
+  "reflection_measurement": "above_source_native_power",
+  "monitor_z_nm": {
+    "r0": 468.45433146667244,
+    "r": 510.7157486000045,
+    "r2": 552.9771657333365,
+    "input0": 173.010103702222,
+    "input1": 214.8858286666807,
+    "t": -300.0
+  },
+  "runtime_fs": 300,
+  "dt": 1.3369049573658037e-17,
+  "grid": [
+    16,
+    40,
+    88
+  ],
+  "steps": 22441,
+  "junction": {},
+  "runs": [
+    {
+      "length_nm": 0.0,
+      "execution": {
+        "dt": 1.3369049573658037e-17,
+        "grid": [
+          16,
+          40,
+          88
+        ],
+        "steps": 22441,
+        "junction": {
+          "Ex": {
+            "junction_sites": 0,
+            "changed_sites": 0,
+            "max_epsilon_change": 0.0
+          },
+          "Ey": {
+            "junction_sites": 0,
+            "changed_sites": 0,
+            "max_epsilon_change": 0.0
+          },
+          "Ez": {
+            "junction_sites": 0,
+            "changed_sites": 0,
+            "max_epsilon_change": 0.0
+          }
+        },
+        "absorption": 0.015744813851383252,
+        "absorption_components": {
+          "Ex": 0.0,
+          "Ey": 0.015744813851383252,
+          "Ez": 0.0
+        },
+        "reflection": 0.9846965169672499,
+        "transmission": 5.37512438115272e-05,
+        "energy_residual": -0.0004950820624446926,
+        "native_net_entering": 0.015798811467443837,
+        "native_transmission": 5.3944656871519604e-05,
+        "native_energy_residual": 5.2959189065365786e-08,
+        "epsilon_imag_discrete": 1.0248872359306667,
+        "native_electric_checkpoint_drift": {
+          "Ex": 0.0,
+          "Ey": 4.4555264839810975e-08,
+          "Ez": 0.0
+        }
+      },
+      "r_real": -0.7754664673590128,
+      "r_imag": 0.619151253708642,
+      "r_power": 0.9846965169672499,
+      "r2_real": -0.9286700324424977,
+      "r2_imag": 0.3496678893697679,
+      "r2_power": 0.9846956620130581,
+      "empty_grid_reflectivity": 3.062056451227619e-05,
+      "transmission": 5.375293856468582e-05
+    }
+  ]
+}

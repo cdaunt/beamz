@@ -99,3 +99,4 @@ MARKETING_2.md
 
 # Reproducible metal benchmark raw DFT surfaces (large local diagnostics)
 /docs/reviews/metal-benchmarks/**/surface_fields.npz
+/docs/reviews/metal-benchmarks/**/native_fields*.npz

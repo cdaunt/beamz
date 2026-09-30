@@ -1,0 +1,21 @@
+{
+  "recorded_at": "2026-09-30T02:09:25.086268+00:00",
+  "solver_commit": "caf09dcde8d506e2324432f83c763cdb901c3e78",
+  "production_solver_changed": false,
+  "python": "3.11.15",
+  "gpu": "NVIDIA GeForce RTX 3090, 610.43.03",
+  "scripts_sha256": {
+    "metal_junction_loss.py": "b00da353f860b7489377ea4fad3efc42b91e92cdc124aa267ff52911917198bd",
+    "metal_grid_registration.py": "08f6843dacd729aa878e1420e7c74c6ef37d3a8c838c4caaa09b92e2fa8d9bbf",
+    "analyze_metal_junction_loss.py": "dd51e15019ec3a2400a9f209fa108b88665b13cfd08288ccf64d9584bb9c7748"
+  },
+  "validation": {
+    "local_gpu_cases": 9,
+    "notebook_code_cells": 9,
+    "notebook_errors": 0,
+    "focused_python_tests": 65,
+    "ruff": "passed",
+    "pyright": "passed",
+    "vulture": "passed"
+  }
+}

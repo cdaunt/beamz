@@ -1,0 +1,81 @@
+{
+  "device": "[CudaDevice(id=0)]",
+  "dx_nm": 5,
+  "gold_model": "snapshot",
+  "mesh": "refined",
+  "reflection_measurement": "above_source_native_power",
+  "monitor_z_nm": {
+    "r0": 498.61842105263156,
+    "r": 508.5855263157894,
+    "r2": 518.5526315789474,
+    "input0": 179.67105263157893,
+    "input1": 189.63815789473685,
+    "t": -300.0
+  },
+  "runtime_fs": 300,
+  "dt": 7.703332806185842e-18,
+  "grid": [
+    24,
+    60,
+    189
+  ],
+  "steps": 38945,
+  "junction": {},
+  "runs": [
+    {
+      "length_nm": 132.3076923076923,
+      "execution": {
+        "dt": 7.703332806185842e-18,
+        "grid": [
+          24,
+          60,
+          189
+        ],
+        "steps": 38945,
+        "junction": {
+          "Ex": {
+            "junction_sites": 0,
+            "changed_sites": 0,
+            "max_epsilon_change": 0.0
+          },
+          "Ey": {
+            "junction_sites": 38,
+            "changed_sites": 38,
+            "max_epsilon_change": 0.5041738693714142
+          },
+          "Ez": {
+            "junction_sites": 0,
+            "changed_sites": 0,
+            "max_epsilon_change": 0.0
+          }
+        },
+        "absorption": 0.16243503791097216,
+        "absorption_components": {
+          "Ex": 0.0007385469396180746,
+          "Ey": 0.1561520620870356,
+          "Ez": 0.005544428884318471
+        },
+        "reflection": 0.8375207836691491,
+        "transmission": 4.280664269040444e-05,
+        "energy_residual": 1.3717771883692276e-06,
+        "native_net_entering": 0.16247786053264435,
+        "native_transmission": 4.282043265292006e-05,
+        "native_energy_residual": 2.1890192714035805e-09,
+        "epsilon_imag_discrete": 1.0250368204264113,
+        "native_electric_checkpoint_drift": {
+          "Ex": 8.754032259812047e-07,
+          "Ey": 1.6911905375862944e-07,
+          "Ez": 2.586477731880761e-07
+        }
+      },
+      "r_real": 0.22254559446712024,
+      "r_imag": -0.8876903976344598,
+      "r_power": 0.8375207836691494,
+      "r2_real": 0.28729913901015036,
+      "r2_imag": -0.8688963304761534,
+      "r2_power": 0.8375216283908985,
+      "empty_grid_reflectivity": 2.5567719544275853e-07,
+      "transmission": 4.280683651694652e-05
+    }
+  ]
+}

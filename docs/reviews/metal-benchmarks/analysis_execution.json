@@ -1,10 +1,6 @@
 {
   "notebook": "examples/notebooks/metal_solver_benchmarks.ipynb",
-  "seconds": 2.0438555140281096,
-  "code_cells_executed": 7,
-  "errors": 0,
-  "visual_review": "Rendered HTML inspected in Chromium at 1440\u00d71100; sphere, metasurface and CPML figures inspected; no broken images or horizontal overflow.",
-  "sphere_runs": 8,
-  "primary_sphere_runs": 6,
-  "finite_spectral_points_per_sphere": 31
+  "seconds": 2.1216758699156344,
+  "code_cells_executed": 9,
+  "errors": 0
 }
