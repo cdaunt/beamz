@@ -12,10 +12,10 @@
   "gamma_rad_s": 64750622314521.24,
   "plasma_rad_s": 1.3131710097045506e+16,
   "all_interfaces_staircased": true,
-  "simplified_jax_constants": true,
+  "simplified_jax_constants": false,
   "meep_ownership": true,
   "reflection_850": 0.8690084492130165,
   "transmission_850": 3.290879318160536e-05,
   "empty_reflection_850": 1.0919377395760492e-10,
-  "elapsed_s": 19.088149944902398
+  "elapsed_s": 20.623844200046733
 }

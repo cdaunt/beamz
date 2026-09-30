@@ -66,6 +66,7 @@ def main():
     )
     parser.add_argument("--boundary", choices=["absorber", "cpml"], default="absorber")
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--point-dielectric-response", action="store_true")
     parser.add_argument(
         "--smoothing",
         choices=["farjadpour_diagonal", "volume"],
@@ -83,6 +84,7 @@ def main():
         + ("-staircase-metal" if args.metal_smoothing == "staircase" else "")
         + ("-cpml" if args.boundary == "cpml" else "")
         + ("-volume" if args.smoothing == "volume" else "")
+        + ("-point-dielectric" if args.point_dielectric_response else "")
     )
     if args.output is not None:
         out = args.output
@@ -113,6 +115,16 @@ def main():
             if args.optical_dz_nm is None
             else args.optical_dz_nm * 1e-9,
         )
+    dielectric_audit = None
+    if args.point_dielectric_response:
+        from cmos_point_susceptibility import point_susceptibility_grid
+
+        material_grid, dielectric_audit = point_susceptibility_grid(
+            sim.material_grid,
+            scene_builder(sim.material_grid.grid, stage=args.stage),
+            float(sim.sources[0].source_time.freq0),
+        )
+        sim = sim.updated_copy(material_grid=material_grid)
     prior = json.loads((old / "reference_report.json").read_text())
     # Check geometry, acquisition clock and source against the saved baseline.
     assert sim.dt == prior["dt"] and sim.num_steps == prior["steps"]
@@ -184,6 +196,7 @@ def main():
         incident_reference=str(modal_path.relative_to(ROOT)),
         metal_model=args.metal_model,
         dielectric_smoothing=args.smoothing,
+        dielectric_audit=dielectric_audit,
         metal_smoothing=args.metal_smoothing,
         reference_frequency_hz=float(sim.sources[0].source_time.freq0),
         max_optical_dz_nm=args.optical_dz_nm,

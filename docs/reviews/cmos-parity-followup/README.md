@@ -4,7 +4,7 @@ The target remains the published [Tidy3D CMOS notebook](https://www.flexcompute.
 
 ## Completed controls
 
-### Dielectric averaging is too small an effect
+### Volume versus diagonal dielectric averaging is too small an effect
 
 The 150×150×430, 510 fs full-CMOS run changes only dielectric smoothing. Metal staircasing, geometry, source, mesh, timestep and incident-power calibration are held fixed.
 
@@ -15,6 +15,24 @@ The 150×150×430, 510 fs full-CMOS run changes only dielectric smoothing. Metal
 | Blue, 450 nm | 9.22332% | 9.22356% | ≈6.24436% |
 
 The largest change is 0.01054 points. Replacing the current diagonal dielectric averaging with volume averaging does not explain the gap. This does not test a complete anisotropic interface operator. The default remains diagonal polarized averaging for dielectrics and staircasing for metals.
+
+### Point-sampled dielectric susceptibility is a distinct control
+
+[Meep smooths only the instantaneous permittivity](https://meep.readthedocs.io/en/stable/Subpixel_Smoothing/#what-about-dispersive-materials); its dispersive contribution is not averaged. Changing BeamZ from diagonal to volume averaging does not test this distinction because both average dielectric susceptibility. A new diagnostic retains the original diagonal epsilon-infinity coefficients and metal ownership, but point-samples the dielectric pole supports and removes the normal dispersive-interface correction. Native point ownership is verified, including periodic terminal nodes. This is not Meep's complete tensor operator or a claim about Tidy3D's implementation.
+
+At 450 nm, the frozen-response point-susceptibility control gives **8.501165%** blue efficiency, a **−0.721357-point** change from causal averaging. The maximum pixel change from 300 to 510 fs is 0.000276 points. This is significant, but still misses the published approximately 6.24436%. The shared broadband helper reproduces every coefficient of the original frozen helper exactly on the 200 nm / 430-depth-cell setup check. Production defaults remain unchanged.
+
+The full 200-frequency, 510 fs broadband control completes in 528 seconds after setup:
+
+| Central efficiency | Causal / plus-side H | Point response / plus-side H | Causal / linear H | Point response / linear H | Published plot |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Red, 650 nm | 9.90563% | 9.54516% | 9.52824% | 8.89752% | ≈6.18655% |
+| Green sum, 550 nm | 20.82106% | 20.10838% | 19.51253% | 17.93875% | ≈20.31832% |
+| Blue, 450 nm | 9.22332% | 8.49743% | 8.06023% | 6.81653% | ≈6.24436% |
+
+Point response changes the plus-side central values by **−0.36047/−0.71268/−0.72590 points**. Its frozen blue result differs from the broadband interpolation by 0.00374 points. All fields and polarization histories are finite; the largest 300-to-510 fs spectral change is 0.01612 points. Combining point response with linear colocation reduces blue's discrepancy to 0.57217 points, but red still differs by 2.71097 points and green by −2.37957 points. This is not simultaneous RGB parity. No detector position, material fit or normalization was adjusted to obtain these values.
+
+![Broadband susceptibility and detector controls](point_susceptibility_spectra.png)
 
 ### The dielectric ADE reproduces its frequency-domain response
 
@@ -46,15 +64,21 @@ At the original 20 nm lateral grid, closing metal box faces changes the frozen-r
 
 ## Reference-mesh control
 
-The remaining mesh check uses all **390×390×430** reconstructed Tidy3D cells, rather than only its depth mesh with 20 nm lateral cells. The single-frequency dielectric representation is validated above. Geometry, metal model, detector positions, z mesh, source, timestep and incident calibration remain fixed. Slab rasterization limits host-memory use; this is a diagnostic path, not a new production material model.
+The completed mesh check uses all **390×390×430** reconstructed Tidy3D cells, rather than only its depth mesh with 20 nm lateral cells. The single-frequency dielectric representation is validated above. Geometry, metal model, detector positions, z mesh, source, timestep and incident calibration remain fixed. Slab rasterization limits host-memory use; this is a diagnostic path, not a new production material model.
 
 The first attempt rasterized successfully but exhausted host RAM while JAX embedded 2.53 GB of constants in HLO. Subsequent attempts use JAX 0.10.2's `jax_use_simplified_jaxpr_constants=True` to pass these constants separately, plus a local on-disk raster cache. This setting reproduces the smaller matched-ownership GPU result exactly. It changes compilation/memory handling, not material coefficients.
 
-**The full reference-grid simulation did not complete.** Rasterization succeeded and GPU allocation reached about 16.8 GB, but host-memory guards stopped compilation at about 14 GiB process RSS with less than 1.5 GiB system RAM available. Aggressive glibc page release did not suffice. A stack trace identified JAX cache-key serialization as one peak; disabling the persistent compilation cache bypassed that stage but still reached the memory limit in `backend_compile_and_load`. Both traces and resource reports are retained in `frozen-450nm-dx20nm-reference-xy/`. No numerical result is inferred from successful rasterization or allocation. Further work must reduce host compilation memory to complete this exact-grid check.
+**Earlier full reference-grid attempts did not complete.** Rasterization succeeded and GPU allocation reached about 16.8 GB, but host-memory guards stopped compilation at about 14 GiB process RSS with less than 1.5 GiB system RAM available. Aggressive glibc page release did not suffice. A stack trace identified JAX cache-key serialization as one peak; disabling the persistent compilation cache bypassed that stage but still reached the memory limit in `backend_compile_and_load`. Both traces and resource reports are retained in `frozen-450nm-dx20nm-reference-xy/`. No numerical result is inferred from successful rasterization or allocation. Moving the grid-sized ADE coefficient arrays into runtime arguments removes them from the compiled constant payload. After this implementation change, the **390×390×430, 510 fs simulation completes on the RTX3090**. Blue efficiency is **9.220386%**, just **−0.002135 percentage points** from the equivalent 20 nm control. Peak host RSS is **9.34 GiB**, minimum available system RAM is 6.06 GiB, and elapsed time after setup is 1311 seconds. The run uses 7.50–7.765 nm nonuniform lateral cells; the directory name retains the unused default `--dx 20` argument. Actual spacing and grid dimensions are recorded in the report.
 
-The 10 nm lateral control is a smaller 300×300×430 grid, not the complete reconstructed mesh. Its completed uninterrupted 510 fs run gives **9.204162% blue efficiency**, versus **9.222521%** at 20 nm: **−0.018360 percentage points**. The 300 fs checkpoint differs by only **0.000117 points**. It completed in 683 seconds after setup, with a measured peak host RSS of 13.0 GiB. Halving the lateral spacing therefore barely changes the several-point discrepancy at this fixed depth mesh. The measured 20-to-10 nm change does not support lateral resolution as the sole explanation. The exact reconstructed grid remains untested numerically.
+The 10 nm lateral control is a smaller 300×300×430 grid, not the complete reconstructed mesh. Its completed uninterrupted 510 fs run gives **9.204162% blue efficiency**, versus **9.222521%** at 20 nm: **−0.018360 percentage points**. The 300 fs checkpoint differs by only **0.000117 points**. It completed in 683 seconds after setup, with a measured peak host RSS of 13.0 GiB. Halving the lateral spacing therefore barely changes the several-point discrepancy at this fixed depth mesh. The measured 20-to-10 nm change does not support lateral resolution as the sole explanation. The completed reconstructed-grid result also does not close the approximately 2.98-point blue discrepancy. This isolates the lateral mesh for the fixed reference depth mesh and verified single-frequency constitutive law; it is not a full spatial-convergence certificate.
 
 ![Blue-efficiency controls](blue_controls.png)
+
+## ADE compilation-memory correction
+
+The ordinary update coefficients were already passed as runtime inputs, but the full-grid ADE ratio, inverse denominator and response arrays were captured by the JIT loop. Compilation serialized and processed gigabytes of constant data. They are now additional runtime arguments, while component names, region layout and update equations stay fixed. Both timed and untimed execution, explicit compilation and memory-analysis paths use the same argument construction; non-dispersive calls retain their existing signature.
+
+New regressions verify equal coupled field/polarization evolution within float32 roundoff for scan and fori loops and verify that the grid-sized arrays disappear from captured constants. The existing 96-test dispersion/continuation/clock/compiled-engine/mask suite passes; both new cases pass. The independent 3D GPU resonator's reflection and transmission arrays remain **bitwise identical at all 41 frequencies**. Ruff, Pyright and Vulture pass.
 
 ## Implementation and validation
 
@@ -62,15 +86,15 @@ The compact-grid path exposed a compiler defect: adding an absorber to direct Ye
 
 A coordinate-only test also omitted resolution for a metre-scale domain, accidentally requesting an optical-scale allocation. Giving that test its intended coarse resolution removes the excessive allocation without changing its coordinate assertions.
 
-Local validation: **80 affected tests**, two documentation contracts, Ruff lint/format, Pyright, Vulture and strict documentation build pass. This is local evidence; it does not report hosted CI status for the new commit. The metal and cause-isolation notebooks execute 11 and 15 code cells without errors, and their rendered outputs were inspected. The main CMOS notebook was re-executed on the RTX3090 (seven code cells, no errors, 734.5 seconds including setup/calibration/plots); its full spectra reproduce the existing current-default control within 5.71e-8 percentage points. Its field maps now use current metal staircasing and periodic material supports.
+Local validation: **80 affected tests**, two documentation contracts, Ruff lint/format, Pyright, Vulture and strict documentation build pass. This is local evidence; it does not report hosted CI status for the new commit. The metal and cause-isolation notebooks execute 11 and 16 code cells without errors, and their rendered outputs were inspected. The main CMOS notebook was re-executed on the RTX3090 (seven code cells, no errors, 734.5 seconds including setup/calibration/plots); its full spectra reproduce the existing current-default control within 5.71e-8 percentage points. Its field maps now use current metal staircasing and periodic material supports.
 
 ## Reproduce
 
 ```bash
 # The measured GPU environment contains CUDA JAX 0.10.2.
-# For the full reference-grid attempt, also set MALLOC_ARENA_MAX=2
-# and MALLOC_TRIM_THRESHOLD_=0 on glibc Linux. The final diagnostic also
-# used JAX_ENABLE_COMPILATION_CACHE=false; compilation still hit the host limit.
+# The successful full reference-grid run also set MALLOC_ARENA_MAX=2,
+# MALLOC_TRIM_THRESHOLD_=0 and JAX_ENABLE_COMPILATION_CACHE=false on glibc Linux.
+# Runtime ADE inputs are the implementation change that enabled completion.
 XLA_PYTHON_CLIENT_PREALLOCATE=false OPENBLAS_NUM_THREADS=1 \
   .venv/bin/python scripts/validation/cmos_component_isolation.py \
   --stage full --smoothing volume --output docs/reviews/cmos-parity-followup/full-volume
@@ -83,6 +107,10 @@ XLA_PYTHON_CLIENT_PREALLOCATE=false OPENBLAS_NUM_THREADS=1 \
 XLA_PYTHON_CLIENT_PREALLOCATE=false OPENBLAS_NUM_THREADS=1 \
   .venv/bin/python scripts/validation/cmos_frequency_frozen.py --closed-metal-faces
 
+XLA_PYTHON_CLIENT_PREALLOCATE=false OPENBLAS_NUM_THREADS=1 \
+  .venv/bin/python scripts/validation/cmos_component_isolation.py \
+  --stage full --point-dielectric-response --output docs/reviews/cmos-parity-followup/full-point-dielectric
+
 # Separate CPU environment: conda-forge python=3.11 pymeep=1.34.0.
 # Run this with that environment's Python:
 python scripts/validation/meep_metal_crosscheck.py --dx 10
@@ -94,6 +122,7 @@ XLA_PYTHON_CLIENT_PREALLOCATE=false OPENBLAS_NUM_THREADS=1 \
 XLA_PYTHON_CLIENT_PREALLOCATE=false OPENBLAS_NUM_THREADS=1 \
   .venv/bin/python scripts/validation/beamz_meep_metal_crosscheck.py --dx 10 --meep-ownership
 .venv/bin/python scripts/validation/analyze_cmos_parity_followup.py
+.venv/bin/python scripts/validation/execute_cmos_analysis.py
 .venv/bin/python scripts/validation/execute_metal_notebook.py
 ```
 

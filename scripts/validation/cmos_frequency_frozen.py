@@ -102,11 +102,14 @@ def main():
     parser.add_argument("--closed-metal-faces", action="store_true")
     parser.add_argument("--single-pass", action="store_true")
     parser.add_argument("--trim-host-allocator", action="store_true")
+    parser.add_argument("--point-dielectric-susceptibility", action="store_true")
     args = parser.parse_args()
     if args.dx <= 0 or args.runtime != 510 or not 400 <= args.wavelength <= 700:
         raise ValueError(
             "Require positive spacing, 400–700 nm, and the original 510 fs calibration"
         )
+    if args.point_dielectric_susceptibility and (args.reference_xy or args.chunked):
+        raise ValueError("The point-susceptibility control uses the dense raster")
     if args.reference_xy or args.chunked:
         jax.config.update("jax_use_simplified_jaxpr_constants", True)
     if args.trim_host_allocator:
@@ -123,6 +126,8 @@ def main():
         out = out.with_name(out.name + "-chunked")
     if args.closed_metal_faces:
         out = out.with_name(out.name + "-closed-metal-faces")
+    if args.point_dielectric_susceptibility:
+        out = out.with_name(out.name + "-point-susceptibility")
     out.mkdir(parents=True, exist_ok=True)
     f = bz.LIGHT_SPEED / (args.wavelength * 1e-9)
     sim = make_sim(
@@ -167,6 +172,13 @@ def main():
             "method": "slab raster with one-cell halos",
             "reference_xy": args.reference_xy,
         }
+    elif args.point_dielectric_susceptibility:
+        from cmos_point_susceptibility import freeze_point_susceptibilities
+        from cmos_reference_mesh import reference_scene
+
+        mg, audit = freeze_point_susceptibilities(
+            sim.material_grid, reference_scene(sim.material_grid.grid), f, sim.dt
+        )
     else:
         mg, audit = freeze_dielectrics(sim.material_grid, f, sim.dt)
     if args.closed_metal_faces:
@@ -217,13 +229,20 @@ def main():
     order = np.argsort(wl)
     incident = np.interp(args.wavelength, wl[order], saved["modal_power"][order])
     fluxes = {p: -float(result["flux_si_" + p].flux[0]) for p in pixel_signs}
+    if not all(np.isfinite(value) for value in fluxes.values()):
+        raise RuntimeError("CMOS diagnostic produced non-finite detector flux")
     efficiencies = {p: 100 * value / incident for p, value in fluxes.items()}
     efficiencies["green"] = efficiencies["green1"] + efficiencies["green2"]
     report = dict(
         wavelength_nm=args.wavelength,
         grid=list(sim.grid.shape),
         reference_xy=args.reference_xy,
-        dx_nm=args.dx,
+        dx_nm=None if args.reference_xy else args.dx,
+        requested_dx_nm=args.dx,
+        lateral_grid_spacing_nm={
+            axis: [float(np.diff(edges).min() * 1e9), float(np.diff(edges).max() * 1e9)]
+            for axis, edges in zip("xy", sim.grid.edges[:2], strict=True)
+        },
         runtime_fs=args.runtime,
         elapsed_s=time.monotonic() - start,
         device=str(jax.devices()),

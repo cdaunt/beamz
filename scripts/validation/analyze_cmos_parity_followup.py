@@ -88,6 +88,33 @@ def main():
             - fine["checkpoint_blue_percent"],
         )
     summary["lateral_10nm"] = fine
+    point_path = OUT / "frozen-450nm-dx20nm-point-susceptibility/report.json"
+    if point_path.exists():
+        point = report(point_path)
+        summary["point_susceptibility"] = dict(
+            blue_percent=point["efficiency_percent"]["blue"],
+            difference_from_causal_averaging_pp=point["efficiency_percent"]["blue"]
+            - frozen["efficiency_percent"]["blue"],
+            checkpoint_to_final_max_change_pp=point[
+                "checkpoint_to_final_max_change_pp"
+            ],
+        )
+    broadband_point_path = OUT / "full-point-dielectric/report.json"
+    if broadband_point_path.exists():
+        point = report(broadband_point_path)
+        summary["point_susceptibility_broadband"] = dict(
+            central_efficiency_percent=point["central_efficiency_percent"],
+            difference_from_causal_averaging_pp={
+                c: point["central_efficiency_percent"][c] - baseline[c]
+                for c in baseline
+            },
+            linear_central_percent=point["linear_central_percent"],
+            temporal_max_change_pp=point["temporal_max_change_pp"],
+            frozen_minus_broadband_blue_pp=summary["point_susceptibility"][
+                "blue_percent"
+            ]
+            - point["central_efficiency_percent"]["blue"],
+        )
     exact = OUT / "frozen-450nm-dx20nm-reference-xy/report.json"
     if exact.exists():
         r = report(exact)

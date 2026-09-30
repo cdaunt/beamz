@@ -694,7 +694,24 @@ def build_scan(program, *, donate_state: bool = False):
     def run_scan(
         state: SimulationState,
         coeffs: UpdateCoefficients,
+        dispersion_coefficients=None,
     ):
+        runtime_program = program
+        if dispersion_coefficients is not None:
+            runtime_program = replace(
+                program,
+                dispersion=replace(
+                    program.dispersion,
+                    coefficients=tuple(
+                        (record[0], *values)
+                        for record, values in zip(
+                            program.dispersion.coefficients,
+                            dispersion_coefficients,
+                            strict=True,
+                        )
+                    ),
+                ),
+            )
         # Preserve an explicitly supplied state time, including nonzero origins,
         # without accumulating one rounding error per timestep. A continuation
         # from the canonical zero-origin clock recovers exactly the same origin.
@@ -782,7 +799,7 @@ def build_scan(program, *, donate_state: bool = False):
                         carry,
                         ctx=step_context,
                         coeffs=coeffs,
-                        program=program,
+                        program=runtime_program,
                         update_kernel=update_kernel,
                         time_origin=time_origin,
                     ),
@@ -803,7 +820,7 @@ def build_scan(program, *, donate_state: bool = False):
                     c,
                     ctx=step_context,
                     coeffs=coeffs,
-                    program=program,
+                    program=runtime_program,
                     update_kernel=update_kernel,
                     time_origin=time_origin,
                 ),
@@ -1050,7 +1067,18 @@ def run_program(
     compiled_scan = (
         cache.compiled_scan_donating if donate_state else cache.compiled_scan
     ) or build_program_scan(program, donate_state=donate_state)
-    return compiled_scan(state, coeffs)
+    return compiled_scan(*_execution_arguments(program, state, coeffs))
+
+
+def _execution_arguments(program, state, coeffs):
+    """Keep grid-sized ADE arrays out of the compiled loop's constant payload."""
+    if program.dispersion is not None and program.dispersion.coefficients:
+        return (
+            state,
+            coeffs,
+            tuple(record[1:] for record in program.dispersion.coefficients),
+        )
+    return state, coeffs
 
 
 def compile_program_execution(
@@ -1084,7 +1112,9 @@ def _compiled_program_execution(
     ) or build_program_scan(program, donate_state=donate_state)
     if ready:
         return compiled_scan
-    compiled = compiled_scan.lower(state, coeffs).compile()
+    compiled = compiled_scan.lower(
+        *_execution_arguments(program, state, coeffs)
+    ).compile()
     if donate_state:
         cache.compiled_scan_donating = compiled
         cache.executable_donating_ready = True
@@ -1207,7 +1237,7 @@ def _run_program_state_timed(
         program, state, coeffs, donate_state=donate_state
     )
     started = perf_counter()
-    state = executable(state, coeffs)
+    state = executable(*_execution_arguments(program, state, coeffs))
     state.ez.block_until_ready()
     runtime_s = max(perf_counter() - started, np.finfo(float).tiny)
     return sharding_runtime.crop_state(program, state), runtime_s
@@ -1244,7 +1274,9 @@ def compiled_xla_memory_analysis(
     coeffs = sharding_runtime.place_tree(program, program.coefficients)
     cache = execution_cache(program)
     compiled_scan = cache.compiled_scan or build_program_scan(program)
-    compiled = compiled_scan.lower(state, coeffs).compile()
+    compiled = compiled_scan.lower(
+        *_execution_arguments(program, state, coeffs)
+    ).compile()
     analysis = getattr(compiled, "memory_analysis", lambda: None)()
     if analysis is None:
         return {"available": False}

@@ -279,3 +279,58 @@ def test_memory_estimate_includes_auxiliary_polarization():
     report = sim.memory_estimate()["compiled"]
     assert report["totals_by_category"]["polarization_state"] == expected
     assert report["totals_by_category"]["dispersion_coefficients"] > 0
+
+
+@pytest.mark.parametrize("loop_kind", ["scan", "fori"])
+def test_runtime_ade_coefficients_preserve_fields_without_captured_grid_arrays(
+    loop_kind,
+):
+    """Large ADE factors must be runtime inputs, with the same coupled evolution."""
+    from dataclasses import replace
+
+    from beamz.simulation.execute import _execution_arguments, build_scan
+
+    medium = bz.PoleResidue.lorentz(
+        1.0, strength=2.0, resonance=6e15, damping=8e14, frequency_range=BAND
+    )
+    sim = bz.Simulation(
+        design=bz.Design(width=0.4e-6, height=0.35e-6, background=medium),
+        resolution=50e-9,
+        time=np.arange(6) * 1e-17,
+        boundaries=[bz.Periodic(axes=("x", "y"))],
+    )
+    program = sim.compile(backend="jax")
+    program = replace(program, config=replace(program.config, loop_kind=loop_kind))
+    state = sim.initial_state()
+    state = state._replace(
+        ez=jnp.asarray(
+            np.random.default_rng(72).normal(size=state.ez.shape), dtype=jnp.float32
+        )
+    )
+    scan = build_scan(program)
+    arguments = _execution_arguments(program, state, program.coefficients)
+    captured = scan(state, program.coefficients)
+    dynamic = scan.lower(*arguments).compile()(*arguments)
+    for actual, expected in zip(
+        jax.tree_util.tree_leaves(dynamic),
+        jax.tree_util.tree_leaves(captured),
+        strict=True,
+    ):
+        scale = max(float(np.max(abs(np.asarray(expected)), initial=0)), 1e-30)
+        np.testing.assert_allclose(
+            actual, expected, rtol=2e-6, atol=4 * np.finfo(np.float32).eps * scale
+        )
+
+    def captured_bytes(closed):
+        total = sum(np.asarray(v).nbytes for v in getattr(closed, "consts", ()))
+        jaxpr = getattr(closed, "jaxpr", closed)
+        for equation in getattr(jaxpr, "eqns", ()):
+            for value in equation.params.values():
+                if hasattr(value, "jaxpr") or hasattr(value, "eqns"):
+                    total += captured_bytes(value)
+        return total
+
+    legacy_bytes = captured_bytes(jax.make_jaxpr(scan)(state, program.coefficients))
+    runtime_bytes = captured_bytes(jax.make_jaxpr(scan)(*arguments))
+    ade_bytes = sum(np.asarray(v).nbytes for values in arguments[2] for v in values)
+    assert legacy_bytes - runtime_bytes >= ade_bytes

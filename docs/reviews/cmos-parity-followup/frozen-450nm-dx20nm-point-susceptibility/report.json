@@ -1,0 +1,37 @@
+{
+  "wavelength_nm": 450,
+  "grid": [
+    150,
+    150,
+    430
+  ],
+  "reference_xy": false,
+  "dx_nm": 20,
+  "runtime_fs": 510,
+  "elapsed_s": 199.63650414603762,
+  "device": "[CudaDevice(id=0)]",
+  "dielectric_audit": {
+    "method": "diagonal epsilon-infinity; point dielectric susceptibility",
+    "metal_point_ownership_verified": true
+  },
+  "efficiency_percent": {
+    "blue": 8.501164801124608,
+    "red": 0.013318424203974971,
+    "green1": 0.07091333217678424,
+    "green2": 0.03702341249238571,
+    "green": 0.10793674466916994
+  },
+  "fluxes": {
+    "blue": 0.08536301862305315,
+    "red": 0.00013373471988253167,
+    "green1": 0.0007120643155193033,
+    "green2": 0.00037176437864825426
+  },
+  "single_pass": false,
+  "trim_host_allocator": false,
+  "checkpoint_to_final_max_change_pp": 0.00027591504093645757,
+  "incident_power": 1.0041332055080334,
+  "dt": 1.4413465606999474e-17,
+  "simplified_jax_constants": false,
+  "persistent_compilation_cache": true
+}

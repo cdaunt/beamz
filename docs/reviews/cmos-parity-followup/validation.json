@@ -21,12 +21,48 @@
   ],
   "notebook_execution": {
     "metal_code_cells": 11,
-    "cause_isolation_code_cells": 15,
+    "cause_isolation_code_cells": 16,
     "errors": 0,
     "cmos_code_cells": 7,
     "cmos_backend": "jax-cuda",
-    "cmos_seconds": 734.5056531700538
+    "cmos_seconds": 734.5056531700538,
+    "cause_isolation_seconds": 3.7220631359377876
   },
-  "visual_inspection": "All three rendered notebook HTML outputs, the blue-efficiency controls, current CMOS field maps and full Meep comparison spectrum inspected using Chromium/Playwright and saved images.",
-  "main_notebook_max_spectral_difference_from_existing_control_pp": 5.709893391436793e-08
+  "visual_inspection": "Main and metal notebook rendered outputs previously inspected. Updated cause-isolation notebook executed all 16 code cells; final HTML, seven blue controls, six broadband comparison panels, table and conclusions inspected in Chromium/Playwright and saved images.",
+  "main_notebook_max_spectral_difference_from_existing_control_pp": 5.709893391436793e-08,
+  "runtime_ade_update": {
+    "existing_tests_passed": 96,
+    "new_regressions_passed": 2,
+    "note": "Existing suite passed; two new cases rerun after setting a float32-scaled roundoff allowance. Both scan and fori paths preserve evolution and remove the ADE grid arrays from captured constants.",
+    "suite": "tests/validation/analytical/test_dispersive_media.py tests/validation/analytical/test_polarized_dispersion.py tests/validation/analytical/test_long_run_clock.py tests/integration/test_compiled_engine.py tests/kernels/test_compact_boundary_masks.py",
+    "resonator_gpu_validation": "Reflection and transmission are bitwise identical to the previous matched-ownership run at all 41 frequencies.",
+    "pyright": "0 errors, 0 warnings",
+    "ruff_and_vulture": "passed",
+    "full_reference_grid": {
+      "shape": [
+        390,
+        390,
+        430
+      ],
+      "blue_efficiency_percent": 9.220386399510918,
+      "peak_host_rss_gib": 9.33535385131836,
+      "runtime_fs": 510,
+      "memory_guard_stopped": false
+    }
+  },
+  "point_susceptibility_control": {
+    "broadband_frequencies": 200,
+    "runtime_fs": 510,
+    "seconds_after_setup": 528.0828839009628,
+    "metal_and_periodic_ownership_verified": true,
+    "shared_helper_coefficients_match_original_frozen_helper": true,
+    "coefficient_equivalence_grid": [
+      15,
+      15,
+      430
+    ],
+    "all_fields_and_polarization_finite": true,
+    "maximum_late_spectral_change_pp": 0.01611369523081066,
+    "production_defaults_changed": false
+  }
 }

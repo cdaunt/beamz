@@ -33,7 +33,7 @@
       }
     }
   },
-  "exact_mesh_completed": false,
+  "exact_mesh_completed": true,
   "lateral_10nm": {
     "grid": [
       300,
@@ -46,5 +46,35 @@
     "blue_percent": 9.204161505155492,
     "fine_minus_coarse_blue_pp": -0.018359851868273935,
     "checkpoint_to_final_blue_change_pp": -0.00011676556668405169
-  }
+  },
+  "point_susceptibility": {
+    "blue_percent": 8.501164801124608,
+    "difference_from_causal_averaging_pp": -0.7213565558991579,
+    "checkpoint_to_final_max_change_pp": 0.00027591504093645757
+  },
+  "point_susceptibility_broadband": {
+    "central_efficiency_percent": {
+      "red": 9.545159039651267,
+      "green": 20.108381856824327,
+      "blue": 8.497426482559158
+    },
+    "difference_from_causal_averaging_pp": {
+      "red": -0.3604710151609414,
+      "green": -0.7126819833475686,
+      "blue": -0.7258964369281511
+    },
+    "linear_central_percent": {
+      "red": 8.897518804728914,
+      "green": 17.938747290337762,
+      "blue": 6.816528179104071
+    },
+    "temporal_max_change_pp": {
+      "red": 0.0016065684971200422,
+      "green": 0.01611369523081066,
+      "blue": 0.0016294267031702336
+    },
+    "frozen_minus_broadband_blue_pp": 0.0037383185654498163
+  },
+  "exact_mesh_blue_percent": 9.220386399510918,
+  "exact_mesh_minus_coarse_blue_pp": -0.002134957512847535
 }
